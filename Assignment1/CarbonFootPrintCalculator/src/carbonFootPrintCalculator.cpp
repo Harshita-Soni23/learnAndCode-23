@@ -18,8 +18,8 @@ void CarbonFootprintCalculator::getCarbonFootPrint(const std::string &entityType
                 auto emailInfo = getEmailInfo();
                 carbonFootprint = std::make_shared<EmailCarbonFootPrint>(emailInfo);
                 auto totalCarbonFootPrint = carbonFootprint->calculateCarbonFootPrint(entity);
-                std::shared_ptr<EmailCarbonFootPrint> cf = std::dynamic_pointer_cast<EmailCarbonFootPrint>(carbonFootprint);
-                cf->displayCarbonFootPrint(entity, totalCarbonFootPrint);
+                std::shared_ptr<EmailCarbonFootPrint> emailCarbonFootPrint = std::dynamic_pointer_cast<EmailCarbonFootPrint>(carbonFootprint);
+                emailCarbonFootPrint->displayCarbonFootPrint(entity, totalCarbonFootPrint);
             }
             catch (const std::exception &e)
             {
