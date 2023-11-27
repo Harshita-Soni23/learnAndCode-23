@@ -7,16 +7,15 @@
 
 class EmailCarbonFootPrint: public CarbonFootPrint {
 public:
-    EmailCarbonFootPrint(const std::vector<EmailInfo>& emails);
+    EmailCarbonFootPrint(const std::string &entity, const EmailsCount& emailsCount);
     
-    EmailsCarbonFootPrint calculateCarbonFootPrint(const std::string& emailId) override;
-    void displayCarbonFootPrint(const std::string &emailId, const EmailsCarbonFootPrint &emailsCarbonFootPrint) const;
+    EmailsCarbonFootPrint calculateCarbonFootPrint() override;
+    void displayCarbonFootPrint(const std::string &emailId, const std::string &emailSource, const EmailsCarbonFootPrint &emailsCarbonFootPrint) const;
 
 private:
-    std::vector<EmailInfo> emails;
-    double inboxCarbonFootPrint;
-    double sentCarbonFootPrint;
-    double spamCarbonFootPrint;
+    
+    EmailsCount emailsCount;
+    std::string entity;
 };
 
 #endif // EMAILCARBONFOOTPRINT_H

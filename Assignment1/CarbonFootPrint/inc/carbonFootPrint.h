@@ -5,7 +5,7 @@
 
 class CarbonFootPrint {
 public:
-    virtual EmailsCarbonFootPrint calculateCarbonFootPrint(const std::string& emailId) = 0;
+    virtual EmailsCarbonFootPrint calculateCarbonFootPrint() = 0;
 };
 
 #endif // CARBONFOOTPRINT_H

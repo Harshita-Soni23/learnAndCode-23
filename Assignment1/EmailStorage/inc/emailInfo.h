@@ -3,10 +3,11 @@
 
 #include <string>
 
-struct EmailsCount {
-    double inbox;
-    double sent;
-    double spam;
+struct EmailsCount
+{
+    size_t inbox = 0 ;
+    size_t sent = 0;
+    size_t spam = 0;
 };
 struct EmailInfo {
     std::string emailId;
