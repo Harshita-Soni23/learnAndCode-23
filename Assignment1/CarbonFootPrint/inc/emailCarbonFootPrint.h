@@ -8,12 +8,11 @@
 class EmailCarbonFootPrint: public CarbonFootPrint {
 public:
     EmailCarbonFootPrint(const std::string &entity, const EmailsCount& emailsCount);
-    
-    EmailsCarbonFootPrint calculateCarbonFootPrint() override;
-    void displayCarbonFootPrint(const std::string &emailId, const std::string &emailSource, const EmailsCarbonFootPrint &emailsCarbonFootPrint) const;
+    void displayCarbonFootPrint(const std::string &emailId, const std::string &emailSource, const EmailsCarbonFootPrint &emailsCarbonFootPrint);
 
 private:
-    
+    EmailsCarbonFootPrint calculateCarbonFootPrint() override;
+
     EmailsCount emailsCount;
     std::string entity;
 };

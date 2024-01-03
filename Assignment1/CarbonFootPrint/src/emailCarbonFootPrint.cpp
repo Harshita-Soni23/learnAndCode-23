@@ -17,7 +17,8 @@ EmailsCarbonFootPrint EmailCarbonFootPrint::calculateCarbonFootPrint()
     return emailCarbonFootPrint;
 }
 
-void EmailCarbonFootPrint::displayCarbonFootPrint(const std::string &emailId, const std::string &emailSource, const EmailsCarbonFootPrint &emailsCarbonFootPrint) const{
+void EmailCarbonFootPrint::displayCarbonFootPrint(const std::string &emailId, const std::string &emailSource, const EmailsCarbonFootPrint &emailsCarbonFootPrint){
+        calculateCarbonFootPrint();
         std::cout << "email (entityType basis)" << std::endl;
         std::cout << "  emailId : " << emailId << std::endl;
         std::cout << "  emailSource : " << emailSource << std::endl;

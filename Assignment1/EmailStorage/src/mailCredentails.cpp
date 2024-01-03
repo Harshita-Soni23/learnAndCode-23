@@ -10,3 +10,4 @@ const std::string& MailCredentials::getEmailId() const {
 const std::string& MailCredentials::getPassword() const {
     return password;
 }
+

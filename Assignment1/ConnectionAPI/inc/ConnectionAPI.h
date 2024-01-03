@@ -1,15 +1,16 @@
-#pragma once
+#ifndef CONNECTION_API_H
+#define CONNECTION_API_H 
 
-#include <curl/curl.h>
 #include "mailCredentials.h"
+#include <curl/curl.h>
 #include <string>
 
 class ConnectionAPI {
 public:
-    static CURLcode getConnection(const MailCredentials& mailCredential, const std::string &emailSource);
-    static CURLcode getMailCount(const MailCredentials& mailCredential, const std::string& folder, size_t& count);
+    CURLcode getConnection(const MailCredentials& mailCredential, const std::string &emailSource);
 
 private:
-    static CURLcode setupConnection(CURL *curl, const MailCredentials &userCredentials);
-    static size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* output);
+    size_t writeCallback(void* contents, size_t size, size_t nmemb, std::string* output);
 };
+
+#endif

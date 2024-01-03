@@ -4,6 +4,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <emailValidator.h>
+#include <emailSourceRetriever.h>
 #include <mailCredentials.h>
 #include <ConnectionAPI.h>
 #include <curl/curl.h>
@@ -12,11 +14,10 @@
 class CarbonFootprintCalculator {
 public:
     void getCarbonFootPrint(const std::string &entityType, const std::string &entity, const std::string &password);
-
 private:
-    bool isValidEmail(const std::string &email);
     EmailsCount getEmailsCount(const std::string &entity, const std::string &password);
-    std::string getEmailSource(const std::string &email) const;
+    EmailSourceRetriever emailSourceRetriever;
+    EmailValidator emailValidator;
 };
 
 #endif // CARBON_FOOTPRINT_CALCULATOR_H
