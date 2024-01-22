@@ -14,11 +14,11 @@ EmailsCarbonFootPrint EmailCarbonFootPrint::calculateCarbonFootPrint()
     emailCarbonFootPrint.inboxCarbonFootPrint = emailsCount.inbox * INBOX_CARBONFOOTPRINT;
     emailCarbonFootPrint.sentCarbonFootPrint = emailsCount.sent * SENT_CARBONFOOTPRINT;
     emailCarbonFootPrint.spamCarbonFootPrint = emailsCount.spam * SPAM_CARBONFOOTPRINT;
+
     return emailCarbonFootPrint;
 }
 
 void EmailCarbonFootPrint::displayCarbonFootPrint(const std::string &emailId, const std::string &emailSource, const EmailsCarbonFootPrint &emailsCarbonFootPrint){
-        calculateCarbonFootPrint();
         std::cout << "email (entityType basis)" << std::endl;
         std::cout << "  emailId : " << emailId << std::endl;
         std::cout << "  emailSource : " << emailSource << std::endl;

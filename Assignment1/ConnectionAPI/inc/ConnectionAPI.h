@@ -7,10 +7,7 @@
 
 class ConnectionAPI {
 public:
-    CURLcode getConnection(const MailCredentials& mailCredential, const std::string &emailSource);
-
-private:
-    size_t writeCallback(void* contents, size_t size, size_t nmemb, std::string* output);
+    CURL* getConnection(const MailCredentials& mailCredential, const std::string &emailSource);
 };
 
 #endif

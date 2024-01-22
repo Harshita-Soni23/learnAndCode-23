@@ -8,10 +8,11 @@
 
 class MailCounter {
 public:
-    CURLcode getMailCount(const MailCredentials& mailCredential, const std::string& folder, size_t& count);
+    size_t getMailCount(const MailCredentials& mailCredential, const std::string& folder);
 private:
     ConnectionAPI connection;
     EmailSourceRetriever emailSourceRetriever;
+    size_t static writeCallback(void* contents, size_t size, size_t nmemb, std::string* output);
 };
 
 #endif

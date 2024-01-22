@@ -1,14 +1,12 @@
 #include "ConnectionAPI.h"
 #include <iostream>
 
-CURLcode ConnectionAPI::getConnection(const MailCredentials &userCredentials, const std::string &emailSource) 
+CURL* ConnectionAPI::getConnection(const MailCredentials &userCredentials, const std::string &emailSource) 
 {
-    CURL *curl;
-    CURLcode res;
+    CURL *curl = nullptr;
 
     curl_global_init(CURL_GLOBAL_DEFAULT);
 
-    curl = curl_easy_init();
     curl = curl_easy_init();
     if (curl)
     {
@@ -25,23 +23,6 @@ CURLcode ConnectionAPI::getConnection(const MailCredentials &userCredentials, co
 
         curl_easy_setopt(curl, CURLOPT_USERNAME, userCredentials.getEmailId().c_str());
         curl_easy_setopt(curl, CURLOPT_PASSWORD, userCredentials.getPassword().c_str());
-
-        res = curl_easy_perform(curl);
-
-        curl_easy_cleanup(curl);
     }
-    else
-    {
-        std::cerr << "Error initializing curl." << std::endl;
-        res = CURLE_FAILED_INIT;
-    }
-
-    curl_global_cleanup();
-    return res;
-}
-
-size_t ConnectionAPI::writeCallback(void* contents, size_t size, size_t nmemb, std::string* output) {
-    size_t total_size = size * nmemb;
-    output->append(static_cast<char*>(contents), total_size);
-    return total_size;
+    return curl;
 }

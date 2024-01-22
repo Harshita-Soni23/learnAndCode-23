@@ -15,7 +15,7 @@ void CarbonFootprintCalculator::getCarbonFootPrint(const std::string &entityType
         {
             try
             {
-                auto emailCount = getEmailsCount(entity, password);
+                auto emailCount = emailsCounter.getEmailsCount(entity, password);
                 carbonFootprint = std::make_shared<EmailCarbonFootPrint>(entity, emailCount);
                 auto totalCarbonFootPrint = carbonFootprint->calculateCarbonFootPrint();
                 std::shared_ptr<EmailCarbonFootPrint> emailCarbonFootPrint = std::dynamic_pointer_cast<EmailCarbonFootPrint>(carbonFootprint);

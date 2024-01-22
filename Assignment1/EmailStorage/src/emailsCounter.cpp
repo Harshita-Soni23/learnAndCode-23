@@ -4,31 +4,17 @@ EmailsCount EmailsCounter::getEmailsCount(const std::string &entity, const std::
 {
     MailCredentials userCredentials(entity, password);
     auto emailSource = emailSourceRetriever.getEmailSource(entity);
-    CURLcode result = connection.getConnection(userCredentials, emailSource);
-
+    auto result = connection.getConnection(userCredentials, emailSource);
     EmailsCount emailsCount;
 
-    if (result == CURLE_OK) {
+    if (result) {
         std::cout << "Connection successful!" << std::endl;
-
-        result = mailCounter.getMailCount(userCredentials, "INBOX", emailsCount.inbox);
-        if (result != CURLE_OK) {
-            std::cerr << "Failed to get inbox mail count. Error: " << curl_easy_strerror(result) << std::endl;
-        }
-
-        result = mailCounter.getMailCount(userCredentials, "[Gmail]/Sent Mail", emailsCount.sent);
-        if (result != CURLE_OK) {
-            std::cerr << "Failed to get Sent Mail count. Error: " << curl_easy_strerror(result) << std::endl;
-        }
-
-        result = mailCounter.getMailCount(userCredentials, "[Gmail]/Spam", emailsCount.spam);
-        if (result != CURLE_OK) {
-            std::cerr << "Failed to get Spam count. Error: " << curl_easy_strerror(result) << std::endl;
-        }
+        emailsCount.inbox = mailCounter.getMailCount(userCredentials, "INBOX");
+        emailsCount.sent = mailCounter.getMailCount(userCredentials, "[Gmail]/Sent Mail");
+        emailsCount.spam = mailCounter.getMailCount(userCredentials, "[Gmail]/Spam");
     } else {
-        std::cerr << "Connection failed with error: " << curl_easy_strerror(result) << std::endl;
+        std::cerr << "Connection failed " << std::endl;
     }
-
     return emailsCount;
 }
 
