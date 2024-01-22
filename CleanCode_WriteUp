@@ -1,0 +1,19 @@
+Embracing Clean Code Principles in My Daily Development 
+
+ 
+
+In the last few months of started learning about clean code, I got a lot of insights about how code should be developed by a responsible developer. In software development, writing code is a daily ritual for developers. However, the quality of code can greatly impact the maintainability, readability, and overall success of a project. Gradually embracing the principles of clean code has become a part of my daily development routine, it has not only influenced the way I write code but also how I approach problem-solving and collaborate with my fellow developers. 
+
+What I have learned till now is that clean code is not just about adhering to a set of rules, but it's a mindset that prioritizes readability, simplicity, and maintainability. To achieve this, I familiarized myself with renowned programming principles such as SRP, DRY (Don't Repeat Yourself), and the importance of meaningful names, as how to use comments in code. 
+
+One of the first principles I incorporated into my daily coding practice was the art of choosing meaningful and descriptive names for variables, functions, and classes. This seemingly simple act significantly improved the readability of my code, making it easier for both me and my colleagues to understand the purpose of each component. Sometimes I faced difficulty to do so in my project as many times what happened that the names which I decides for some method or variable was already there for some other variable or method, and finding how should I name variables so that it should be more specific was sometimes very confusing, but soon as I make this in my practice my mind got more trained how should I name variables and methods in code. 
+
+Breaking down complex functions into smaller, more manageable units was another significant change. By adhering to the single responsibility principle (S in SOLID), I ensured that each function did one thing and did it well. This not only made debugging and testing more straightforward but also facilitated future modifications without fear of unintended consequences. 
+
+Using the DRY principle played a pivotal role in reducing redundancy in my codebase. Whenever I identified repetitive patterns, I extracted them into reusable functions or modules. 
+
+Also, I invested time in writing comprehensive unit tests to ensure the reliability of my code. This practice not only helped catch bugs early but also provided insights into the expected behavior of each component. 
+
+It helped me in code reviews and collaboration in my project, collaborating with fellow developers through code reviews became an important part of my work. I became more confident while reviewing codes and collaborating with the other team members. 
+ 
+Thank you. 
