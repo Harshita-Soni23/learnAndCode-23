@@ -5,16 +5,16 @@ int main()
 {
     try
     {
-        int inputNumber;
+        int userInput;
         std::cout << "Enter a four-digit number: ";
-        std::cin >> inputNumber;
-        Kaprekar kap(inputNumber);
-        kap.calculateKaprekarRoutine();
+        std::cin >> userInput;
+        Kaprekar kaprekar(userInput);
+        kaprekar.calculateKaprekarRoutine();
         std::cout << "Kaprekar's constant reached " << std::endl;
     }
-    catch (const std::exception &e)
+    catch (const std::exception &exception)
     {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "Error: " << exception.what() << std::endl;
         return 1;
     }
     return 0;

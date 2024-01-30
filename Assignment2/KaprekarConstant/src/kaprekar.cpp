@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <iostream>
 
-Kaprekar::Kaprekar(int inputNumber) : number(inputNumber)
+Kaprekar::Kaprekar(int number) : number(number)
 {
     if (number < 1000 || number > 9999)
         throw std::invalid_argument("Invalid input. Please enter a four-digit number.");

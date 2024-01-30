@@ -7,7 +7,7 @@ class Kaprekar
     int number;
 
   public:
-    Kaprekar(int inputNumber);
+    Kaprekar(int number);
     void calculateKaprekarRoutine();
 };
 

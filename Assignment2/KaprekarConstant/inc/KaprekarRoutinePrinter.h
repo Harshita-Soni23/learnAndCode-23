@@ -7,7 +7,7 @@
 class KaprekarRoutinePrinter
 {
   public:
-    static void printIteration(const std::vector<int> &desc, const std::vector<int> &asc, int diff);
+    static void printIteration(const std::vector<int> &descendingDigits, const std::vector<int> &ascendingDigits, int difference);
 };
 
 #endif
