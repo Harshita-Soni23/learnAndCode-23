@@ -1,11 +1,11 @@
 #include "kaprekar.h"
-#include "constants.h"
-#include "digitsSorter.h"
-#include "digitsConverter.h"
-#include "differenceCalculator.h"
 #include "KaprekarRoutinePrinter.h"
-#include <stdexcept>
+#include "constants.h"
+#include "differenceCalculator.h"
+#include "digitsConverter.h"
+#include "digitsSorter.h"
 #include <iostream>
+#include <stdexcept>
 
 Kaprekar::Kaprekar(int number) : number(number)
 {
@@ -22,7 +22,8 @@ void Kaprekar::calculateKaprekarRoutine()
         std::vector<int> ascendingDigits = DigitsSorter::sortDigitsAscending(digits);
         std::vector<int> descendingDigits = DigitsSorter::sortDigitsDescending(digits);
 
-        int difference = DifferenceCalculator::calculateDifference(ascendingDigits, descendingDigits);
+        int difference =
+            DifferenceCalculator::calculateDifference(ascendingDigits, descendingDigits);
         KaprekarRoutinePrinter::printIteration(descendingDigits, ascendingDigits, difference);
 
         if (difference == Constants::KAPREKAR_CONST)
@@ -32,6 +33,7 @@ void Kaprekar::calculateKaprekarRoutine()
         digits = DigitConverter::numberToDigits(number);
 
         if (++iterations >= Constants::MAX_ITERATIONS)
-            throw std::runtime_error("Maximum iterations reached without converging to Kaprekar's constant.");
+            throw std::runtime_error(
+                "Maximum iterations reached without converging to Kaprekar's constant.");
     }
 }
