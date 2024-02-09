@@ -1,9 +1,9 @@
-#ifndef KAPREKAR_DIFFERENCE_CALCULATOR_H
-#define KAPREKAR_DIFFERENCE_CALCULATOR_H
+#ifndef DIGITS_OPERATOR_H
+#define DIGITS_OPERATOR_H
 
 #include <vector>
 
-class DifferenceCalculator
+class DigitsOperator
 {
   public:
     static int calculateDifference(const std::vector<int> &ascendingDigits, const std::vector<int> &descendingDigits);

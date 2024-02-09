@@ -1,7 +1,7 @@
-#include "differenceCalculator.h"
+#include "digitsOperator.h"
 #include "digitsConverter.h"
 
-int DifferenceCalculator::calculateDifference(
+int DigitsOperator::calculateDifference(
     const std::vector<int> &ascendingDigits, const std::vector<int> &descendingDigits)
 {
     int smallerNumber = DigitConverter::digitsToNumber(ascendingDigits);

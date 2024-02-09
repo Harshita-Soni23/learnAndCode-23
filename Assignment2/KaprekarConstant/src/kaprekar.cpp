@@ -1,7 +1,7 @@
 #include "kaprekar.h"
 #include "KaprekarRoutinePrinter.h"
 #include "constants.h"
-#include "differenceCalculator.h"
+#include "digitsOperator.h"
 #include "digitsConverter.h"
 #include "digitsSorter.h"
 #include <iostream>
@@ -23,7 +23,7 @@ void Kaprekar::calculateKaprekarRoutine()
         std::vector<int> descendingDigits = DigitsSorter::sortDigitsDescending(digits);
 
         int difference =
-            DifferenceCalculator::calculateDifference(ascendingDigits, descendingDigits);
+            DigitsOperator::calculateDifference(ascendingDigits, descendingDigits);
         KaprekarRoutinePrinter::printIteration(descendingDigits, ascendingDigits, difference);
 
         if (difference == Constants::KAPREKAR_CONST)

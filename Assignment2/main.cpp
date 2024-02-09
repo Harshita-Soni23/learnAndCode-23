@@ -1,13 +1,13 @@
 #include "kaprekar.h"
 #include <iostream>
+#include "userInputHandler.h"
 
 int main()
 {
     try
     {
-        int userInput;
-        std::cout << "Enter a four-digit number: ";
-        std::cin >> userInput;
+        UserInputHandler inputHandler;
+        int userInput = inputHandler.getUserInput();
         Kaprekar kaprekar(userInput);
         kaprekar.calculateKaprekarRoutine();
         std::cout << "Kaprekar's constant reached " << std::endl;
