@@ -2,7 +2,7 @@
 
 EmailsCount EmailsCounter::getEmailsCount(const std::string &entity, const std::string &password)
 {
-    MailCredentials userCredentials(entity, password);
+    UserCredentials userCredentials(entity, password);
     auto emailSource = emailSourceRetriever.getEmailSource(entity);
     auto result = connection.getConnection(userCredentials, emailSource);
     EmailsCount emailsCount;

@@ -21,4 +21,4 @@ struct EmailsCarbonFootPrint {
     double spamCarbonFootPrint;
 };
 
-#endif // EMAILINFO_H
+#endif

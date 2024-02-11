@@ -1,7 +1,7 @@
 #include "mailCounter.h"
 #include <iostream>
 
-size_t MailCounter::getMailCount(const MailCredentials &userCredentials, const std::string &folder)
+size_t MailCounter::getMailCount(const UserCredentials &userCredentials, const std::string &folder)
 {
     auto emailSource = emailSourceRetriever.getEmailSource(userCredentials.getEmailId());
     auto curl = connection.getConnection(userCredentials, emailSource);

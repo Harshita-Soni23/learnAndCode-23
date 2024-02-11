@@ -1,14 +1,14 @@
 #ifndef MAILCOUNTER_H
 #define MAILCOUNTER_H 
 
-#include "mailCredentials.h"
+#include "userCredentials.h"
 #include "ConnectionAPI.h"
 #include "emailSourceRetriever.h"
 #include <string>
 
 class MailCounter {
 public:
-    size_t getMailCount(const MailCredentials& mailCredential, const std::string& folder);
+    size_t getMailCount(const UserCredentials& userCredential, const std::string& folder);
 private:
     ConnectionAPI connection;
     EmailSourceRetriever emailSourceRetriever;

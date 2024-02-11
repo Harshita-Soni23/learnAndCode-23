@@ -1,7 +1,7 @@
 #include "ConnectionAPI.h"
 #include <iostream>
 
-CURL* ConnectionAPI::getConnection(const MailCredentials &userCredentials, const std::string &emailSource) 
+CURL* ConnectionAPI::getConnection(const UserCredentials &userCredentials, const std::string &emailSource) 
 {
     CURL *curl = nullptr;
 

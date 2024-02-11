@@ -1,13 +1,13 @@
 #ifndef CONNECTION_API_H
 #define CONNECTION_API_H 
 
-#include "mailCredentials.h"
+#include "userCredentials.h"
 #include <curl/curl.h>
 #include <string>
 
 class ConnectionAPI {
 public:
-    CURL* getConnection(const MailCredentials& mailCredential, const std::string &emailSource);
+    CURL* getConnection(const UserCredentials& userCredential, const std::string &emailSource);
 };
 
 #endif

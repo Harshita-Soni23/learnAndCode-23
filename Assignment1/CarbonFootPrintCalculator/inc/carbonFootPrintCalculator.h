@@ -6,7 +6,7 @@
 #include <string>
 #include <emailValidator.h>
 #include <emailSourceRetriever.h>
-#include <mailCredentials.h>
+#include <userCredentials.h>
 #include <emailsCounter.h>
 #include <ConnectionAPI.h>
 #include <curl/curl.h>
