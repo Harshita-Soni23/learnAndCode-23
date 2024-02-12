@@ -8,4 +8,4 @@ public:
     virtual EmailsCarbonFootPrint calculateCarbonFootPrint() = 0;
 };
 
-#endif // CARBONFOOTPRINT_H
+#endif

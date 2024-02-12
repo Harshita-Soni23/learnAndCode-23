@@ -17,4 +17,4 @@ private:
     std::string entity;
 };
 
-#endif // EMAILCARBONFOOTPRINT_H
+#endif

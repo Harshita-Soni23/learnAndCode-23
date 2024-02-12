@@ -6,6 +6,7 @@
 #include <string>
 #include <emailValidator.h>
 #include <emailSourceRetriever.h>
+#include <entityInput.h>
 #include <userCredentials.h>
 #include <emailsCounter.h>
 #include <ConnectionAPI.h>
@@ -14,7 +15,7 @@
 
 class CarbonFootprintCalculator {
 public:
-    void getCarbonFootPrint(const std::string &entityType, const std::string &entity, const std::string &password);
+    void getCarbonFootPrint(const EntityInput& input);
 private:
     EmailsCounter emailsCounter;
     EmailSourceRetriever emailSourceRetriever;

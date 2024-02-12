@@ -3,19 +3,20 @@
 bool EmailValidator::isValidEmail(const std::string& email) {
 
     std::regex emailRegex(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})");
+    bool isValidEmail;
 
     if (!std::regex_match(email, emailRegex)) {
-        return false; 
+        isValidEmail = false; 
     }
 
-    size_t atPos = email.find('@');
-    std::string domain = email.substr(atPos + 1);
+    size_t atPosition = email.find('@');
+    std::string domain = email.substr(atPosition + 1);
 
     if (domain.find("gmail.com") != std::string::npos ||
         domain.find("yahoo.com") != std::string::npos ||
         domain.find("outlook.com") != std::string::npos) {
-        return true;
+        isValidEmail = true;
     }
 
-    return false; 
+    return isValidEmail;
 }

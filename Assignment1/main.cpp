@@ -10,7 +10,7 @@ int main() {
     EntityInput input = getInput();
 
     CarbonFootprintCalculator carbonFootprintCalculator;
-    carbonFootprintCalculator.getCarbonFootPrint(input.entityType, input.entity, input.password);
+    carbonFootprintCalculator.getCarbonFootPrint(input);
 
     return 0;
 }

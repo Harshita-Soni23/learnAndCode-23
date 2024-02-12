@@ -3,14 +3,14 @@
 std::string EmailSourceRetriever::getEmailSource(const std::string &emailId) const
 {
     std::string provider;
-    size_t atPos = emailId.find('@');
-    if (atPos != std::string::npos)
+    size_t atPosition = emailId.find('@');
+    if (atPosition != std::string::npos)
     {
-        std::string domain = emailId.substr(atPos + 1);
-        size_t dotPos = domain.find('.');
-        if (dotPos != std::string::npos)
+        std::string domain = emailId.substr(atPosition + 1);
+        size_t dotPosition = domain.find('.');
+        if (dotPosition != std::string::npos)
         {
-            provider = domain.substr(0, dotPos);
+            provider = domain.substr(0, dotPosition);
         }
         else
         {

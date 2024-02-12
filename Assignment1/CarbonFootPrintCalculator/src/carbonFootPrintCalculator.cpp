@@ -5,22 +5,22 @@
 #include <string>
 #include "carbonFootPrintCalculator.h"
 
-void CarbonFootprintCalculator::getCarbonFootPrint(const std::string &entityType, const std::string &entity, const std::string &password)
+void CarbonFootprintCalculator::getCarbonFootPrint(const EntityInput& input)
 {
     std::shared_ptr<CarbonFootPrint> carbonFootprint;
 
-    if (entityType == "email")
+    if (input.entityType == "email")
     {
-        if (emailValidator.isValidEmail(entity))
+        if (emailValidator.isValidEmail(input.entity))
         {
             try
             {
-                auto emailCount = emailsCounter.getEmailsCount(entity, password);
-                carbonFootprint = std::make_shared<EmailCarbonFootPrint>(entity, emailCount);
+                auto emailCount = emailsCounter.getEmailsCount(input.entity, input.password);
+                carbonFootprint = std::make_shared<EmailCarbonFootPrint>(input.entity, emailCount);
                 auto totalCarbonFootPrint = carbonFootprint->calculateCarbonFootPrint();
                 std::shared_ptr<EmailCarbonFootPrint> emailCarbonFootPrint = std::dynamic_pointer_cast<EmailCarbonFootPrint>(carbonFootprint);
-                auto emailSource = emailSourceRetriever.getEmailSource(entity);
-                emailCarbonFootPrint->displayCarbonFootPrint(entity, emailSource, totalCarbonFootPrint);
+                auto emailSource = emailSourceRetriever.getEmailSource(input.entity);
+                emailCarbonFootPrint->displayCarbonFootPrint(input.entity, emailSource, totalCarbonFootPrint);
             }
             catch (const std::exception &e)
             {
