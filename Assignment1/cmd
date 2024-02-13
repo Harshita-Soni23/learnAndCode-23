@@ -1,0 +1,3 @@
+g++ -o output_program main.cpp ./CarbonFootPrintCalculator/src/*.cpp ./CarbonFootPrint/src/*.cpp -I ./CarbonFootPrintCalculator/inc -I ./EmailStorage/inc -I ./CarbonFootPrint/inc
+
+g++ -o output_program main.cpp ./CarbonFootPrintCalculator/src/*.cpp ./CarbonFootPrint/src/*.cpp ./ConnectionAPI/src/*.cpp ./EmailStorage/src/*.cpp -I./CarbonFootPrintCalculator/inc -I ./EmailStorage/inc -I ./CarbonFootPrint/inc -I./ConnectionAPI/inc -lcurl
