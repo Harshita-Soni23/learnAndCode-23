@@ -1,40 +1,13 @@
 #include "userRepository.h"
 
 void UserRepository::createUser(const User& user) {
-    // Check if the user already exists in the database
+
     if (userExists(user)) {
         std::cout << "User already exists. Cannot sign up again." << std::endl;
         return;
     }
 
-    // Proceed with creating the user
     std::ofstream userInfoFile(filename, std::ios::app);
-
-    // // Write user information to a file in the user directory
-    //         if (userInfoFile.is_open()) {
-    //             userInfoFile << "ID: " << user.getId() << std::endl;
-    //             userInfoFile << "Name: " << user.getName() << std::endl;
-    //             userInfoFile << "Email: " << user.getEmail() << std::endl;
-    //             // Write other user information as needed
-    //             userInfoFile.close();
-
-    //             // Append user information to the database file
-    //             std::ofstream databaseFile(filename, std::ios_base::app);
-    //             if (databaseFile.is_open()) {
-    //                 databaseFile << "Directory Path: " << user.getDirectoryPath() << std::endl;
-    //                 databaseFile << "ID: " << user.getId() << std::endl;
-    //                 databaseFile << "Name: " << user.getName() << std::endl;
-    //                 databaseFile << "Email: " << user.getEmail() << std::endl;
-    //                 // Write other user information as needed
-    //                 databaseFile << "------------------------------------" << std::endl;
-    //                 databaseFile.close();
-    //                 std::cout << "User information appended to database file." << std::endl;
-    //             } else {
-    //                 std::cerr << "Error opening database file." << std::endl;
-    //             }
-    //         } else {
-    //             std::cerr << "Error creating user info file." << std::endl;
-    //         }
 
     userInfoFile << user.getId() << ',' << user.getName() << ',' << user.getEmail() << ',' << user.getDirectoryPath() << '\n';
     userInfoFile.close();
