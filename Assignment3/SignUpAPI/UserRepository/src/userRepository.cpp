@@ -8,13 +8,36 @@ void UserRepository::createUser(const User& user) {
     }
 
     // Proceed with creating the user
-    std::ofstream file(filename, std::ios::app);
-    if (!file.is_open()) {
-        throw std::runtime_error("Failed to open file for writing.");
-    }
+    std::ofstream userInfoFile(filename, std::ios::app);
 
-    file << user.getId() << ',' << user.getName() << ',' << user.getEmail() << '\n';
-    file.close();
+    // // Write user information to a file in the user directory
+    //         if (userInfoFile.is_open()) {
+    //             userInfoFile << "ID: " << user.getId() << std::endl;
+    //             userInfoFile << "Name: " << user.getName() << std::endl;
+    //             userInfoFile << "Email: " << user.getEmail() << std::endl;
+    //             // Write other user information as needed
+    //             userInfoFile.close();
+
+    //             // Append user information to the database file
+    //             std::ofstream databaseFile(filename, std::ios_base::app);
+    //             if (databaseFile.is_open()) {
+    //                 databaseFile << "Directory Path: " << user.getDirectoryPath() << std::endl;
+    //                 databaseFile << "ID: " << user.getId() << std::endl;
+    //                 databaseFile << "Name: " << user.getName() << std::endl;
+    //                 databaseFile << "Email: " << user.getEmail() << std::endl;
+    //                 // Write other user information as needed
+    //                 databaseFile << "------------------------------------" << std::endl;
+    //                 databaseFile.close();
+    //                 std::cout << "User information appended to database file." << std::endl;
+    //             } else {
+    //                 std::cerr << "Error opening database file." << std::endl;
+    //             }
+    //         } else {
+    //             std::cerr << "Error creating user info file." << std::endl;
+    //         }
+
+    userInfoFile << user.getId() << ',' << user.getName() << ',' << user.getEmail() << ',' << user.getDirectoryPath() << '\n';
+    userInfoFile.close();
 }
 
 bool UserRepository::userExists(const User& user) {
@@ -28,14 +51,15 @@ bool UserRepository::userExists(const User& user) {
         std::istringstream iss(line);
         std::string id, name, email;
         std::getline(iss, id, ',');
+
         if (id == user.getId()) {
             file.close();
-            return true; // User with the same ID already exists
+            return true;
         }
     }
 
     file.close();
-    return false; // User not found
+    return false;
 }
 
 std::vector<User> UserRepository::getAllUsers() {
