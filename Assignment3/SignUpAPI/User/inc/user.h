@@ -9,6 +9,7 @@ private:
     std::string name;
     std::string email;
     std::string directoryPath;
+    std::string gender;
 
 public:
     User(const std::string& id, const std::string& name, const std::string& email);
@@ -18,12 +19,14 @@ public:
     std::string getName() const;
     std::string getEmail() const;
     std::string getDirectoryPath() const;
+    std::string getGender() const;
 
     // Setter methods
     void setId(const std::string& newId);
     void setName(const std::string& newName);
     void setEmail(const std::string& newEmail);
     void setDirectoryPath(const std::string& newPath);
+    void setGender(const std::string& gender);
 };
 
 #endif // USER_H

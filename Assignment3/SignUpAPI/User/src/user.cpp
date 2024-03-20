@@ -34,3 +34,13 @@ void User::setEmail(const std::string& newEmail) {
 void User::setDirectoryPath(const std::string& newPath) {
     directoryPath = newPath;
 }
+
+std::string User::getGender() const
+{
+    return gender;
+}
+
+void User::setGender(const std::string &gender)
+{
+    this->gender = gender;
+}

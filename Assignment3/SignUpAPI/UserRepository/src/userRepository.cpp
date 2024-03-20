@@ -9,7 +9,7 @@ void UserRepository::createUser(const User& user) {
 
     std::ofstream userInfoFile(filename, std::ios::app);
 
-    userInfoFile << user.getId() << ',' << user.getName() << ',' << user.getEmail() << ',' << user.getDirectoryPath() << '\n';
+    userInfoFile << user.getId() << ',' << user.getName() << ',' << user.getEmail() << ',' << user.getDirectoryPath() << ',' << user.getGender() << '\n';
     userInfoFile.close();
 }
 
