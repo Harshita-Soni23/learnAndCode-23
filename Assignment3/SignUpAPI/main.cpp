@@ -1,9 +1,18 @@
+#include <iostream>
 #include "signUpService.h"
+#include "ConsoleUserInput.h"
 
 int main() {
-    // Example usage
-    SignUpService signUpService;
-    signUpService.signup("John Doe", "john@example.com");
 
+    std::string userName, userEmail;
+
+    SignUpService signUpService;
+    UserInput *userInput;
+    ConsoleUserInput consoleUserInput;
+
+    userInput = &consoleUserInput;
+
+    userInput->getUserInput(userName, userEmail);
+    signUpService.signup(userName, userEmail);
     return 0;
 }

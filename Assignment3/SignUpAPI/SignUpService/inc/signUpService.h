@@ -2,7 +2,7 @@
 #define SIGNUPSERVICE_H
 
 #include "userRepository.h"
-//#include "efaultDataPopulator.h"
+#include "defaultDataPopulator.h"
 #include "directoryManager.h"
 #include "notificationAgent.h"
 #include <string>
@@ -10,7 +10,7 @@
 class SignUpService {
 private:
     UserRepository userRepository;
-    //DefaultDataPopulator dataPopulator;
+    DefaultDataPopulator dataPopulator;
     DirectoryManager directoryManager;
     NotificationAgent notificationAgent;
 

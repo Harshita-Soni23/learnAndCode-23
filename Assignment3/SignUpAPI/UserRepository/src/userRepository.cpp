@@ -3,8 +3,7 @@
 void UserRepository::createUser(const User& user) {
 
     if (userExists(user)) {
-        std::cout << "User already exists. Cannot sign up again." << std::endl;
-        return;
+        throw std::runtime_error("User already exists.");
     }
 
     std::ofstream userInfoFile(filename, std::ios::app);
@@ -24,8 +23,10 @@ bool UserRepository::userExists(const User& user) {
         std::istringstream iss(line);
         std::string id, name, email;
         std::getline(iss, id, ',');
+        std::getline(iss, name, ',');
+        std::getline(iss, email, ',');
 
-        if (id == user.getId()) {
+        if (email == user.getEmail()) {
             file.close();
             return true;
         }
