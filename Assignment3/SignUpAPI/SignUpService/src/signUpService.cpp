@@ -19,8 +19,8 @@ void SignUpService::signup(const std::string &name, const std::string &email)
     {
         FileUserRepository fileUserRepository;
         userRepository = &fileUserRepository;
-        ConsoleNotificationAgent consoleNotificationAgent;
-        notificationAgent = &consoleNotificationAgent;
+        EmailNotificationAgent emailNotificationAgent;
+        notificationAgent = &emailNotificationAgent;
         userRepository->createUser(new_user);
         dataPopulator.populateDefaultData(new_user);
         directoryManager.createUserDirectory(new_user);
