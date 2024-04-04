@@ -1,6 +1,6 @@
-#include "userRepository.h"
+#include "FileUserRepository.h"
 
-void UserRepository::createUser(const User& user) {
+void FileUserRepository::createUser(const User& user) {
 
     if (userExists(user)) {
         throw std::runtime_error("User already exists.");
@@ -12,7 +12,7 @@ void UserRepository::createUser(const User& user) {
     userInfoFile.close();
 }
 
-bool UserRepository::userExists(const User& user) {
+bool FileUserRepository::userExists(const User& user) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open file for reading.");
@@ -36,7 +36,7 @@ bool UserRepository::userExists(const User& user) {
     return false;
 }
 
-std::vector<User> UserRepository::getAllUsers() {
+std::vector<User> FileUserRepository::getAllUsers() {
     std::vector<User> users;
     std::ifstream file(filename);
     if (!file.is_open()) {

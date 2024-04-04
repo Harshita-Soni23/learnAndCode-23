@@ -17,13 +17,17 @@ void SignUpService::signup(const std::string &name, const std::string &email)
 
     try
     {
-        userRepository.createUser(new_user);
+        FileUserRepository fileUserRepository;
+        userRepository = &fileUserRepository;
+        ConsoleNotificationAgent consoleNotificationAgent;
+        notificationAgent = &consoleNotificationAgent;
+        userRepository->createUser(new_user);
         dataPopulator.populateDefaultData(new_user);
         directoryManager.createUserDirectory(new_user);
-        notificationAgent.notifySuccess(new_user);
+        notificationAgent->notifySuccess(new_user);
     }
     catch (const std::exception &e)
     {
-        notificationAgent.notifyError(new_user, e.what());
+        notificationAgent->notifyError(new_user, e.what());
     }
 }
