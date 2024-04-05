@@ -7,7 +7,7 @@ void EmailNotificationAgent::notifySuccess(const User& user) {
 }
 
 void EmailNotificationAgent::notifyError(const User& user, const std::string& errorMessage) {
-    sendEmail("admin@example.com", "Sign-up error", "Error occurred during sign-up: " + errorMessage);
+    sendEmail(user.getEmail(), "Sign-up error", "Error occurred during sign-up: " + errorMessage);
 }
 
 void EmailNotificationAgent::sendEmail(const std::string& to, const std::string& subject, const std::string& body) {
@@ -15,7 +15,7 @@ void EmailNotificationAgent::sendEmail(const std::string& to, const std::string&
     CURL* curl = curl_easy_init();
     if (curl) {
         curl_easy_setopt(curl, CURLOPT_URL, "smtp://smtp.gmail.com:587");
-        curl_easy_setopt(curl, CURLOPT_MAIL_FROM, "harshitasoni469@gmail.com");
+        curl_easy_setopt(curl, CURLOPT_MAIL_FROM, "harshupadhyay8192@gmail.com");
         struct curl_slist* recipients = nullptr;
         recipients = curl_slist_append(recipients, to.c_str());
         curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);

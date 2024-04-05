@@ -4,7 +4,7 @@
 #include "FileUserRepository.h"
 #include "defaultDataPopulator.h"
 #include "directoryManager.h"
-#include "emailNotificationAgent.h"
+#include "consoleNotificationAgent.h"
 #include <string>
 
 class SignUpService {
