@@ -12,12 +12,12 @@ int main() {
 
     std::cout<<"////////// Welcome to Sign Up Page ////////// ";
 
-    std::cout<<"Which User you are- \nPress 1 for Admin \nPress 2 for normal User \nPress 3 for viewer "<<std::endl;
+    std::cout<<"Which User you are- \nPress 1 for Admin \nPress 2 for normal User \nPress 3 for viewer."<<std::endl;
     std::cin>>userChoice;
 
     if (userChoice == 1)
     {
-        std::cout<<"Enter choice to take input- \n Press 1 to take Input from Console "<<std::endl;
+        std::cout<<"Enter choice to take input- \n Press 1 to take Input from Console. "<<std::endl;
         std::cin>>inputChoice;
         std::cin.ignore();
         if (inputChoice == 1)

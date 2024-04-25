@@ -5,6 +5,7 @@
 #include "defaultDataPopulator.h"
 #include "directoryManager.h"
 #include "consoleNotificationAgent.h"
+#include "userIdGenerator.h"
 #include <string>
 
 class SignUpService {
@@ -13,6 +14,7 @@ private:
     DefaultDataPopulator dataPopulator;
     DirectoryManager directoryManager;
     NotificationAgent *notificationAgent;
+    UserIdGenerator userIdGenerator;
 
 public:
     void signup(const std::string& name, const std::string& email);
