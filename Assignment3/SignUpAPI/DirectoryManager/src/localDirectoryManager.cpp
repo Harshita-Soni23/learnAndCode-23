@@ -1,6 +1,6 @@
-#include "directoryManager.h"
+#include "localDirectoryManager.h"
 
-void DirectoryManager::createUserDirectory(User &user)
+void LocalDirectoryManager::createUserDirectory(User &user)
 {
     std::filesystem::path parentDirectory = std::filesystem::absolute("UserDirectories");
 

@@ -2,14 +2,10 @@
 #define DIRECTORYMANAGER_H
 
 #include "user.h"
-#include <filesystem>
-#include <fstream>
-#include <string>
-#include <iostream>
 
 class DirectoryManager {
 public:
-    void createUserDirectory(User& user);
+    virtual void createUserDirectory(User& user) = 0;
 };
 
 #endif // DIRECTORYMANAGER_H

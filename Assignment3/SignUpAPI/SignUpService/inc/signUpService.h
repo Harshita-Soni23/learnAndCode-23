@@ -3,7 +3,7 @@
 
 #include "FileUserRepository.h"
 #include "defaultDataPopulator.h"
-#include "directoryManager.h"
+#include "localDirectoryManager.h"
 #include "consoleNotificationAgent.h"
 #include "userIdGenerator.h"
 #include <string>
@@ -12,7 +12,7 @@ class SignUpService {
 private:
     UserRepository *userRepository;
     DefaultDataPopulator dataPopulator;
-    DirectoryManager directoryManager;
+    DirectoryManager *directoryManager;
     NotificationAgent *notificationAgent;
     UserIdGenerator userIdGenerator;
 
