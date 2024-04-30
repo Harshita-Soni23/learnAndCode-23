@@ -5,8 +5,8 @@
 
 class UserRepository {
 public:
-    virtual void createUser(const User& user) = 0;
-    virtual bool userExists(const User& user) = 0;
+    virtual void createUser(const User *user) = 0;
+    virtual bool userExists(const User *user) = 0;
     virtual ~UserRepository() {}
 };
 

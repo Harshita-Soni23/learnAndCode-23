@@ -2,12 +2,12 @@
 #include <iostream>
 #include <curl/curl.h>
 
-void EmailNotificationAgent::notifySuccess(const User& user) {
-    sendEmail(user.getEmail(), "Sign-up successful", "Dear " + user.getName() + ",\n\nYour sign-up was successful.");
+void EmailNotificationAgent::notifySuccess(const User *user) {
+    sendEmail(user->getEmail(), "Sign-up successful", "Dear " + user->getName() + ",\n\nYour sign-up was successful.");
 }
 
-void EmailNotificationAgent::notifyError(const User& user, const std::string& errorMessage) {
-    sendEmail(user.getEmail(), "Sign-up error", "Error occurred during sign-up: " + errorMessage);
+void EmailNotificationAgent::notifyError(const User *user, const std::string& errorMessage) {
+    sendEmail(user->getEmail(), "Sign-up error", "Error occurred during sign-up: " + errorMessage);
 }
 
 void EmailNotificationAgent::sendEmail(const std::string& to, const std::string& subject, const std::string& body) {

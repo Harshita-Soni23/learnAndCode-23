@@ -1,11 +1,15 @@
 #ifndef DEFAULTDATAPOPULATOR_H
 #define DEFAULTDATAPOPULATOR_H
 
-#include "user.h"
+#include "dataPopulator.h"
 
-class DefaultDataPopulator {
+class DefaultDataPopulator : public DataPopulator
+{
 public:
-    void populateDefaultData(User& user);
+    void populateDefaultData(User *user) override;
+
+private:
+    std::string filename = "users.txt";
 };
 
 #endif // DEFAULTDATAPOPULATOR_H

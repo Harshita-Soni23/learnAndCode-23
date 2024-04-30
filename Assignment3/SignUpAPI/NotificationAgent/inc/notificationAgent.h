@@ -5,8 +5,8 @@
 
 class NotificationAgent {
 public:
-    virtual void notifySuccess(const User& user) = 0;
-    virtual void notifyError(const User& user, const std::string& error_message) = 0;
+    virtual void notifySuccess(const User *user) = 0;
+    virtual void notifyError(const User *user, const std::string& error_message) = 0;
 };
 
 #endif // NOTIFICATIONAGENT_H

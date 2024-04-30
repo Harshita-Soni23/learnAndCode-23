@@ -7,8 +7,8 @@
 
 class ConsoleNotificationAgent : public NotificationAgent {
 public:
-    void notifySuccess(const User& user);
-    void notifyError(const User& user, const std::string& error_message);
+    void notifySuccess(const User *user);
+    void notifyError(const User *user, const std::string& error_message);
 };
 
 #endif // CONSOLENOTIFICATIONAGENT_H

@@ -1,11 +1,27 @@
 #include "signUpService.h"
+#include "normalUser.h"
+#include "adminUser.h"
+#include "viewerUser.h"
 
-void SignUpService::signup(const std::string &name, const std::string &email)
+void SignUpService::signup(const std::string &name, const std::string &email, const std::string &userType)
 {
-    std::string user_id = userIdGenerator.generateUserId();
-
-    User new_user(user_id, name, email);
-
+    std::string userId = userIdGenerator.generateUserId();
+    if(userType == "viewer")
+    {
+        ViewerUser newUser(name, email, userType);
+        user = &newUser;
+    }
+    else if(userType == "normal")
+    {
+        NormalUser newUser(name, email, userType);
+        user = &newUser;
+    }
+    else if(userType == "admin")
+    {
+        AdminUser newUser(name, email, userType);
+        user = &newUser;
+    }
+    user->setId(userId);
     try
     {
         FileUserRepository fileUserRepository;
@@ -14,13 +30,13 @@ void SignUpService::signup(const std::string &name, const std::string &email)
         notificationAgent = &consoleNotificationAgent;
         LocalDirectoryManager localDirectoryManager;
         directoryManager = &localDirectoryManager;
-        userRepository->createUser(new_user);
-        dataPopulator.populateDefaultData(new_user);
-        directoryManager->createUserDirectory(new_user);
-        notificationAgent->notifySuccess(new_user);
+        userRepository->createUser(user);
+        dataPopulator.populateDefaultData(user);
+        directoryManager->createUserDirectory(user);
+        notificationAgent->notifySuccess(user);
     }
     catch (const std::exception &e)
     {
-        notificationAgent->notifyError(new_user, e.what());
+        notificationAgent->notifyError(user, e.what());
     }
 }

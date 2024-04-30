@@ -1,7 +1,7 @@
 #include "user.h"
 
-User::User(const std::string& id, const std::string& name, const std::string& email, const std::string& userType)
-    : id(id), name(name), email(email), userType(userType) {}
+User::User(const std::string& name, const std::string& email, const std::string& userType)
+    : name(name), email(email), userType(userType) {}
 
 std::string User::getId() const {
     return id;
@@ -53,4 +53,9 @@ std::string User::getUserType() const
 void User::setUserType(const std::string &gender)
 {
     this->userType = userType;
+}
+
+void User::viewData() const
+{
+    
 }

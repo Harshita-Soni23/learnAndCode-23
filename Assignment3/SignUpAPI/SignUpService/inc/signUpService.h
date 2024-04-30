@@ -6,6 +6,7 @@
 #include "localDirectoryManager.h"
 #include "consoleNotificationAgent.h"
 #include "userIdGenerator.h"
+#include "user.h"
 #include <string>
 
 class SignUpService {
@@ -15,9 +16,10 @@ private:
     DirectoryManager *directoryManager;
     NotificationAgent *notificationAgent;
     UserIdGenerator userIdGenerator;
+    User *user;
 
 public:
-    void signup(const std::string& name, const std::string& email);
+    void signup(const std::string& name, const std::string& email, const std::string &userType = "viewer");
 };
 
 #endif // SIGNUPSERVICE_H

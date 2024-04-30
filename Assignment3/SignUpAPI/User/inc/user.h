@@ -13,7 +13,7 @@ private:
     std::string userType;
 
 public:
-    User(const std::string& id, const std::string& name, const std::string& email, const std::string& userType = "viewer");
+    User(const std::string& name, const std::string& email, const std::string& userType = "viewer");
 
     // Getter methods
     std::string getId() const;
@@ -30,6 +30,9 @@ public:
     void setDirectoryPath(const std::string& newPath);
     void setGender(const std::string& gender);
     void setUserType(const std::string& userType);
+
+    // Virtual method for viewing data
+    virtual void viewData() const;
 };
 
 #endif // USER_H

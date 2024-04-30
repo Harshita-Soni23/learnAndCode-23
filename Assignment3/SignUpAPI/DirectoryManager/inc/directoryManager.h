@@ -5,7 +5,7 @@
 
 class DirectoryManager {
 public:
-    virtual void createUserDirectory(User& user) = 0;
+    virtual void createUserDirectory(User *user) = 0;
 };
 
 #endif // DIRECTORYMANAGER_H

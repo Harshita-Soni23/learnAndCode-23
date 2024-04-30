@@ -1,22 +1,29 @@
 #include <iostream>
 #include "signUpService.h"
 #include "ConsoleUserInput.h"
+#include "adminuser.h"
+#include "normalUser.h"
+#include "viewerUser.h"
 
 int main() {
 
-    std::string userName, userEmail;
+    std::string userName, userEmail, userType;
+    std::string newUserName, newUserEmail, newUserType;
     int inputChoice, userChoice;
     SignUpService signUpService;
-    UserInput *userInput;
     ConsoleUserInput consoleUserInput;
+    UserInput *userInput = &consoleUserInput;;
+    User *user;
 
     std::cout<<"////////// Welcome to Sign Up Page ////////// ";
 
-    std::cout<<"Which User you are- \nPress 1 for Admin \nPress 2 for normal User \nPress 3 for viewer."<<std::endl;
-    std::cin>>userChoice;
+    std::cout<<"Which User you are- Give your username, email and userType"<<std::endl;
+    userInput->getUserInput(userName, userEmail, userType);
 
-    if (userChoice == 1)
+    if (userType == "admin")
     {
+        AdminUser admin(userName, userEmail, userType);
+        user = &admin;
         std::cout<<"Enter choice to take input- \n Press 1 to take Input from Console. "<<std::endl;
         std::cin>>inputChoice;
         std::cin.ignore();
@@ -31,9 +38,22 @@ int main() {
 
         if (userInput)
         {
-            userInput->getUserInput(userName, userEmail);
-            signUpService.signup(userName, userEmail);
+            userInput->getUserInput(newUserName, newUserEmail, newUserType);
+            admin.addUser(newUserName, newUserEmail, newUserType);
+            //signUpService.signup(userName, userEmail);
         }
+    }
+    else if(userType == "viewer")
+    {
+
+    }
+    else if(userType == "normal")
+    {
+
+    }
+    else
+    {
+        std::cout<<"We don't have permissions for" << userType << "User" <<std::endl;
     }
 
     return 0;

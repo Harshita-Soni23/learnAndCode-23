@@ -1,7 +1,7 @@
 #ifndef FILE_USERREPOSITORY_H
 #define FILE_USERREPOSITORY_H
 
-#include "UserRepository.h"
+#include "userRepository.h"
 #include "iostream"
 #include <vector>
 #include <string>
@@ -14,9 +14,9 @@ private:
     std::string filename = "users.txt";
 
 public:
-    void createUser(const User& user);
-    bool userExists(const User& user);
-    std::vector<User> getAllUsers();
+    void createUser(const User *user) override;
+    bool userExists(const User *user) override;
+    //std::vector<User *> getAllUsers();
 };
 
 #endif

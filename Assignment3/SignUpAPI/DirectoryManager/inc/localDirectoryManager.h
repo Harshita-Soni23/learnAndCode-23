@@ -9,7 +9,7 @@
 
 class LocalDirectoryManager : public DirectoryManager {
 public:
-    void createUserDirectory(User& user) override;
+    void createUserDirectory(User *user) override;
 };
 
 #endif // LOCALDIRECTORYMANAGER_H

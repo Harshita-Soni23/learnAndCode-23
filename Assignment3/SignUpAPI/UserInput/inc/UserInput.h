@@ -5,7 +5,7 @@
 
 class UserInput {
 public:
-    virtual void getUserInput(std::string& name, std::string& email) = 0;
+    virtual void getUserInput(std::string& name, std::string& email, std::string& userType) = 0;
 };
 
 #endif
