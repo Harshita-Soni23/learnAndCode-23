@@ -40,7 +40,6 @@ int main() {
         {
             userInput->getUserInput(newUserName, newUserEmail, newUserType);
             admin.addUser(newUserName, newUserEmail, newUserType);
-            //signUpService.signup(userName, userEmail);
         }
     }
     else if(userType == "viewer")

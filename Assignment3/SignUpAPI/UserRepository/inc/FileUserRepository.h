@@ -8,15 +8,19 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <fstream>
+#include <vector>
 
 class FileUserRepository : public UserRepository {
 private:
-    std::string filename = "users.txt";
+    std::string filename;
 
 public:
+    FileUserRepository(const std::string& _filename = "users.txt");
     void createUser(const User *user) override;
     bool userExists(const User *user) override;
-    //std::vector<User *> getAllUsers();
+    std::vector<User *> getAllUsers();
 };
+
 
 #endif
