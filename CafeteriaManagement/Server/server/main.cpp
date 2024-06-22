@@ -4,8 +4,7 @@
 #include "server.h"
 
 Server* serverInstance = nullptr;
-
-void signalHandlerWrapper(int signal) {
+void serverSignalHandler(int signal) {
     if (serverInstance) {
         std::cout << "Signal " << signal << " received. Shutting down the server..." << std::endl;
         serverInstance->stop();
@@ -25,7 +24,7 @@ int main(int argc, char *argv[])
     serverInstance = &server;
     server.start();
     std::cout<<"Please Enter Ctrl+C to exit." << std::endl;
-    std::signal(SIGINT, signalHandlerWrapper);
+    std::signal(SIGINT, serverSignalHandler);
 
     while (true) {
         std::this_thread::sleep_for(std::chrono::seconds(1));

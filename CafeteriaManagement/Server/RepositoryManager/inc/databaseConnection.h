@@ -1,0 +1,26 @@
+#pragma once
+
+#include <cppconn/connection.h>
+#include <memory>
+
+class DatabaseConnection {
+public:
+    static std::shared_ptr<DatabaseConnection> instance;
+    static std::shared_ptr<sql::Connection> connection;
+
+    DatabaseConnection();
+    DatabaseConnection(const DatabaseConnection &) = delete;
+    DatabaseConnection &operator=(const DatabaseConnection &) = delete;
+
+    static void initDbConnection(const std::string &hostName,
+                                 const std::string &userName,
+                                 const std::string &password,
+                                 const std::string &schemaName);
+
+    static std::shared_ptr<DatabaseConnection> getInstance();
+
+    std::shared_ptr<sql::Connection> getConnection();
+
+    ~DatabaseConnection();
+};
+

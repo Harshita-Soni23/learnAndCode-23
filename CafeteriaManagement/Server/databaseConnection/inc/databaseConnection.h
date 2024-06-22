@@ -1,5 +1,4 @@
-#ifndef DATABASECONNECTION_H
-#define DATABASECONNECTION_H
+#pragma once
 
 #include <mysql/mysql.h>
 #include <stdexcept>

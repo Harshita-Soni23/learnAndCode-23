@@ -4,7 +4,7 @@
 #include <cstring>
 #include <arpa/inet.h>
 
-Server::Server(int port) : port(port), server_fd(-1), running(false) {
+Server::Server(int port) : port(port), server_fd(-1), isRunning(false) {
     memset(&ipAddress, 0, sizeof(ipAddress));
 }
 
@@ -35,7 +35,7 @@ void Server::start() {
         return;
     }
 
-    running.store(true);
+    isRunning.store(true);
     std::thread acceptThread(&Server::acceptClients, this);
     acceptThread.detach();
 
@@ -43,7 +43,8 @@ void Server::start() {
 }
 
 void Server::stop() {
-    running.store(false);
+
+    isRunning.store(false);
     close(server_fd);
 
     std::lock_guard<std::mutex> lock(clientsMutex);
@@ -60,17 +61,18 @@ void Server::stop() {
     clientSockets.clear();
     clientThreads.clear();
 
-    std::cout << "Server stopped" << std::endl;
+    std::cout << "Server is stopped" << std::endl;
 }
 
 void Server::acceptClients() {
-    while (running) {
+    
+    while (isRunning) {
         int clientSocket;
         int addrlen = sizeof(ipAddress);
         clientSocket = accept(server_fd, (struct sockaddr*)&ipAddress, (socklen_t *)&addrlen);
 
         if (clientSocket < 0) {
-            if (running) {
+            if (isRunning) {
                 perror("Accept failed");
                 close(server_fd);
             }
