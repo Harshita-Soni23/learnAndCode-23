@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include <cstring>
 
-Client::Client(const int&  server_port)
+Connection::Connection(const int&  server_port)
     : server_port(server_port), clientSocket(0) {
     memset(&serv_addr, '0', sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
@@ -12,11 +12,11 @@ Client::Client(const int&  server_port)
     serv_addr.sin_port = htons(server_port);
 }
 
-Client::~Client() {
+Connection::~Connection() {
     disconnect();
 }
 
-bool Client::connectToServer() {
+bool Connection::connectToServer() {
     if ((clientSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         std::cerr << "Socket creation error" << std::endl;
         return false;
@@ -35,17 +35,17 @@ bool Client::connectToServer() {
     return true;
 }
 
-void Client::disconnect() {
+void Connection::disconnect() {
     if (clientSocket != 0) {
         close(clientSocket);
         clientSocket = 0;
     }
 }
 
-int Client::getSocket() const {
+int Connection::getSocket() const {
     return clientSocket;
 }
 
-struct sockaddr_in Client::getAddress() const {
+struct sockaddr_in Connection::getAddress() const {
     return serv_addr;
 }

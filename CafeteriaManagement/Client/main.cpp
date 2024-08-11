@@ -6,7 +6,9 @@
 Client * clientInstance = nullptr;
 
 void clientSignalHandler(int signal) {
-    clientInstance->disconnect();  
+    if (clientInstance) {
+        clientInstance->disconnect();
+    }
     exit(signal);
 }
 

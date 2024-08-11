@@ -1,16 +1,18 @@
-// #pragma once
+#pragma once
 
-// #include "client.h"
-// #include "requestHandler.h"
+#include "connection.h"
+#include "requestHandler.h"
+#include "IUser.h"
 
-// class ClientHandler {
-// public:
-//     ClientHandler(Client& client);
-//     void handleRequest();
+class ClientHandler {
+public:
+    ClientHandler(Connection &connection);
+    void handleRequest();
 
-// private:
-//     Client& client;
-//     RequestHandler* requestHandler;
+private:
+    Connection& connection;
+    RequestHandler* requestHandler;
+    IUser user;
 
-//     void handleUserInput();
-// };
+    void handleUserLogin();
+};

@@ -1,24 +1,21 @@
-// #include "clientHandler.h"
-// #include <iostream>
+#include "clientHandler.h"
+#include <iostream>
 
-// #include<vector>
+ClientHandler::ClientHandler(Connection &connection)
+    : connection(connection), requestHandler(nullptr) {}
 
+void ClientHandler::handleRequest() {
+    if (!connection.connectToServer()) {
+        std::cerr << "Failed to connect to server" << std::endl;
+        return;
+    }
 
-// ClientHandler::ClientHandler(Client& client)
-//     : client(client), requestHandler(nullptr) {}
+    requestHandler = new RequestHandler(client.getSocket(), client.getAddress());
+    handleUserLogin();
 
-// void ClientHandler::handleRequest() {
-//     if (!client.connectToServer()) {
-//         std::cerr << "Failed to connect to server" << std::endl;
-//         return;
-//     }
-
-//     requestHandler = new RequestHandler(client.getSocket(), client.getAddress());
-//     handleUserLogin();
-
-//     delete requestHandler;
-//     client.disconnect();
-// }
+    delete requestHandler;
+    client.disconnect();
+}
 
 // void UserInterface::loginPrompt()
 // {
@@ -34,20 +31,20 @@
 //     requestHandler->sendRequest({std::to_string(operation), std::to_string(userId), password} ) ;
 // }
 
-// void ClientHandler::handleUserLogin() {
-//     loginPrompt();
-//     std::vector<std::string> response = requestHandler->receiveResponse();
-//     if(response[0] == "1"){
-//         std::cout<<"Admin Logged In\n";
-//         showMenuPrompt("1");
-//     }else if(response[0] == "2"){
-//         std::cout<<"Chef Logged In\n";
-//     }else if(response[0] == "3"){
-//         std::cout<<"Employee Logged In\n";
-//     }else{
-//         std::cout<<"Invalid Login\n";
-//     }
-// }
+void ClientHandler::handleUserLogin() {
+    loginPrompt();
+    std::vector<std::string> response = requestHandler->receiveResponse();
+    if(response[0] == "1"){
+        std::cout<<"Admin Logged In\n";
+        showMenuPrompt("1");
+    }else if(response[0] == "2"){
+        std::cout<<"Chef Logged In\n";
+    }else if(response[0] == "3"){
+        std::cout<<"Employee Logged In\n";
+    }else{
+        std::cout<<"Invalid Login\n";
+    }
+}
 
 // void UserInterface::showMenuPrompt(std::string userRole)
 // {

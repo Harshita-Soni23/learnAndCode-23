@@ -3,10 +3,10 @@
 #include <string>
 #include <netinet/in.h>
 
-class Client {
+class Connection {
 public:
-    Client(const int& server_port);
-    ~Client();
+    Connection(const int& server_port);
+    ~Connection();
     bool connectToServer();
     void disconnect();
     int getSocket() const;
