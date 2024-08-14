@@ -1,26 +1,22 @@
 #pragma once
 
-#include <mysql/mysql.h>
-#include <stdexcept>
+#include <cppconn/connection.h>
+#include <memory>
 
 class DatabaseConnection {
-private:
-    static DatabaseConnection* instance;
-    MYSQL* connection;
-    const char* host;
-    const char* user;
-    const char* password;
-    const char* database;
-
-    DatabaseConnection();
-
-    DatabaseConnection(const DatabaseConnection&) = delete;
-    DatabaseConnection& operator=(const DatabaseConnection&) = delete;
+  static std::shared_ptr<sql::Connection> connection;
+  static std::shared_ptr<DatabaseConnection> instance;
+  DatabaseConnection();
 
 public:
-    static DatabaseConnection* getInstance();
-
-    MYSQL* getConnection();
-
-    ~DatabaseConnection();
+  DatabaseConnection(const DatabaseConnection &) = delete;
+  DatabaseConnection &operator=(const DatabaseConnection &) = delete;
+  static void initDbConnection(const std::string &hostName,
+                               const std::string &userName,
+                               const std::string &password,
+                               const std::string &schemaName);
+  static std::shared_ptr<DatabaseConnection> getInstance();
+  std::shared_ptr<sql::Connection> getConnection();
+  ~DatabaseConnection();
+  
 };

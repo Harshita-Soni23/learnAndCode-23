@@ -1,9 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <string>
+#include "requestHandler.h"
 
-class IUser{
+class User{
 public:
     virtual void showUserOperations() = 0;
     bool loginUser();

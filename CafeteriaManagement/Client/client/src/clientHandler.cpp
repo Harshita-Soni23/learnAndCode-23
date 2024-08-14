@@ -1,5 +1,6 @@
 #include "clientHandler.h"
 #include <iostream>
+#include "UserOperationType.h"
 
 ClientHandler::ClientHandler(Connection &connection)
     : connection(connection), requestHandler(nullptr) {}
@@ -17,29 +18,23 @@ void ClientHandler::handleRequest() {
     client.disconnect();
 }
 
-// void UserInterface::loginPrompt()
-// {
-//     int userId;
-//     std::string password;
-//     std::cout << "Enter Login Credantials: \n";
-//     std::cout<<"UserId : ";
-//     std::cin>>userId;
-//     std::cout<<"Password : ";
-//     std::cin>>password;
-//     int operation = Operation::login;
-
-//     requestHandler->sendRequest({std::to_string(operation), std::to_string(userId), password} ) ;
-// }
-
 void ClientHandler::handleUserLogin() {
-    loginPrompt();
-    std::vector<std::string> response = requestHandler->receiveResponse();
-    if(response[0] == "1"){
+    int userId;
+    std::string password;
+    std::cout << "Enter User ID: \n";
+    std::cin>>userId;
+    std::cout << "Enter Password: \n";
+    std::cin>>password;
+    int operation = Operation::Login;
+
+    requestHandler->sendRequest({std::to_string(operation), std::to_string(userId), password} ) ;
+    std::vector<std::string> userRole = requestHandler->receiveResponse();
+    if(userRole[0] == "1"){
         std::cout<<"Admin Logged In\n";
-        showMenuPrompt("1");
-    }else if(response[0] == "2"){
+        user->showMenuPrompt("1");
+    }else if(userRole[0] == "2"){
         std::cout<<"Chef Logged In\n";
-    }else if(response[0] == "3"){
+    }else if(userRole[0] == "3"){
         std::cout<<"Employee Logged In\n";
     }else{
         std::cout<<"Invalid Login\n";

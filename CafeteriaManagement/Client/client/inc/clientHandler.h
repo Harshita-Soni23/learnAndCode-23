@@ -12,7 +12,7 @@ public:
 private:
     Connection& connection;
     RequestHandler* requestHandler;
-    IUser user;
+    User *user;
 
     void handleUserLogin();
 };
