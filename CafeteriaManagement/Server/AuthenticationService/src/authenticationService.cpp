@@ -1,10 +1,22 @@
 #include "authenticationService.h"
-#include<iostream>
+#include <iostream>
 
 AuthenticationService::AuthenticationService(UserService* userService)
-    : userService(userService) {}
+    : userService(userService){}
 
-int AuthenticationService::authenticateUser(const int& userId, const std::string& password) {
-    std::cout<<"Authenticating User : 8\n";
-    return userService->authenticateUser(userId, password);
+int AuthenticationService::authenticateUser(Login loginCredentials) {
+    
+    User user = userService->getUserById(loginCredentials.userId);
+
+    if (isValidLogin(loginCredentials, user)) {
+        std::cout << "[AuthenticationController] User authenticated successfully. UserID: " << loginCredentials.userId << "\n";
+        userRole = user.role;
+    }
+
+    std::cout << "[AuthenticationController] Authentication failed for UserID: " << loginCredentials.userId << "\n";
+    return userRole;
+}
+
+bool AuthenticationController::isValidLogin(const Login& loginCredentials, const User& user) const {
+    return user.userId == loginCredentials.userId && user.password == loginCredentials.password;
 }

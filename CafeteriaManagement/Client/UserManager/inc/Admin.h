@@ -1,20 +1,18 @@
-#pragme once
+#pragma once
 
-#include "server.h"
-#include <vector>
-#include <string>
+#include "IUser.h"
 
-class AdminHandler {
-public:
-    AdminHandler(int sessionId);
-
-    void loginAdmin();
-    void performAdminAction();
-    void addMenuItem(std::vector<std::string> adminChoice);
-    void updateMenuItem(std::vector<std::string> adminChoice);
-    void deleteItemFromMenu(std::vector<std::string> adminChoice);
-    void viewMenuItems();
-
+class Admin : public IUser {
 private:
-    int sessionId;
+    RequestHandler* requestHandler;
+
+    void showAddItemPrompt();
+    void showDeleteItemPrompt();
+    void showMenuItemList();
+    void addUserPrompt();
+
+public:
+    Admin(RequestHandler* requestHandler);
+
+    void handleUserOperations() override;
 };

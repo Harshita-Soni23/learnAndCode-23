@@ -1,5 +1,5 @@
-#include<iostream>
-enum Operation : int {
+enum Operation : int
+{
    AddUser = 0,
    AddMenuItem = 1,
    DeleteMenuItem = 2,

@@ -1,28 +1,25 @@
-#ifndef LOGIN_H
-#define LOGIN_H
+#pragma once
 
-#include"IDataSerializer.h"
-#include<sstream>
+#include "ISerializer.h"
+#include <sstream>
 
-struct Login : public DataSerializer {
+struct Login : public ISerializer {
     int userId;
     std::string password;
 
-    Login(int userId = 0, std::string password = "")
+    Login(int userId, std::string password)
        : userId(userId), password(password){}
 
     std::string serialize() const override {
         return std::to_string(userId)+ ";" + password;
     }
 
-    void deserialize(const std::string& data) override {
-        std::istringstream iss(data);
-        std::string token;
-        std::getline(iss, token, ';');
-        userId = std::stoi(token);
-        std::getline(iss, token, ';');
-        password = token;
+    void deserialize(const std::string& serializedData) override {
+        std::istringstream dataStream(serializedData);
+        std::string parsedToken;
+        std::getline(dataStream, parsedToken, ';');
+        userId = std::stoi(parsedToken);
+        std::getline(dataStream, parsedToken, ';');
+        password = parsedToken;
     }
 };
-
-#endif

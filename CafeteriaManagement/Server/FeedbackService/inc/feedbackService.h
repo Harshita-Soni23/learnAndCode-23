@@ -1,11 +1,15 @@
-#include"IFeedbackDAO.h"
+#pragma once
+
+#include "feedbackDAO.h"
+#include <unordered_map>
+#include <memory>
 
 class FeedbackService {
 public:
-    FeedbackService(IFeedbackDAO* feedbackDAO);
+    FeedbackService(std::unique_ptr<IFeedbackDAO> feedbackDAO);
     bool addFeedback(const Feedback& feedback);
-    std::vector<Feedback> getAllFeedbacks();
+    std::unordered_map<int, std::vector<Feedback>> getAllFeedbacks();
     std::vector<Feedback> getFeedbacksForMenuType(MenuItemType menuItemType);
 private:
-    IFeedbackDAO* feedbackDAO;
+    std::unique_ptr<IFeedbackDAO> feedbackDAO;
 };

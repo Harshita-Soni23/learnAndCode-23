@@ -3,6 +3,7 @@
 #include "connection.h"
 #include "requestHandler.h"
 #include "IUser.h"
+#include "clientFactory.h"
 
 class ClientHandler {
 public:
@@ -12,7 +13,9 @@ public:
 private:
     Connection& connection;
     RequestHandler* requestHandler;
-    User *user;
+    std::unique_ptr<IUser> user;
 
     void handleUserLogin();
+    void sendLoginCredentials();
+
 };

@@ -3,7 +3,7 @@
 #include <string>
 #include <sstream>
 
-struct DataSerializer {
+class ISerializer {
     virtual std::string serialize() const = 0;
-    virtual void deserialize(const std::string &data) = 0;
+    virtual void deserialize(const std::string &serializedData) = 0;
 };

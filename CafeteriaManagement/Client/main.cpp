@@ -20,11 +20,22 @@ int main(int argc, char *argv[])
     }
     
     int portNumber = atoi(argv[1]);
-    Client client(portNumber);
-    UserHandler userHandler(client);
-    userHandler.handleRequest();
-    clientInstance = &client;
-    std::signal(SIGINT, clientSignalHandler);
+
+    try
+    {
+        Connection connection(portNumber);
+        ClientHandler clientHandler(&connection);
+        clientHandler.handleRequest();
+       
+        std::signal(SIGINT, clientSignalHandler);
+
+        delete clientHandler;
+    }
+    catch(const SocketException &e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
+    }
 
     return 0;
 }

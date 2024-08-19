@@ -1,8 +1,4 @@
 #include "server.h"
-#include <unistd.h>
-#include <iostream>
-#include <cstring>
-#include <arpa/inet.h>
 
 Server::Server(int port) : port(port), server_fd(-1), isRunning(false) {
     memset(&ipAddress, 0, sizeof(ipAddress));
@@ -81,6 +77,6 @@ void Server::acceptClients() {
 
         std::lock_guard<std::mutex> lock(clientsMutex);
         clientSockets.push_back(clientSocket);
-        clientThreads.push_back(std::thread(&ClientHandler::handle, ClientHandler(clientSocket)));
+        clientThreads.push_back(std::thread(&RequestHandler::handle, RequestHandler(clientSocket)));
     }
 }

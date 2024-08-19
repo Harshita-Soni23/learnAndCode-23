@@ -1,8 +1,8 @@
-#ifndef USERDAO_H
-#define USERDAO_H
+#pragma once
  
 #include <vector> 
 #include "databaseConnection.h"
+#include "user.h"
 
 class UserDAO{
 public:
@@ -15,5 +15,3 @@ public:
 private:
     std::shared_ptr<DatabaseConnection> databaseConnection;
 };
-
-#endif 

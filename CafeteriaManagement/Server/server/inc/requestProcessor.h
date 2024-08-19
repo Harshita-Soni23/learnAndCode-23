@@ -1,14 +1,22 @@
-#pragma once
+#ifndef REQUESTPROCESSOR_H
+#define REQUESTPROCESSOR_H
 
 #include <string>
-#include <vector>
-#include "IUserDAO.h"
+#include <memory>
+#include <iostream>
+#include "authenticationHandler.h"
+#include "IUserHandler.h"
 
 class RequestProcessor {
+private:
+    std::unique_ptr<AuthenticationController> authenticationHandler;
+    std::unique_ptr<IUserHandler> userHandler;
+    std::string handleLoginRequest(const std::string& requestData);
+    std::string handleUserRequest(Operation operation, const std::string& requestData);
 
 public:
-    std::vector<std::string> processRequest(std::vector<std::string> request);
-
-private:
-    IUserDAO *userDAO = nullptr;
+    RequestProcessor();
+    std::string processRequest(const std::string& request);
 };
+
+#endif

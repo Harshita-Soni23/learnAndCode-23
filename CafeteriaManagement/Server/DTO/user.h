@@ -1,11 +1,9 @@
-#ifndef USER_H
-#define USER_H
+#pragma once
 
-#include "serializable.h"
+#include "ISerializer.h"
+#include "userRoleType.h"
 
-enum Role : int { Admin = 1, Employee = 2, Chef = 3 };
-
-struct User : public Serializable {
+struct User : public ISerializer {
     int userId = 0;
     std::string name;
     std::string password;
@@ -18,18 +16,16 @@ struct User : public Serializable {
         return std::to_string(userId) + ";" + name + ";" + std::to_string(static_cast<int>(role)) + ";" + password;
     }
 
-    void deserialize(const std::string& data) override {
-        std::istringstream iss(data);
-        std::string token;
-        std::getline(iss, token, ';');
-        userId = std::stoi(token);
-        std::getline(iss, token, ';');
-        name = token;
-        std::getline(iss, token, ';');
-        role = static_cast<Role>(std::stoi(token));
-        std::getline(iss, token, ';');
-        password = token;
+    void deserialize(const std::string& serializedData) override {
+        std::istringstream dataStream(serializedData);
+        std::string parsedToken;
+        std::getline(dataStream, parsedToken, ';');
+        userId = std::stoi(parsedToken);
+        std::getline(dataStream, parsedToken, ';');
+        name = parsedToken;
+        std::getline(dataStream, parsedToken, ';');
+        role = static_cast<Role>(std::stoi(parsedToken));
+        std::getline(dataStream, parsedToken, ';');
+        password = parsedToken;
     }
 };
-
-#endif

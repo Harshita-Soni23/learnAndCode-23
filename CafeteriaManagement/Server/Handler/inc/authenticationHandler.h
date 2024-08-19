@@ -1,13 +1,18 @@
-#pragma once
+#ifndef AUTHENTICATION_CONTROLLER_H
+#define AUTHENTICATION_CONTROLLER_H
 
 #include "userService.h"
+#include "authenticationService.h"
+#include "dataSerializer.h"
+#include "login.h"
+#include <memory>
 
-class AuthenticationHandler
-{
+class AuthenticationtHandler {
 public:
-    AuthenticationHandler(UserService* userService);
-    int authenticateUser(const int& userId, const std::string& password);
-    ~AuthenticationHandler() = default;
+    explicit AuthenticationHandler(std::unique_ptr<UserService> userService, std::unique_ptr<AuthenticationService> authenticationService);
+    ~AuthenticationtHandler() = default;
+
 private:
-    UserService* userService;
+    std::unique_ptr<UserService> userService;
+    std::unique_ptr<AuthenticationService> authenticationService;
 };

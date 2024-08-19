@@ -4,6 +4,7 @@
 #include "server.h"
 
 Server* serverInstance = nullptr;
+
 void serverSignalHandler(int signal) {
     if (serverInstance) {
         std::cout << "Signal " << signal << " received. Shutting down the server..." << std::endl;
@@ -23,7 +24,9 @@ int main(int argc, char *argv[])
     Server server(portNumber);
     serverInstance = &server;
     server.start();
+
     std::cout<<"Please Enter Ctrl+C to exit." << std::endl;
+    
     std::signal(SIGINT, serverSignalHandler);
 
     while (true) {

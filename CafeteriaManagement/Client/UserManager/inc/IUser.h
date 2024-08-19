@@ -1,11 +1,12 @@
 #pragma once
 
 #include "requestHandler.h"
+#include "menuItemType.h"
+#include "userRoleType.h"
 
-class User{
+class IUser{
 public:
-    virtual void showUserOperations() = 0;
-    bool loginUser();
+    virtual void handleUserOperations() = 0;
 private:
     
 };
