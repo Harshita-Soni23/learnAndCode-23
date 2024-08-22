@@ -13,10 +13,10 @@ private:
 
     void viewNotification();
     void showChefRollOutMenu();
-    void voteForTomorrowMenu();
+    void voteForTomorrowMenu(std::vector<int>& recommendedMenuItemIdsFromChef);
     void viewTodayMenu();
-    void provideFeedbackForTodayMenu();
-    std::string getCurrentTimestamp();
+    void updateProfile();
+    void provideFeedbackForTodayMenu(std::vector<int>& menuItemIdsFromTodayMenu);
     void getDetailedFeedbackForDiscardedMenuItem();
 
 public:

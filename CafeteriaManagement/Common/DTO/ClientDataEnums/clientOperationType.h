@@ -1,3 +1,5 @@
+#pragma once
+
 enum Operation : int
 {
    AddUser = 0,

@@ -7,12 +7,14 @@
 #include "login.h"
 #include "feedback.h"
 #include "user.h"
+#include "userRoleType.h"
+#include "clientOperationType.h"
 #include "menuItem.h"
-#include "nextDayMenuRollOut.h"
+#include "rollOutMenu.h"
 #include "notification.h"
 #include "discardMenuItemDetailedFeedback.h"
 
-class dataSerializer {
+class DataSerializer {
 public:
     template <typename T>
     static std::string serialize(const T& obj) {

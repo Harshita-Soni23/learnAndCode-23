@@ -1,5 +1,4 @@
 #include "adminHandler.h"
-#include "vectorSerializer.h"
 #include<iostream>
 
 AdminHandler::AdminHandler(MenuItemService* menuItemService, UserService* userService) : menuItemService(menuItemService), userService(userService){}
@@ -40,8 +39,6 @@ std::vector<std::string> AdminHandler::handleRequest(std::vector<std::string> re
         //     break;  
         case Operation::ViewMenu:
            {
-            
-                VectorSerializer vectorSerializer;
                 request.erase(request.begin());
                 std::vector<std::vector<std::string>> menuDetails = menuItemService->getAllMenuItems(); 
                 for(auto menu : menuDetails)

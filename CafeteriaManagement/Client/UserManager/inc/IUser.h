@@ -3,6 +3,7 @@
 #include "requestHandler.h"
 #include "menuItemType.h"
 #include "userRoleType.h"
+#include "utility.h"
 
 class IUser{
 public:

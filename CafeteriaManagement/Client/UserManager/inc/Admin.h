@@ -1,6 +1,9 @@
 #pragma once
 
 #include "IUser.h"
+#include "menuItemType.h"
+#include "userProfileType.h"
+#include "dataSerializer.h"
 
 class Admin : public IUser {
 private:
@@ -10,6 +13,10 @@ private:
     void showDeleteItemPrompt();
     void showMenuItemList();
     void addUserPrompt();
+    void showUpdateMenuItemPrompt();
+    void displayMenuItemDetails(const MenuItem& menuItem);
+
+
 
 public:
     Admin(RequestHandler* requestHandler);

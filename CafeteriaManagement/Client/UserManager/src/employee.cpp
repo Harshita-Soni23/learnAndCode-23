@@ -10,191 +10,217 @@ void Employee::handleUserOperations(){
     std::cout << "Welcome Employee\n\n";
     bool isActive = true;
     while (isActive) {
-        std::cout << "Select the operation which you like to perform\n"
+         std::cout << "Select the operation you would like to perform:\n"
                      "1. View Notification\n"
-                     "2. View Chef Roll Out Menu For Tomorrow\n" 
-                     "3. Select Item you want For tomorrow\n"
-                     "4. Today's Menu \n"
-                     "5. Provide feedback for today's Menu\n"
-                     "6. Provide Detailed Feedback for Discarded Menu Item\n"
-                     "7. Exit\n"
-                     "Enter your choice: " << std::endl;
+                     "2. View Chef Roll Out Menu For Tomorrow\n"
+                     "3. Today's Menu\n"
+                     "4. Provide Detailed Feedback for Discarded Menu Item\n"
+                     "5. Update Profile\n"
+                     "6. Exit\n"<< std::endl;
 
-        int employeeChoice;
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        while (!(std::cin >> employeeChoice)) {
-            std::cin.clear();  // clear the error flags
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // discard invalid input
-            std::cout << "Invalid input. Please enter a number between 1 and 7: " << std::endl;
-        }
+        int employeeChoice = Utility::getValidatedChoice(1, 6);
 
-        switch (employeeChoice) {
-            case 1:
-                viewNotification();
-                break;
-            case 2:
-                showChefRollOutMenu();
-                break;
-            case 3:
-                voteForTomorrowMenu();
-                break;
-            case 4:
-                viewTodayMenu();
-                break;
-            case 5:
-                provideFeedbackForTodayMenu();
-                break;
-            case 6:
-                getDetailedFeedbackForDiscardedMenuItem();
-                break;
-            case 7:
-                isActive = false;
-                break;
-            default:
-                std::cout << "Invalid Choice" << std::endl;
-                break;
+        if (employeeChoice == 1) {
+            viewNotification();
+        } else if (employeeChoice == 2) {
+            showChefRollOutMenu();
+        } else if (employeeChoice == 3) {
+            viewTodayMenu();
+        } else if (employeeChoice == 4) {
+            getDetailedFeedbackForDiscardedMenuItem();
+        } else if (employeeChoice == 5) {
+            updateProfile();
+        } else if (employeeChoice == 6) {
+            isActive = false;
+        } else {
+            std::cout << "Invalid Choice" << std::endl;
         }
     }
 }
 
-void Employee::getDetailedFeedbackForDiscardedMenuItem(){
-    Operation operation = Operation::ProvideDiscardMenuItemDetailedFeedback;
-    DiscardMenuItemDetailedFeedback discardMenuItemDetailedFeedback;
-    discardMenuItemDetailedFeedback.userId = this->userIdLoggedIn;
-    std::cout<<"Provide MenuItem Id you want to provide detailed feedback for: \n";
-    std::cin>>discardMenuItemDetailedFeedback.menuItemId;
-    std::cout<<"What did you like about the menu item? \n";
-    std::cin.ignore();
-    std::getline(std::cin, discardMenuItemDetailedFeedback.whatYouLiked);
-    std::cout<<"How Would you like this food Item to taste? \n";
-    std::cin.ignore();
-    std::getline(std::cin, discardMenuItemDetailedFeedback.howWouldItTaste);
-    std::cout<<" Share your moms recipe. \n";
-    std::cin.ignore();
-    std::getline(std::cin, discardMenuItemDetailedFeedback.shareRecipe);
-    
-    std::string serializedData = SerializationUtility::serialize(discardMenuItemDetailedFeedback);
-    std::string serializedDataForRequest = SerializationUtility::serializeOperation(operation, serializedData);
-    requestHandler->sendRequest(serializedDataForRequest);
-    std::string response = requestHandler->receiveResponse();
-    std::cout<<"Response : "<<response<<std::endl;
-}
-
-void Employee::viewTodayMenu(){
-    Operation operation = Operation::GetTodaysMenu;
-    std::string viewTodaysMenuSerializedRequest = SerializationUtility::serializeOperation(operation, "");
-    requestHandler->sendRequest(viewTodaysMenuSerializedRequest);
-
-    std::string serializedMenuList = requestHandler->receiveResponse();
-
-    std::cout<<"serializedMenuList"<<serializedMenuList<<std::endl;
-
-    std::vector<std::string>MenuList = SerializationUtility::deserializeStringToVector(serializedMenuList);
-
-    for (const auto& item : MenuList) {
-        auto menuItem = SerializationUtility::deserialize<MenuItem>(item);
-        std::cout << "Menu Item Details:" << std::endl
-          << "ID: " << menuItem.menuItemId << std::endl
-          << "Name: " << menuItem.menuItemName << std::endl
-          << "Type: " << static_cast<int>(menuItem.menuItemType) << std::endl
-          << "Price: " << menuItem.price << std::endl;
-        std::cout << std::endl;
-    }
-}
-
-void Employee::provideFeedbackForTodayMenu(){
-    Operation operation = Operation::ProvideFeedback;
-    Feedback feedback;
-    std::cout<<"Provide Feeback "<<std::endl;
-    feedback.userId = this->userIdLoggedIn;
-    std::cout << "Enter Menu Item ID: ";
-    std::cin >> feedback.menuItemId;
-    
-    std::cout << "Enter Rating: ";
-    std::cin >> feedback.rating;
-    
-    std::cout << "Enter Comment: ";
-    std::cin.ignore();
-    std::getline(std::cin, feedback.comment);
-    
-
-    feedback.date = getCurrentTimestamp();
-
-    std::string serializedData = SerializationUtility::serialize(feedback);
-    std::string serializedDataForRequest = SerializationUtility::serializeOperation(operation, serializedData);
-
-    requestHandler->sendRequest(serializedDataForRequest);
-}
-
-
-std::string Employee::getCurrentTimestamp(){
-    auto now = std::chrono::system_clock::now();
-    std::time_t now_time_t = std::chrono::system_clock::to_time_t(now);
-
-    std::tm now_tm;
-#ifdef _WIN32
-    localtime_s(&now_tm, &now_time_t); // Use localtime_s on Windows
-#else
-    localtime_r(&now_time_t, &now_tm); // Use localtime_r on POSIX-compliant systems
-#endif
-    
-    std::ostringstream oss;
-    oss << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
-    
-    return oss.str();
-}
-
-void Employee::voteForTomorrowMenu(){
-    Operation operation = Operation::VoteItemFromTomorrowMenu;
-    std::cout<<"Provide MenuItem Id you want to vote for: \n";
-    int menuItemId;
-    std::cin>>menuItemId;
-    std::string menuItemIdStr =  std::to_string(menuItemId);
-    auto voteForTomorrowItemSerializedRequest = SerializationUtility::serializeOperation(operation,menuItemIdStr);
-    requestHandler->sendRequest(voteForTomorrowItemSerializedRequest);
-}
-
-
-
-void Employee::showChefRollOutMenu(){
-    Operation operation = Operation::GetChefRollOutMenuForTomorrow;
-    std::string viewMenuSerializedRequest = SerializationUtility::serializeOperation(operation, std::to_string(this->userIdLoggedIn));
-    requestHandler->sendRequest(viewMenuSerializedRequest);
-
-    std::string serializedMenuList = requestHandler->receiveResponse();
-
-    std::vector<std::string>MenuList = SerializationUtility::deserializeStringToVector(serializedMenuList);
-
-    for (const auto& item : MenuList) {
-        auto menuItem = SerializationUtility::deserialize<NextDayMenuRollOut>(item);
-
-        std::cout << "Menu Item Details:" << std::endl
-          << "Menu Item ID: " << menuItem.menuItemId << "\t"
-          << "Menu Item Name: " << menuItem.menuItemName << "\t"
-          << "Menu Item Type: " << static_cast<int>(menuItem.menuItemType) << "\t"
-          << "Price: " << menuItem.price << "\t"
-          << "Average Rating: " << menuItem.averageRating << "\t"
-          << "Sentiment Score: " << menuItem.sentiments << std::endl;
-    }
-}
-
-void Employee::viewNotification(){
-    Operation operation = Operation::ViewNotification;
-    std::string viewNotificationSerializedRequest = SerializationUtility::serializeOperation(operation, "");
+void Employee::viewNotification() {
+    std::string viewNotificationSerializedRequest = DataSerializer::serializeOperation(Operation::ViewNotification, "");
     requestHandler->sendRequest(viewNotificationSerializedRequest);
 
     std::string serializedNotificationList = requestHandler->receiveResponse();
 
-    std::vector<std::string>notificationList = SerializationUtility::deserializeStringToVector(serializedNotificationList);
+    std::vector<std::string> notificationList = DataSerializer::deserializeStringToVector(serializedNotificationList);
 
     for (const auto& item : notificationList) {
-        auto notification = SerializationUtility::deserialize<Notification>(item);
+        auto notification = DataSerializer::deserialize<Notification>(item);
         std::cout << "Notification Details:" << std::endl
-          << "ID: " << notification.notificationId << std::endl
-          << "Title: " << notification.notificationTitle << std::endl
-          << "Message: " << notification.message << std::endl
-          << "Date: " << notification.date << std::endl;
-        
+                  << "Title: " << notification.notificationTitle << std::endl
+                  << "Message: " << notification.message << std::endl
+                  << "Date: " << notification.date << std::endl;
     }
+}
+
+void Employee::showChefRollOutMenu() {
+    std::vector<int> recommendedMenuItemIdsFromChef;
+    std::string viewMenuSerializedRequest = DataSerializer::serializeOperation(Operation::GetChefRollOutMenuForTomorrow, std::to_string(this->userIdLoggedIn));
+    requestHandler->sendRequest(viewMenuSerializedRequest);
+
+    std::string response = requestHandler->receiveResponse();
+
+    if (response == "0") {
+        std::cout << "**********Menu is not yet rolled out by chef for the next day**********" << std::endl;
+        return;
+    }
+
+    std::vector<std::string> MenuList = DataSerializer::deserializeStringToVector(response);
+    std::cout << "***************Chef's Recommended Menu for Tomorrow*************** \n";
+
+    for (const auto& item : MenuList) {
+        auto menuItem = DataSerializer::deserialize<NextDayMenuRollOut>(item);
+        recommendedMenuItemIdsFromChef.push_back(menuItem.menuItemId);
+        std::cout << "Menu Item ID: " << menuItem.menuItemId << "\t"
+                  << "Menu Item Name: " << menuItem.menuItemName << "\t"
+                  << "Menu Item Type: " << Utility::getMenuItemType(menuItem.menuItemType) << "\t"
+                  << "Price: " << menuItem.price << "\t"
+                  << "Average Rating: " << menuItem.averageRating << "\t"
+                  << "Sentiment Score: " << menuItem.sentiments << std::endl;
+    }
+
+    while (true) {
+        std::cout << "Would you like to cast your vote for any item from the Chef's Recommended Menu? (Y/N) \n";
+        char voteChoice;
+        std::cin >> voteChoice;
+        if (voteChoice == 'Y' || voteChoice == 'y') {
+            voteForTomorrowMenu(recommendedMenuItemIdsFromChef);
+        } else if (voteChoice == 'N' || voteChoice == 'n') {
+            break;
+        } else {
+            std::cout << "Invalid Choice\n";
+        }
+    }
+}
+
+void Employee::voteForTomorrowMenu(std::vector<int>& recommendedMenuItemIdsFromChef) {
+    std::cout << "Enter the Menu Item ID you want to vote for: \n";
+    int menuItemId;
+    std::cin >> menuItemId;
+    if (std::find(recommendedMenuItemIdsFromChef.begin(), recommendedMenuItemIdsFromChef.end(), menuItemId) == recommendedMenuItemIdsFromChef.end()) {
+        std::cout << "Invalid Menu Item Id\n";
+        return;
+    }
+    std::string menuItemIdStr = std::to_string(menuItemId);
+    auto voteForTomorrowItemSerializedRequest = DataSerializer::serializeOperation(Operation::VoteItemFromTomorrowMenu, menuItemIdStr);
+    requestHandler->sendRequest(voteForTomorrowItemSerializedRequest);
+    std::cout << requestHandler->receiveResponse() << std::endl;
+}
+
+void Employee::viewTodayMenu() {
+    std::vector<int> todaysMenuItemIds;
+    std::string viewTodaysMenuSerializedRequest = DataSerializer::serializeOperation(Operation::GetTodaysMenu, "");
+    requestHandler->sendRequest(viewTodaysMenuSerializedRequest);
+
+    std::string response = requestHandler->receiveResponse();
+
+    if (response == "0") {
+        std::cout << "**********Menu is Not yet Published By Chef for today**********" << std::endl;
+        return;
+    }
+
+    std::vector<std::string> MenuList = DataSerializer::deserializeStringToVector(response);
+    std::cout << "***************Today's Menu*************** \n";
+
+    for (const auto& item : MenuList) {
+        auto menuItem = DataSerializer::deserialize<MenuItem>(item);
+        todaysMenuItemIds.push_back(menuItem.menuItemId);
+        std::cout << "Menu Item Details:" << std::endl
+                  << "ID: " << menuItem.menuItemId << std::endl
+                  << "Name: " << menuItem.menuItemName << std::endl
+                  << "Type: " << Utility::getMenuItemType(menuItem.menuItemType) << std::endl
+                  << "Price: " << menuItem.price << std::endl;
+        std::cout << std::endl;
+    }
+
+    while (true) {
+        std::cout << "Would you like to provide feedback for any item from today's Menu? (Y/N) \n";
+        char feedbackChoice;
+        std::cin >> feedbackChoice;
+        if (feedbackChoice == 'Y' || feedbackChoice == 'y') {
+            provideFeedbackForTodayMenu(todaysMenuItemIds);
+        } else if (feedbackChoice == 'N' || feedbackChoice == 'n') {
+            break;
+        } else {
+            std::cout << "Invalid Choice\n";
+        }
+    }
+}
+
+void Employee::provideFeedbackForTodayMenu(std::vector<int>& menuItemIdsFromTodayMenu) {
+    Feedback feedback;
+    std::cout << "Enter the Menu Item Id you want to Provide the Feedback for: " << std::endl;
+    feedback.userId = this->userIdLoggedIn;
+    std::cin >> feedback.menuItemId;
+
+    if (std::find(menuItemIdsFromTodayMenu.begin(), menuItemIdsFromTodayMenu.end(), feedback.menuItemId) == menuItemIdsFromTodayMenu.end()) {
+        std::cout << "Invalid Menu Item Id\n";
+        return;
+    }
+
+    std::cout << "Enter Rating: ";
+    std::cin >> feedback.rating;
+
+    std::cout << "Enter Comment: ";
+    std::cin.ignore();
+    std::getline(std::cin, feedback.comment);
+
+    feedback.date = "";
+
+    std::string serializedData = DataSerializer::serialize(feedback);
+    std::string serializedDataForRequest = DataSerializer::serializeOperation(Operation::ProvideFeedback, serializedData);
+
+    requestHandler->sendRequest(serializedDataForRequest);
+    std::cout << requestHandler->receiveResponse() << std::endl;
+}
+
+void Employee::getDetailedFeedbackForDiscardedMenuItem() {
+    DiscardMenuItemDetailedFeedback discardMenuItemDetailedFeedback;
+    discardMenuItemDetailedFeedback.userId = this->userIdLoggedIn;
+    std::cout << "Provide MenuItem Id you want to provide detailed feedback for: \n";
+    std::cin >> discardMenuItemDetailedFeedback.menuItemId;
+    std::cout << "What did you like about the menu item? \n";
+    std::cin.ignore();
+    std::getline(std::cin, discardMenuItemDetailedFeedback.whatYouLiked);
+    std::cout << "How Would you like this food Item to taste? \n";
+    std::getline(std::cin, discardMenuItemDetailedFeedback.howWouldItTaste);
+    std::cout << "Share your mom's recipe. \n";
+    std::getline(std::cin, discardMenuItemDetailedFeedback.shareRecipe);
+    std::cout<<"[EmployeeController] Discard Menu Item Detailed Feedback Received\n"<<discardMenuItemDetailedFeedback.whatYouLiked<<"\n"<<discardMenuItemDetailedFeedback.howWouldItTaste<<"\n"<<discardMenuItemDetailedFeedback.shareRecipe<<"\n";
+    std::string serializedData = DataSerializer::serialize(discardMenuItemDetailedFeedback);
+    std::string serializedDataForRequest = DataSerializer::serializeOperation(Operation::ProvideDiscardMenuItemDetailedFeedback, serializedData);
+    requestHandler->sendRequest(serializedDataForRequest);
+    std::cout << requestHandler->receiveResponse() << std::endl;
+}
+
+void Employee::updateProfile(){
+    UserProfile userProfile;
+    userProfile.userId = this->userIdLoggedIn;
+
+    std::cout << "Enter vegetarian preference (1 for Vegetarian, 2 for Non Vegetarian, 3 for Eggetarian): " << std::endl;
+    int vegetarianPreferenceInt;
+    std::cin >> vegetarianPreferenceInt;
+    userProfile.vegetarianPreference = static_cast<VegetarianPreference>(vegetarianPreferenceInt);
+
+    std::cout << "Enter spice level option (1 for High, 2 for Medium, 3 for Low): " << std::endl;
+    int spiceLevelOptionInt;
+    std::cin >> spiceLevelOptionInt;
+    userProfile.spiceLevelOption = static_cast<SpiceLevelOption>(spiceLevelOptionInt);
+
+    std::cout << "Enter Cuisine Preference (1 for North Indian, 2 for South Indian, 3 for Other): " << std::endl;
+    int cuisinePreferenceInt;
+    std::cin >> cuisinePreferenceInt;
+    userProfile.cuisinePreference = static_cast<CuisinePreference>(cuisinePreferenceInt);
+
+    std::cout << "Enter sweet tooth preference (1 for Yes, 0 for No): " << std::endl;
+    int sweetToothPreferenceInt;
+    std::cin >> sweetToothPreferenceInt;
+    userProfile.sweetToothPreference = static_cast<SweetToothPreference>(sweetToothPreferenceInt);
+
+    std::string serializedData = DataSerializer::serialize(userProfile);
+    std::string serializedDataForRequest = DataSerializer::serializeOperation(Operation::UpdateProfile, serializedData);
+    requestHandler->sendRequest(serializedDataForRequest);
+    std::cout << requestHandler->receiveResponse() << std::endl;
 }

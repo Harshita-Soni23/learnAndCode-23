@@ -1,7 +1,7 @@
 #include <iostream>
 #include <csignal>
-#include "client.h"
-#include "userHandler.h"
+#include "connection.h"
+#include "clientHandler.h"
 
 Client * clientInstance = nullptr;
 

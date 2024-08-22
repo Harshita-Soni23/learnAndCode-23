@@ -2,6 +2,7 @@
 
 #include <string>
 #include <netinet/in.h>
+#include "databaseException.h"
 
 class Connection {
 public:

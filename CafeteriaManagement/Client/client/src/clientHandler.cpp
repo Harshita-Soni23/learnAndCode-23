@@ -61,9 +61,8 @@ void ClientHandler::sendLoginCredentials() {
     std::cin >> userId;
     std::cout << "Password: ";
     std::cin >> password;
-
     Login login(userId, password);
-    Operation operation = Operation::LoginUser;
+    Operation operation = Operation::Login;
     auto loginData = DataSerializer::serialize(login);
     this->userIdLoggedIn = login.userId;
     auto loginSerializedRequest = DataSerializer::serializeOperation(operation, loginData);

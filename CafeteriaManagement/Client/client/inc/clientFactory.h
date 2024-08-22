@@ -10,5 +10,5 @@
 
 class ClientFactory {
 public:
-    static std::unique_ptr<IUser> intializeClient(Role userRole, RequestHandler* requestHandler);
+    static IUser* initializeClient(Role userRole, RequestHandler* requestHandler);
 };

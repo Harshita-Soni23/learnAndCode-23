@@ -9,7 +9,7 @@ RequestProcessor::RequestProcessor() {
 }
 
 std::string RequestProcessor::processRequest(const std::string& request) {
-    std::pair<Operation, std::string> requestData = SerializationUtility::deserializeOperation(request);
+    std::pair<Operation, std::string> requestData = DataSerializer::deserializeOperation(request);
     std::string response;
 
     switch (requestData.first) {

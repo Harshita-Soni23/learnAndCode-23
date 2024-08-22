@@ -9,13 +9,15 @@ private:
     void showMenuItemList();
     void publishMenuForToday();
     void showDiscardMenuList();
+    void showNextDayMenuVoting();
     void showDiscardMenuItemActionPrompt(const std::vector<int>& discardMenuItemIdList);
     void removeMenuItemFromList(const std::vector<int>& discardMenuItemIdList);
     void getMenuItemIdForDetailedFeedback(const std::vector<int>& discardMenuItemIdList);
     std::vector<std::pair<MenuItemType, int>> showRecommendedMenu(MenuItemType menuItemType);
+    std::string getValidMenuItemIdsForMealType(const std::vector<std::pair<MenuItemType, int>>& recommendedMenuItem, MenuItemType menuItemType);
     std::string validateMenuItemsAgainstRecommendedItems(const std::vector<std::pair<MenuItemType, int>>& recommendedMenuItem,
-                              const std::string& menuItemString,
-                              MenuItemType menuItemType);
+                            const std::string& menuItemString,
+                            MenuItemType menuItemType);
 
     std::string getValidMenuItemIdsForMealType(const std::vector<std::pair<MenuItemType, int>>& recommendedMenuItem, MenuItemType menuItemType);
 

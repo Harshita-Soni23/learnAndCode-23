@@ -3,6 +3,7 @@
 #include <limits> 
 #include <vector>
 #include <stdexcept>
+#include "dataSerializer.h"
 
 Chef::Chef(RequestHandler* requestHandler)
     : requestHandler(requestHandler) {}
@@ -15,39 +16,27 @@ void Chef::handleUserOperations(){
             std::cout << "Select the operation which you like to perform\n"
                          "1. View Menu\n"
                          "2. Get Recommendation Menu and Roll out Menu For tomorrow\n"
-                         "3. Publish Menu For Today\n"
-                         "4. Discard Menu Item List\n"
-                         "5. Exit\n"
-                         "Enter your choice: " << std::endl;
+                         "3. View Voting list of Next Day Menu\n"
+                         "4. Publish Menu For Today\n"
+                         "5. Discard Menu Item List\n"
+                         "6. Exit\n" << std::endl;
 
-            int chefChoice;
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            while (!(std::cin >> chefChoice)) {
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Invalid input. Please enter a number between 1 and 4: " << std::endl;
-            }
+            int chefChoice = Utility::getValidatedChoice(1, 6);
 
-            switch (chefChoice) {
-                case 1:
-                    showMenuItemList();
-                    break;
-                case 2:
-                    showRecommendedMenuAndRolloutForTomorrow();
-                    break;
-                case 3:
-                    publishMenuForToday();
-                    break;
-                case 4:
-                    showDiscardMenuList();
-                    break;
-                case 5:
-                    isActive = false;
-                    break;
-                default:
-                    std::cout << "Invalid Choice" << std::endl;
-                    break;
+            if (chefChoice == 1) {
+                showMenuItemList();
+            } else if (chefChoice == 2) {
+                showRecommendedMenuAndRolloutForTomorrow();
+            } else if (chefChoice == 3) {
+                showNextDayMenuVoting();
+            } else if (chefChoice == 4) {
+                publishMenuForToday();
+            } else if (chefChoice == 5) {
+                showDiscardMenuList();
+            } else if (chefChoice == 6) {
+                flag = false;
+            } else {
+                std::cout << "Invalid Choice" << std::endl;
             }
         } catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << std::endl;
@@ -56,233 +45,62 @@ void Chef::handleUserOperations(){
 }
 
 
-void Chef::showDiscardMenuList(){
+void Chef::showMenuItemList() {
     try {
-        Operation operation = Operation::GetDiscardMenuList;
-        std::string viewDiscardMenuSerializedRequest = SerializationUtility::serializeOperation(operation, "");
-        requestHandler->sendRequest(viewDiscardMenuSerializedRequest);
+        std::string viewMenuSerializedRequest = DataSerializer::serializeOperation(Operation::ViewMenu, "");
+        requestHandler->sendRequest(viewMenuSerializedRequest);
 
         std::string serializedMenuList = requestHandler->receiveResponse();
 
-        std::cout<<"serializedMenuList"<<serializedMenuList<<std::endl;
+        std::vector<std::string>menuList = DataSerializer::deserializeStringToVector(serializedMenuList);
+        std::cout << "***************Menu Item Details***************" << std::endl;
+        for (const auto& item : menuList) {
+            auto menuItem = DataSerializer::deserialize<MenuItem>(item);
 
-        std::vector<std::string>MenuList = SerializationUtility::deserializeStringToVector(serializedMenuList);
-        std::cout<< "Menu Item Details:" << std::endl;
-        std::vector<int> discardMenuItemIdList = {};
-        
-        for (const auto& item : MenuList) {
-            auto menuItem = SerializationUtility::deserialize<NextDayMenuRollOut>(item);
-            discardMenuItemIdList.push_back(menuItem.menuItemId);
-            std::cout << "Menu Item ID: " << menuItem.menuItemId << "\t"
-              << "Menu Item Name: " << menuItem.menuItemName << "\t"
-              << "Menu Item Type: " << static_cast<int>(menuItem.menuItemType) << "\t"
-              << "Price: " << menuItem.price << "\t"
-              << "Average Rating: " << menuItem.averageRating << "\t"
-              << "Sentiments : " << menuItem.sentiments << std::endl;
+            std::cout<<"**Menu Item ID: " << menuItem.menuItemId << std::endl
+              << "   1. Name: " << menuItem.menuItemName << std::endl
+              << "   2. Type: " << Utility::getMenuItemType(menuItem.menuItemType) << std::endl
+              << "   3. Availability: " << (menuItem.availability ? "Yes" : "No") << std::endl
+              << "   4. Price: " << menuItem.price << std::endl
+              << "   5. Vegetarian Preference: " << Utility::getVegetarianPreference(menuItem.vegetarianPreference) << std::endl
+              << "   6. Spice Level Option: " << Utility::getSpiceLevelOption(menuItem.spiceLevelOption) << std::endl
+              << "   7. Cuisine Preference: " << Utility::getCuisinePreference(menuItem.cuisinePreference) << std::endl
+              << "   8. Sweet Tooth Preference: " << Utility::getSweetToothPreference(menuItem.sweetToothPreference) << std::endl;
+            std::cout<<std::endl;
         }
-
-        showDiscardMenuItemActionPrompt(discardMenuItemIdList);
     } catch (const std::exception& e) {
-        std::cerr << "Error in showing recommended menu: " << e.what() << std::endl;
+        std::cerr << "Error in showing menu item list: " << e.what() << std::endl;
         throw;
     }
 }
-
-
-void Chef::showDiscardMenuItemActionPrompt(const std::vector<int>& discardMenuItemIdList){
-    bool isActive = true;
-    while (isActive) {
-        try {
-            std::cout << "Select the operation which you like to perform\n"
-                         "1. Select MenuItem Id to Remove From Menu List\n"
-                         "2. Select MenuItem Id To Get Detailed Feedback on\n"
-                         "3. Exit\n"
-                         "Enter your choice: " << std::endl;
-
-            int discardMenuChoice;
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            while (!(std::cin >> discardMenuChoice)) {
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Invalid input. Please enter a number between 1 and 3: " << std::endl;
-            }
-
-            switch (discardMenuChoice) {
-                case 1:
-                    removeMenuItemFromList(discardMenuItemIdList);
-                    break;
-                case 2:
-                    getMenuItemIdForDetailedFeedback(discardMenuItemIdList);
-                    break;
-                case 3:
-                    isActive = false;
-                    break;
-                default:
-                    std::cout << "Invalid Choice" << std::endl;
-                    break;
-            }
-        } catch (const std::exception& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
-        }
-    }
-}
-
-void Chef::getMenuItemIdForDetailedFeedback(const std::vector<int>& discardMenuItemIdList){
-    try {
-        std::cout<<"Get MenuItem Id For Detailed Feedback\n";
-        std::cout << "Enter MenuItemId to Get Detailed Feedback: ";
-        int menuItemId;
-        std::cin >> menuItemId;
-
-        bool found = false;
-        for (int id : discardMenuItemIdList) {
-            if (id == menuItemId) {
-                found = true;
-                break;
-            }
-        }
-
-        if (!found) {
-            std::cout << "Invalid Menu Item ID" << std::endl;
-            return;
-        }
-
-        Operation operation = Operation::GetMenuItemIdForDetailFeedbackFromChef;
-        std::string getDetailedFeedbackSerializedRequest = SerializationUtility::serializeOperation(operation, std::to_string(menuItemId));
-        requestHandler->sendRequest(getDetailedFeedbackSerializedRequest);
-
-        std::string response = requestHandler->receiveResponse();
-        std::cout<<response<<std::endl;
-        
-    } catch (const std::exception& e) {
-        std::cerr << "Error in getting menu item ID for detailed feedback: " << e.what() << std::endl;
-    }
-
-}
-
-void Chef::removeMenuItemFromList(const std::vector<int>& discardMenuItemIdList){
-    try {
-        std::cout<<"Remove Menu Item From List\n";
-        std::cout << "Enter MenuItemId to Remove From Menu List: ";
-        int menuItemId;
-        std::cin >> menuItemId;
-
-        bool found = false;
-        for (int id : discardMenuItemIdList) {
-            if (id == menuItemId) {
-                found = true;
-                break;
-            }
-        }
-
-        if (!found) {
-            std::cout << "Invalid Menu Item ID" << std::endl;
-            return;
-        }
-
-        Operation operation = Operation::RemoveMenuItemFromList;
-        std::string removeMenuItemSerializedRequest = SerializationUtility::serializeOperation(operation, std::to_string(menuItemId));
-        requestHandler->sendRequest(removeMenuItemSerializedRequest);
-        std::string response = requestHandler->receiveResponse();
-        std::cout<<response<<std::endl;
-    } catch (const std::exception& e) {
-        std::cerr << "Error in removing menu item from list: " << e.what() << std::endl;
-    }
-}
-
-
-void Chef::rollOutMenuForTomorrow(std::vector<std::pair<MenuItemType, int>> recommendedMenuItem){
-    try {
-        Operation operation = Operation::RollOutMenuForNextDay;
-        std::cout<<"Roll out Menu For Tomorrow (choose MenuItem Id from Recommended Items)\n";
-        
-        std::vector<std::string> chefRollOutMenuForTomorrow;
-        for (int i = 1; i < 4; ++i) {
-            std::string menuItemIdsforMealType = getValidMenuItemIdsForMealType(recommendedMenuItem, static_cast<MenuItemType>(i));
-            chefRollOutMenuForTomorrow.push_back(menuItemIdsforMealType);
-        }
-
-        std::string serializeRequestData = SerializationUtility::serializeStringVector(chefRollOutMenuForTomorrow);
-
-        std::string serializedRequestWithOperation = SerializationUtility::serializeOperation(operation, serializeRequestData);
-        std::cout<<"Roll Out Menu Serialized Data"<<serializedRequestWithOperation<<std::endl;
-        requestHandler->sendRequest(serializedRequestWithOperation);
-    } catch (const std::exception& e) {
-        std::cerr << "Error in rolling out menu for tomorrow: " << e.what() << std::endl;
-    }
-}
-
-std::string Chef::getValidMenuItemIdsForMealType(const std::vector<std::pair<MenuItemType, int>>& recommendedMenuItem, MenuItemType menuItemType) {
-    try {
-        std::string menuItemIdsforBreakfast;
-        std::string menuItemTypeStr = menuItemType == MenuItemType::Breakfast ? "Breakfast" : menuItemType == MenuItemType::Lunch ? "Lunch" : "Dinner";
-        std::cout << "Enter MenuItemIds for "<<menuItemTypeStr<<" : ";
-        std::cin >> menuItemIdsforBreakfast;
-        
-        while (true) {
-            std::string notRecommendedMenuItemIds = validateMenuItemsAgainstRecommendedItems(recommendedMenuItem, menuItemIdsforBreakfast, menuItemType);
-            
-            if (notRecommendedMenuItemIds.empty()) {
-                return menuItemIdsforBreakfast;
-            } else {
-                std::cout << "Invalid Menu Item IDs for "<<menuItemTypeStr<<" : " << notRecommendedMenuItemIds << "\n";
-                std::cout << "Enter MenuItemIds for "<<menuItemTypeStr<<" again: ";
-                std::cin >> menuItemIdsforBreakfast;
-            }
-        }
-    } catch (const std::exception& e) {
-        std::cerr << "Error in getting valid menu item IDs for meal type: " << e.what() << std::endl;
-        throw;
-    }
-}
-
-void Chef::publishMenuForToday(){
-    try {
-        std::cout<<"publishMenuForToday";
-        Operation operation = Operation::PublishMenuForToday;
-        std::string publishMenuSerializedRequest = SerializationUtility::serializeOperation(operation, "");
-        requestHandler->sendRequest(publishMenuSerializedRequest);
-    } catch (const std::exception& e) {
-        std::cerr << "Error in publishing menu for today: " << e.what() << std::endl;
-    }
-}
-
 
 void Chef::showRecommendedMenuAndRolloutForTomorrow(){
     try {
-        bool isActive = true;
+        bool flag = true;
         std::vector<std::pair<MenuItemType, int>> recommendedMenuItem = {};
-        while (isActive) {
+        while (flag) {
             std::cout << "Select the MealType you would like to get Recommendation for and Roll Out Menu For Tomorrow\n"
                         "1. BreakFast\n"
                         "2. Lunch\n"
                         "3. Dinner\n"
                         "4. Roll out Menu For Tomorrow\n"
-                        "5. Exit\n"
-                        "Enter your choice: " << std::endl;
+                        "5. Exit\n" << std::endl;
 
-            int userInput;
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            while (!(std::cin >> userInput)) {
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Invalid input. Please enter a number between 1 and 5: " << std::endl;
-            }
+            int userChoice = Utility::getValidatedChoice(1, 5);
 
-            if(userInput > 0 && userInput < 4){
-                MenuItemType menuItemType = static_cast<MenuItemType>(userInput);
+            if(userChoice > 0 && userChoice < 4){
+                MenuItemType menuItemType = static_cast<MenuItemType>(userChoice);
                 std::vector<std::pair<MenuItemType, int>> recommendedMenuItemForMealType = showRecommendedMenu(menuItemType);
                 recommendedMenuItem.insert(recommendedMenuItem.end(), recommendedMenuItemForMealType.begin(), recommendedMenuItemForMealType.end());
-            } else if(userInput == 4){
+            } else if(userChoice == 4){
                 if(recommendedMenuItem.empty()){
                     std::cout<<"Please get Recommendation Menu First\n";
                     continue;
                 }
                 rollOutMenuForTomorrow(recommendedMenuItem);
-            } else if(userInput == 5){
-                isActive = false;
+                flag = false;
+            } else if(userChoice == 5){
+                flag = false;
             } else {
                 std::cout << "Invalid Choice" << std::endl;
             }
@@ -295,27 +113,26 @@ void Chef::showRecommendedMenuAndRolloutForTomorrow(){
 std::vector<std::pair<MenuItemType, int>> Chef::showRecommendedMenu(MenuItemType menuItemType){
     try {
         std::vector<std::pair<MenuItemType, int>> recommendedMenuItem;
-        Operation operation = Operation::GetRecommandationFromEngine;
         std::string mealtype = std::to_string(menuItemType);
-        std::string viewMenuSerializedRequest = SerializationUtility::serializeOperation(operation, mealtype);
+        std::string viewMenuSerializedRequest = DataSerializer::serializeOperation(Operation::GetRecommandationFromEngine, mealtype);
         requestHandler->sendRequest(viewMenuSerializedRequest);
 
         std::string serializedMenuList = requestHandler->receiveResponse();
 
-        std::vector<std::string>MenuList = SerializationUtility::deserializeStringToVector(serializedMenuList);
-        std::cout<< "Menu Item Details:" << std::endl;
+        std::vector<std::string>MenuList = DataSerializer::deserializeStringToVector(serializedMenuList);
+        std::cout<< "********************Recommend Menu Items For "<<Utility::getMenuItemType(menuItemType)<<" ********************" << std::endl<<std::endl;
         
         for (const auto& item : MenuList) {
-            auto menuItem = SerializationUtility::deserialize<NextDayMenuRollOut>(item);
+            auto menuItem = DataSerializer::deserialize<NextDayMenuRollOut>(item);
             recommendedMenuItem.push_back(std::make_pair(menuItem.menuItemType, menuItem.menuItemId));
             std::cout << "Menu Item ID: " << menuItem.menuItemId << "\t"
               << "Menu Item Name: " << menuItem.menuItemName << "\t"
-              << "Menu Item Type: " << static_cast<int>(menuItem.menuItemType) << "\t"
+              << "Menu Item Type: " << Utility::getMenuItemType(menuItem.menuItemType) << "\t"
               << "Price: " << menuItem.price << "\t"
               << "Average Rating: " << menuItem.averageRating << "\t"
               << "Sentiments : " << menuItem.sentiments << std::endl;
         }
-
+        std::cout<<std::endl;
         return recommendedMenuItem;
     } catch (const std::exception& e) {
         std::cerr << "Error in showing recommended menu: " << e.what() << std::endl;
@@ -323,53 +140,45 @@ std::vector<std::pair<MenuItemType, int>> Chef::showRecommendedMenu(MenuItemType
     }
 }
 
-void Chef::showMenuItemList() {
+void Chef::rollOutMenuForTomorrow(std::vector<std::pair<MenuItemType, int>> recommendedMenuItem){
     try {
-        Operation operation = Operation::ViewMenu;
-        std::string viewMenuSerializedRequest = SerializationUtility::serializeOperation(operation, "");
-        requestHandler->sendRequest(viewMenuSerializedRequest);
+        std::cout<<"Roll out Menu For Tomorrow (choose MenuItem Id from Recommended Items)\n";
+        
+        std::vector<std::string> chefRollOutMenuForTomorrow;
+        for (int i = 1; i < 4; ++i) {
+            std::string menuItemIdsforMealType = getValidMenuItemIdsForMealType(recommendedMenuItem, static_cast<MenuItemType>(i));
+            chefRollOutMenuForTomorrow.push_back(menuItemIdsforMealType);
+        }
 
-        std::string serializedMenuList = requestHandler->receiveResponse();
+        std::string serializeRequestData = DataSerializer::serializeStringVector(chefRollOutMenuForTomorrow);
 
-        std::vector<std::string>menuList = SerializationUtility::deserializeStringToVector(serializedMenuList);
+        std::string serializedRequestWithOperation = DataSerializer::serializeOperation(Operation::RollOutMenuForNextDay, serializeRequestData);
+        requestHandler->sendRequest(serializedRequestWithOperation);
+        std::string response = requestHandler->receiveResponse();
+        std::cout<<response<<std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error in rolling out menu for tomorrow: " << e.what() << std::endl;
+    }
+}
 
-        for (const auto& item : menuList) {
-            auto menuItem = SerializationUtility::deserialize<MenuItem>(item);
-
-            std::cout<<"VegetarianPreference"<<menuItem.vegetarianPreference<<"spice level"<<menuItem.spiceLevelOption<<"food preference"<<menuItem.foodPreference<<"sweet tooth"<<menuItem.sweetToothPreference<<"\n";
-
-            std::string menuItemType = menuItem.menuItemType == MenuItemType::Breakfast ? "Breakfast" :
-                                    menuItem.menuItemType == MenuItemType::Lunch ? "Lunch" :
-                                    menuItem.menuItemType == MenuItemType::Dinner ? "Dinner" : "Unknown";
-
-            std::string vegetarianPreferenceStr = menuItem.vegetarianPreference == VegetarianPreference::Vegetarian ? "Vegetarian" :
-                                                menuItem.vegetarianPreference == VegetarianPreference::NonVegetarian ? "Non Vegetarian" :
-                                                menuItem.vegetarianPreference == VegetarianPreference::Eggetarian ? "Eggetarian" : "Unknown";
-
-            std::string spiceLevelOptionStr = menuItem.spiceLevelOption == SpiceLevelOption::High ? "High" :
-                                            menuItem.spiceLevelOption == SpiceLevelOption::Medium ? "Medium" :
-                                            menuItem.spiceLevelOption == SpiceLevelOption::Low ? "Low" : "Unknown";
-
-            std::string foodPreferenceStr = menuItem.foodPreference == FoodPreference::NorthIndian ? "North Indian" :
-                                            menuItem.foodPreference == FoodPreference::SouthIndian ? "South Indian" :
-                                            menuItem.foodPreference == FoodPreference::Other ? "Other" : "Unknown";
-
-            std::string sweetToothPreferenceStr = menuItem.sweetToothPreference == SweetToothPreference::Yes ? "Yes" : "No";
-
-            std::cout << "Menu Item Details:" << std::endl
-                    << "ID: " << menuItem.menuItemId << std::endl
-                    << "Name: " << menuItem.menuItemName << std::endl
-                    << "Type: " << menuItemType << std::endl
-                    << "Availability: " << (menuItem.availability ? "Yes" : "No") << std::endl
-                    << "Price: " << menuItem.price << std::endl
-                    << "Vegetarian Preference: " << vegetarianPreferenceStr << std::endl
-                    << "Spice Level Option: " << spiceLevelOptionStr << std::endl
-                    << "Food Preference: " << foodPreferenceStr << std::endl
-                    << "Sweet Tooth Preference: " << sweetToothPreferenceStr << std::endl;
-            std::cout << std::endl;
+std::string Chef::getValidMenuItemIdsForMealType(const std::vector<std::pair<MenuItemType, int>>& recommendedMenuItem, MenuItemType menuItemType) {
+    try {
+        std::cout << "Enter MenuItemIds for "<<Utility::getMenuItemType(menuItemType)<<" : ";
+        while (true) {
+            std::string menuItemIdsForMealType;
+            std::cin >> menuItemIdsForMealType;
+        
+            std::string notRecommendedMenuItemIds = validateMenuItemsAgainstRecommendedItems(recommendedMenuItem, menuItemIdsForMealType, menuItemType);
+            
+            if (notRecommendedMenuItemIds.empty()) {
+                return menuItemIdsForMealType;
+            } else {
+                std::cout << "Invalid Menu Item IDs: " << notRecommendedMenuItemIds << std::endl;
+                std::cout<<"Please Enter Valid Menu Item Ids\n";
+            }
         }
     } catch (const std::exception& e) {
-        std::cerr << "Error in showing menu item list: " << e.what() << std::endl;
+        std::cerr << "Error in getting valid menu item IDs for meal type: " << e.what() << std::endl;
         throw;
     }
 }
@@ -409,4 +218,150 @@ std::string Chef::validateMenuItemsAgainstRecommendedItems(const std::vector<std
         std::cerr << "Error in validating menu items against recommended items: " << e.what() << std::endl;
         throw;
     }
+}
+
+
+void Chef::showNextDayMenuVoting(){
+    try {
+        std::string viewNextDayMenuVotingSerializedRequest = DataSerializer::serializeOperation(Operation::GetNextDayMenuVoting, "");
+        requestHandler->sendRequest(viewNextDayMenuVotingSerializedRequest);
+
+        std::string serializedMenuList = requestHandler->receiveResponse();
+        if(serializedMenuList == "0"){
+            std::cout<<"No Voting as Menu is not yet rolled out\n";
+            return;
+        }
+
+        std::vector<std::string>MenuList = DataSerializer::deserializeStringToVector(serializedMenuList);
+        std::cout<< "********************Next Day Menu Voting********************" << std::endl;
+        for (const auto& item : MenuList) {
+            auto menuItem = DataSerializer::deserialize<NextDayMenuRollOut>(item);
+            std::cout<< "Menu Item Name: " << menuItem.menuItemName << "\t"
+              << "Votes : " << menuItem.selectionCount << "\n"<<std::endl;
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error in showing next day menu voting: " << e.what() << std::endl;
+    }
+}
+
+
+
+
+void Chef::publishMenuForToday(){
+    try {
+        std::string publishMenuSerializedRequest = DataSerializer::serializeOperation(Operation::PublishMenuForToday, "");
+        requestHandler->sendRequest(publishMenuSerializedRequest);
+        std::string response = requestHandler->receiveResponse();
+        std::vector<std::string> publishedMenuList = DataSerializer::deserializeStringToVector(response);
+        std::cout<< "********************Published Menu of Most Voted Menu Items For Today********************" << std::endl;
+        for(const auto& item : publishedMenuList){
+            auto menuItem = DataSerializer::deserialize<MenuItem>(item);
+            std::cout << "Menu Item ID: " << menuItem.menuItemId << "\n"
+              << "Menu Item Name: " << menuItem.menuItemName << "\n"
+              << "Menu Item Type: " << Utility::getMenuItemType(menuItem.menuItemType) << "\n"
+              << "Price: " << menuItem.price << "\n\n";
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error in publishing menu for today: " << e.what() << std::endl;
+    }
+}
+
+void Chef::showDiscardMenuList(){
+    try {
+        std::string viewDiscardMenuSerializedRequest = DataSerializer::serializeOperation(Operation::GetDiscardMenuList, "");
+        requestHandler->sendRequest(viewDiscardMenuSerializedRequest);
+
+        std::string serializedMenuList = requestHandler->receiveResponse();
+
+        std::vector<std::string>MenuList = DataSerializer::deserializeStringToVector(serializedMenuList);
+        std::cout<< "Menu Item Details:" << std::endl;
+        std::vector<int> discardMenuItemIdList = {};
+        std::cout<< "********************Discard Menu List********************" << std::endl;
+        for (const auto& item : MenuList) {
+            auto menuItem = DataSerializer::deserialize<NextDayMenuRollOut>(item);
+            discardMenuItemIdList.push_back(menuItem.menuItemId);
+            std::cout << "Menu Item ID: " << menuItem.menuItemId << "\t"
+              << "Menu Item Name: " << menuItem.menuItemName << "\t"
+              << "Menu Item Type: " << Utility::getMenuItemType(menuItem.menuItemType)<< "\t"
+              << "Price: " << menuItem.price << "\t"
+              << "Average Rating: " << menuItem.averageRating << "\t"
+              << "Sentiments : " << menuItem.sentiments << std::endl<<std::endl;
+        }
+
+        showDiscardMenuItemActionPrompt(discardMenuItemIdList);
+    } catch (const std::exception& e) {
+        std::cerr << "Error in showing recommended menu: " << e.what() << std::endl;
+        throw;
+    }
+}
+
+
+void Chef::showDiscardMenuItemActionPrompt(const std::vector<int>& discardMenuItemIdList){
+    bool flag = true;
+    while (flag) {
+        try {
+            std::cout << "Select the operation which you like to perform\n"
+                         "1. Select Menu Item ID to delete from the menu:\n"
+                         "2. Select the Menu Item ID to receive detailed feedback:\n"
+                         "3. Exit\n" << std::endl;
+
+            int discardMenuChoice = Utility::getValidatedChoice(1, 3);
+            
+            if (discardMenuChoice == 1) {
+                removeMenuItemFromList(discardMenuItemIdList);
+            } else if (discardMenuChoice == 2) {
+                getMenuItemIdForDetailedFeedback(discardMenuItemIdList);
+            } else if (discardMenuChoice == 3) {
+                flag = false;
+            } else {
+                std::cout << "Invalid Choice" << std::endl;
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+        }
+    }
+}
+
+void Chef::removeMenuItemFromList(const std::vector<int>& discardMenuItemIdList){
+    try {
+        std::cout << "**********Remove Menu Item from List**********\n";
+        std::cout << "Provide the Menu Item ID to delete: ";
+        int menuItemId;
+        std::cin >> menuItemId;
+
+        if (std::find(discardMenuItemIdList.begin(), discardMenuItemIdList.end(), menuItemId) == discardMenuItemIdList.end()) {
+            std::cout << "Invalid Menu Item ID" << std::endl;
+            return;
+        }
+
+        std::string removeMenuItemSerializedRequest = DataSerializer::serializeOperation(Operation::RemoveMenuItemFromList, std::to_string(menuItemId));
+        requestHandler->sendRequest(removeMenuItemSerializedRequest);
+
+        std::cout<<requestHandler->receiveResponse()<<std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error in removing menu item from list: " << e.what() << std::endl;
+    }
+}
+
+void Chef::getMenuItemIdForDetailedFeedback(const std::vector<int>& discardMenuItemIdList){
+    try {
+        std::cout<<"Get MenuItem Id For Detailed Feedback\n";
+        std::cout << "Enter MenuItemId to Get Detailed Feedback: ";
+        int menuItemId;
+        std::cin >> menuItemId;
+
+        if (std::find(discardMenuItemIdList.begin(), discardMenuItemIdList.end(), menuItemId) == discardMenuItemIdList.end()) {
+            std::cout << "Invalid Menu Item ID" << std::endl;
+            return;
+        }
+
+        std::string getDetailedFeedbackSerializedRequest = DataSerializer::serializeOperation(Operation::GetMenuItemIdForDetailFeedbackFromChef, std::to_string(menuItemId));
+        requestHandler->sendRequest(getDetailedFeedbackSerializedRequest);
+
+        std::cout<<requestHandler->receiveResponse()<<std::endl;
+        
+    } catch (const std::exception& e) {
+        std::cerr << "Error in getting menu item ID for detailed feedback: " << e.what() << std::endl;
+    }
+
 }

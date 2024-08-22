@@ -1,3 +1,5 @@
+#pragma once
+
 enum Role : int
 {
    Admin = 1,

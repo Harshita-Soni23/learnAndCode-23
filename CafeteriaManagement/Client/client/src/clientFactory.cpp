@@ -1,21 +1,23 @@
 #include "clientFactory.h"
+#include "iostream"
+#include "admin.h"
 
-static std::unique_ptr<IUser> clientFactory::initializeClient(Role userRole, RequestHandler* RequestHandler)
+IUser* ClientFactory::initializeClient(Role userRole, RequestHandler* requestHandler)
 {
     std::cout<<"User Role : "<<userRole<<"\n";
 
-    std::unique_ptr<IUser> user;
+    IUser* user = nullptr;
     if (userRole == Role::Admin)
     {
-        user = std::make_unique<Admin>(requestHandler);
+        user = new Admin(requestHandler);
     }
     else if(userRole == Role::Employee)
     {
-        user = std::make_unique<Employee>(requestHandler, this->userIdLoggedIn);
+        user = new Employee(requestHandler, this->userIdLoggedIn);
     }
     else if(userRole == Role::Chef)
     {
-        user = std::make_unique<Chef>(requestHandler);
+        user = new Chef(requestHandler);
     }
     else
     {

@@ -6,7 +6,7 @@
 
 NextDayMenuVotingDAO::NextDayMenuVotingDAO() : databaseConnection{DatabaseConnection::getInstance()} {}
 
-bool NextDayMenuVotingDAO::addNextDayMenuRollout(const std::vector<NextDayMenuVoting>& nextDayMenus) {
+bool NextDayMenuVotingDAO::addRollOutMenu(const std::vector<NextDayMenuVoting>& nextDayMenus) {
     try {
         std::unique_ptr<sql::PreparedStatement> pstmt(
             databaseConnection->getConnection()->prepareStatement(
@@ -27,7 +27,7 @@ bool NextDayMenuVotingDAO::addNextDayMenuRollout(const std::vector<NextDayMenuVo
     }
 }
 
-std::vector<NextDayMenuVoting> NextDayMenuVotingDAO::getAllNextDayMenuRollOutItem() {
+std::vector<NextDayMenuVoting> NextDayMenuVotingDAO::getAllRollOutMenuItem() {
     std::vector<NextDayMenuVoting> nextDayMenus;
 
     try {

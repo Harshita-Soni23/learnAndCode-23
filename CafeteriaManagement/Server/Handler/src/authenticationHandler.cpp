@@ -6,7 +6,7 @@ AuthenticationtHandler::AuthenticationtHandler(std::unique_ptr<UserService> user
 
 int AuthenticationtHandler::authenticateUser(const std::string& requestData) {
     int userRole = -1;
-    Login loginCredentials = SerializationUtility::deserialize<Login>(requestData);
+    Login loginCredentials = DataSerializer::deserialize<Login>(requestData);
     User user = authenticationService->authenticateUser(loginCredentials);
 
     if(userRole != -1)

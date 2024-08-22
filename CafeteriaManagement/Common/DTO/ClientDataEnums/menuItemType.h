@@ -1,3 +1,5 @@
+#pragma once
+
 enum MenuItemType
 {
     Breakfast = 1,

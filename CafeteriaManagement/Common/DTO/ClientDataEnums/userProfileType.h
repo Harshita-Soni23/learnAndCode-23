@@ -1,3 +1,5 @@
+#pragma once
+
 enum VegetarianPreference : int {
     Vegetarian = 1,
     NonVegetarian = 2,
@@ -10,7 +12,7 @@ enum SpiceLevelOption : int {
     Low = 3
 };
 
-enum FoodPreference : int {
+enum CuisinePreference : int {
     NorthIndian = 1,
     SouthIndian = 2,
     Other = 3

@@ -4,6 +4,8 @@
 #include "requestHandler.h"
 #include "IUser.h"
 #include "clientFactory.h"
+#include "login.h"
+#include "socketException.h"
 
 class ClientHandler {
 public:
@@ -13,6 +15,7 @@ public:
 private:
     Connection& connection;
     RequestHandler* requestHandler;
+    int userIdLoggedIn;
     std::unique_ptr<IUser> user;
 
     void handleUserLogin();

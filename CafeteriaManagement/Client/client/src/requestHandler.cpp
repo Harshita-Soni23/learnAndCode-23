@@ -13,18 +13,20 @@ RequestHandler::RequestHandler(int clientSocket, struct sockaddr_in serv_addr)
 
 void RequestHandler::sendRequest(const std::string& request) {
     std::vector<unsigned char> requestBuffer(request.begin(), request.end());
-    send(clientSocket, requestBuffer.data(), requestBuffer.size(), 0);
-    std::cout<<"Request sent"<<std::endl;
+    int bytesSent = send(clientSocket, requestBuffer.data(), requestBuffer.size(), 0);
+    if (bytesSent < 0) {
+        throw RequestException("Send failed with error code: " + std::to_string(bytesSent));
+    }
 }
 
 std::string RequestHandler::receiveResponse() {
     char buffer[1024] = {0};
     int bytesRead = read(clientSocket, buffer, 1024);
     if (bytesRead <= 0) {
-        return "";
+        throw ResponseException("Read failed with error code: " + std::to_string(bytesRead));
     }
-    std::cout<<"Response received"<<std::endl;
-    std::vector<unsigned char> request(buffer, buffer + bytesRead);
-    std::string requestData(request.begin(), request.end());
-    return std::string(requestData);
+    // std::cout<<"Response received"<<std::endl;
+    // std::vector<unsigned char> request(buffer, buffer + bytesRead);
+    // std::string requestData(request.begin(), request.end());
+    return std::string(buffer, bytesRead);
 }
