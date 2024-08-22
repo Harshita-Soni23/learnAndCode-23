@@ -5,7 +5,7 @@
 #include <sstream>
 #include <string>
 
-struct rollOutMenu : public ISerializer {
+struct RollOutMenu : public ISerializer {
     int menuItemId;
     std::string menuItemName;
     MenuItemType menuItemType;
@@ -14,7 +14,7 @@ struct rollOutMenu : public ISerializer {
     double averageRating;
     std::string sentiments;
 
-    rollOutMenu(int menuItemId = 0, const std::string& menuItemName = "", MenuItemType menuItemType = MenuItemType::Breakfast,
+    RollOutMenu(int menuItemId = 0, const std::string& menuItemName = "", MenuItemType menuItemType = MenuItemType::Breakfast,
                        int price = 0, int selectionCount = 0, double averageRating = 0, std::string sentiments = "")
         : menuItemId(menuItemId), menuItemName(menuItemName), menuItemType(menuItemType), price(price),
           selectionCount(selectionCount), averageRating(averageRating), sentiments(sentiments) {}

@@ -62,7 +62,7 @@ CREATE TABLE `MenuItem` (
   `Price` decimal(10,2) NOT NULL,
   `vegetarianPreference` int DEFAULT NULL,
   `spiceLevelOption` int DEFAULT NULL,
-  `cuisinePreference` int DEFAULT NULL,
+  `foodPreference` int DEFAULT NULL,
   `sweetToothPreference` int DEFAULT NULL,
   PRIMARY KEY (`menuItemId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -167,7 +167,7 @@ CREATE TABLE `UserProfile` (
   `userId` bigint unsigned NOT NULL,
   `vegetarianPreference` int DEFAULT NULL,
   `spiceLevelOption` int DEFAULT NULL,
-  `cuisinePreference` int DEFAULT NULL,
+  `foodPreference` int DEFAULT NULL,
   `sweetToothPreference` int DEFAULT NULL,
   PRIMARY KEY (`userId`),
   CONSTRAINT `UserProfile_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `User` (`userId`) ON DELETE CASCADE

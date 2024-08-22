@@ -21,10 +21,10 @@ namespace Utility {
                spiceLevelOption == SpiceLevelOption::Low ? "Low" : "Unknown";
     }
 
-    std::string getCuisinePreference(CuisinePreference cuisinePreference) {
-        return cuisinePreference == CuisinePreference::NorthIndian ? "North Indian" :
-               cuisinePreference == CuisinePreference::SouthIndian ? "South Indian" :
-               cuisinePreference == CuisinePreference::Other ? "Other" : "Unknown";
+    std::string getFoodPreference(FoodPreference foodPreference) {
+        return foodPreference == FoodPreference::NorthIndian ? "North Indian" :
+               foodPreference == FoodPreference::SouthIndian ? "South Indian" :
+               foodPreference == FoodPreference::Other ? "Other" : "Unknown";
     }
 
     std::string getSweetToothPreference(SweetToothPreference sweetToothPreference) {

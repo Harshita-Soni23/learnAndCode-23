@@ -4,11 +4,8 @@
 #include <stdexcept>
 #include "requestHandler.h"
 #include "IUser.h"
-#include "admin.h"
-#include "chef.h"
-#include "employee.h"
 
 class ClientFactory {
 public:
-    static IUser* initializeClient(Role userRole, RequestHandler* requestHandler);
+    IUser* initializeClient(Role userRole, RequestHandler* requestHandler);
 };

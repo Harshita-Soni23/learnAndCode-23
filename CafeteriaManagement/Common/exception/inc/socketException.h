@@ -1,5 +1,4 @@
-#ifndef SOCKETEXCEPTION_H
-#define SOCKETEXCEPTION_H
+#pragma once
 
 #include <exception>
 #include <string>
@@ -33,5 +32,3 @@ class ResponseException : public SocketException {
 public:
     explicit ResponseException(const std::string& message);
 };
-
-#endif

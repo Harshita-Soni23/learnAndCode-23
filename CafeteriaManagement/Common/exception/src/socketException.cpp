@@ -1,4 +1,4 @@
-#include "../inc/socketException.h"
+#include "socketException.h"
 
 SocketException::SocketException(const std::string& message) 
     : message(message) {

@@ -1,4 +1,6 @@
 #include "connection.h"
+#include "databaseException.h"
+#include "socketException.h"
 #include <iostream>
 #include <unistd.h>
 #include <arpa/inet.h>

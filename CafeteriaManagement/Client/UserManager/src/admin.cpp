@@ -16,7 +16,7 @@ void Admin::handleUserOperations()
                      "3. Update menu item\n"
                      "4. View menu\n"
                      "5. Add user\n"
-                     "6. Exit\n"<<std::endl;
+                     "6. Exit\n"<<std::endl<<
                      "Enter your choice: " << std::endl;
 
         int adminChoice = Utility::getValidatedChoice(1, 6);
@@ -32,7 +32,7 @@ void Admin::handleUserOperations()
         } else if (adminChoice == 5) {
             addUserPrompt();
         } else if (adminChoice == 6) {
-            flag = false;
+            isActive = false;
         } else {
             std::cout << "Invalid Choice" << std::endl;
         }
@@ -67,9 +67,9 @@ void Admin::showAddItemPrompt() {
     menuItem.spiceLevelOption = static_cast<SpiceLevelOption>(spiceLevelOptionInt);
 
     std::cout << "Enter Cuisine Preference (1 for North Indian, 2 for South Indian, 3 for Other): " << std::endl;
-    int cuisinePreferenceInt;
-    std::cin >> cuisinePreferenceInt;
-    menuItem.cuisinePreference = static_cast<CuisinePreference>(cuisinePreferenceInt);
+    int foodPreferenceInt;
+    std::cin >> foodPreferenceInt;
+    menuItem.foodPreference = static_cast<FoodPreference>(foodPreferenceInt);
 
     std::cout << "Enter sweet tooth preference (1 for Yes, 0 for No): " << std::endl;
     int sweetToothPreferenceInt;
@@ -175,10 +175,10 @@ MenuItem Admin::updateMenuItemFromUserInput(MenuItem menuItem)
         }
         else if(userInput == "7")
         {
-            int cuisinePreferenceInt;
+            int foodPreferenceInt;
             std::cout << "Enter updated Cuisine Preference (1 for North Indian, 2 for South Indian, 3 for Other): " << std::endl;
-            std::cin >> cuisinePreferenceInt;
-            menuItem.cuisinePreference = static_cast<CuisinePreference>(cuisinePreferenceInt);
+            std::cin >> foodPreferenceInt;
+            menuItem.foodPreference = static_cast<FoodPreference>(foodPreferenceInt);
         }
         else if(userInput == "8")
         {
@@ -236,7 +236,7 @@ void Admin::displayMenuItemDetails(const MenuItem& menuItem) {
               << "   4. Price: " << menuItem.price << std::endl
               << "   5. Vegetarian Preference: " << Utility::getVegetarianPreference(menuItem.vegetarianPreference) << std::endl
               << "   6. Spice Level Option: " << Utility::getSpiceLevelOption(menuItem.spiceLevelOption) << std::endl
-              << "   7. Cuisine Preference: " << Utility::getCuisinePreference(menuItem.cuisinePreference) << std::endl
+              << "   7. Cuisine Preference: " << Utility::getFoodPreference(menuItem.foodPreference) << std::endl
               << "   8. Sweet Tooth Preference: " << Utility::getSweetToothPreference(menuItem.sweetToothPreference) << std::endl;
     std::cout<<std::endl;
 }

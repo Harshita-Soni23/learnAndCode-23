@@ -15,8 +15,7 @@ private:
     void addUserPrompt();
     void showUpdateMenuItemPrompt();
     void displayMenuItemDetails(const MenuItem& menuItem);
-
-
+    MenuItem updateMenuItemFromUserInput(MenuItem menuItem);
 
 public:
     Admin(RequestHandler* requestHandler);

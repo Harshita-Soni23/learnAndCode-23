@@ -1,5 +1,4 @@
-#ifndef DATABASE_EXCEPTION_H
-#define DATABASE_EXCEPTION_H
+#pragma once
 
 #include <exception>
 #include <string>
@@ -28,5 +27,3 @@ class QueryException : public DatabaseException {
 public:
     explicit QueryException(const std::string& message);
 };
-
-#endif

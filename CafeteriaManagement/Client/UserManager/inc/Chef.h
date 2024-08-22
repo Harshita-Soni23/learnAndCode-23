@@ -1,3 +1,5 @@
+#pragma once
+
 #include "IUser.h"
 
 class Chef : public IUser {
@@ -18,8 +20,6 @@ private:
     std::string validateMenuItemsAgainstRecommendedItems(const std::vector<std::pair<MenuItemType, int>>& recommendedMenuItem,
                             const std::string& menuItemString,
                             MenuItemType menuItemType);
-
-    std::string getValidMenuItemIdsForMealType(const std::vector<std::pair<MenuItemType, int>>& recommendedMenuItem, MenuItemType menuItemType);
 
 public:
     Chef(RequestHandler* requestHandler);

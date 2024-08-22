@@ -34,7 +34,7 @@ void Chef::handleUserOperations(){
             } else if (chefChoice == 5) {
                 showDiscardMenuList();
             } else if (chefChoice == 6) {
-                flag = false;
+                isActive = false;
             } else {
                 std::cout << "Invalid Choice" << std::endl;
             }
@@ -64,7 +64,7 @@ void Chef::showMenuItemList() {
               << "   4. Price: " << menuItem.price << std::endl
               << "   5. Vegetarian Preference: " << Utility::getVegetarianPreference(menuItem.vegetarianPreference) << std::endl
               << "   6. Spice Level Option: " << Utility::getSpiceLevelOption(menuItem.spiceLevelOption) << std::endl
-              << "   7. Cuisine Preference: " << Utility::getCuisinePreference(menuItem.cuisinePreference) << std::endl
+              << "   7. Cuisine Preference: " << Utility::getFoodPreference(menuItem.foodPreference) << std::endl
               << "   8. Sweet Tooth Preference: " << Utility::getSweetToothPreference(menuItem.sweetToothPreference) << std::endl;
             std::cout<<std::endl;
         }
@@ -123,7 +123,7 @@ std::vector<std::pair<MenuItemType, int>> Chef::showRecommendedMenu(MenuItemType
         std::cout<< "********************Recommend Menu Items For "<<Utility::getMenuItemType(menuItemType)<<" ********************" << std::endl<<std::endl;
         
         for (const auto& item : MenuList) {
-            auto menuItem = DataSerializer::deserialize<NextDayMenuRollOut>(item);
+            auto menuItem = DataSerializer::deserialize<RollOutMenu>(item);
             recommendedMenuItem.push_back(std::make_pair(menuItem.menuItemType, menuItem.menuItemId));
             std::cout << "Menu Item ID: " << menuItem.menuItemId << "\t"
               << "Menu Item Name: " << menuItem.menuItemName << "\t"
@@ -235,7 +235,7 @@ void Chef::showNextDayMenuVoting(){
         std::vector<std::string>MenuList = DataSerializer::deserializeStringToVector(serializedMenuList);
         std::cout<< "********************Next Day Menu Voting********************" << std::endl;
         for (const auto& item : MenuList) {
-            auto menuItem = DataSerializer::deserialize<NextDayMenuRollOut>(item);
+            auto menuItem = DataSerializer::deserialize<RollOutMenu>(item);
             std::cout<< "Menu Item Name: " << menuItem.menuItemName << "\t"
               << "Votes : " << menuItem.selectionCount << "\n"<<std::endl;
         }
@@ -278,7 +278,7 @@ void Chef::showDiscardMenuList(){
         std::vector<int> discardMenuItemIdList = {};
         std::cout<< "********************Discard Menu List********************" << std::endl;
         for (const auto& item : MenuList) {
-            auto menuItem = DataSerializer::deserialize<NextDayMenuRollOut>(item);
+            auto menuItem = DataSerializer::deserialize<RollOutMenu>(item);
             discardMenuItemIdList.push_back(menuItem.menuItemId);
             std::cout << "Menu Item ID: " << menuItem.menuItemId << "\t"
               << "Menu Item Name: " << menuItem.menuItemName << "\t"

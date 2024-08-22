@@ -15,20 +15,20 @@ struct MenuItem : public ISerializer {
   int price = 0;
   VegetarianPreference vegetarianPreference = VegetarianPreference::NonVegetarian; 
   SpiceLevelOption spiceLevelOption = SpiceLevelOption::Medium;
-  CuisinePreference CuisinePreference = CuisinePreference::NorthIndian;
+  FoodPreference FoodPreference = FoodPreference::NorthIndian;
   SweetToothPreference sweetToothPreference = SweetToothPreference::No;
 
   MenuItem(int menuItemId = 0, std::string menuItemName = "", MenuItemType menuItemType = MenuItemType::Breakfast,
            bool availability = false, int price = 0,
            VegetarianPreference vegetarianPreference = VegetarianPreference::NonVegetarian,
            SpiceLevelOption spiceLevelOption = SpiceLevelOption::Medium,
-           CuisinePreference CuisinePreference = CuisinePreference::NorthIndian,
+           FoodPreference FoodPreference = FoodPreference::NorthIndian,
            SweetToothPreference sweetToothPreference = SweetToothPreference::No)
       : menuItemId(menuItemId), menuItemName(menuItemName), menuItemType(menuItemType),
         availability(availability), price(price),
         vegetarianPreference(vegetarianPreference),
         spiceLevelOption(spiceLevelOption),
-        CuisinePreference(CuisinePreference),
+        FoodPreference(FoodPreference),
         sweetToothPreference(sweetToothPreference) {}
 
   std::string serialize() const override {
@@ -39,7 +39,7 @@ struct MenuItem : public ISerializer {
            std::to_string(price) + ";" +
            std::to_string(static_cast<int>(vegetarianPreference)) + ";" +
            std::to_string(static_cast<int>(spiceLevelOption)) + ";" +
-           std::to_string(static_cast<int>(CuisinePreference)) + ";" +
+           std::to_string(static_cast<int>(FoodPreference)) + ";" +
            std::to_string(static_cast<int>(sweetToothPreference));
   }
 
@@ -69,7 +69,7 @@ struct MenuItem : public ISerializer {
       spiceLevelOption = static_cast<SpiceLevelOption>(std::stoi(token));
 
     if (std::getline(iss, token, ';'))
-      CuisinePreference = static_cast<CuisinePreference>(std::stoi(token));
+      FoodPreference = static_cast<FoodPreference>(std::stoi(token));
 
     if (std::getline(iss, token, ';'))
       sweetToothPreference = static_cast<SweetToothPreference>(std::stoi(token));

@@ -16,7 +16,8 @@ private:
     Connection& connection;
     RequestHandler* requestHandler;
     int userIdLoggedIn;
-    std::unique_ptr<IUser> user;
+    IUser* user;
+    ClientFactory clientFactory;
 
     void handleUserLogin();
     void sendLoginCredentials();

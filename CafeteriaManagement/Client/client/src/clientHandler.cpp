@@ -1,4 +1,5 @@
 #include "clientHandler.h"
+#include "login.h"
 #include <iostream>
 #include "clientOperationType.h"
 
@@ -32,7 +33,7 @@ void ClientHandler::handleUserLogin() {
             userRole = static_cast<Role>(std::stoi(response));
 
             if (userRole == Role::Admin || userRole == Role::Chef || userRole == Role::Employee) {
-                user = ClientFactory::initializeClient(userRole, requestHandler);
+                user = clientFactory.initializeClient(userRole, requestHandler);
                 user->handleUserOperations();
                 return; 
             } else {
@@ -62,7 +63,7 @@ void ClientHandler::sendLoginCredentials() {
     std::cout << "Password: ";
     std::cin >> password;
     Login login(userId, password);
-    Operation operation = Operation::Login;
+    Operation operation = Operation::LoginUser;
     auto loginData = DataSerializer::serialize(login);
     this->userIdLoggedIn = login.userId;
     auto loginSerializedRequest = DataSerializer::serializeOperation(operation, loginData);

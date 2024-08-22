@@ -11,7 +11,7 @@ enum Operation : int
    ViewNotification = 8,
    ProvideFeedback = 9,
    VoteItemFromTomorrowMenu = 10,
-   Login = 11,
+   LoginUser = 11,
    GetRecommandationFromEngine = 12,
    GetTodaysMenu = 13,
    GetChefRollOutMenuForTomorrow = 14,

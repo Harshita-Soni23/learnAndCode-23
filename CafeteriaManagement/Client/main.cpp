@@ -3,11 +3,11 @@
 #include "connection.h"
 #include "clientHandler.h"
 
-Client * clientInstance = nullptr;
+Connection * connectionInstance = nullptr;
 
 void clientSignalHandler(int signal) {
-    if (clientInstance) {
-        clientInstance->disconnect();
+    if (connectionInstance) {
+        connectionInstance->disconnect();
     }
     exit(signal);
 }
@@ -24,8 +24,9 @@ int main(int argc, char *argv[])
     try
     {
         Connection connection(portNumber);
-        ClientHandler clientHandler(&connection);
-        clientHandler.handleRequest();
+        connectionInstance = &connection;
+        ClientHandler* clientHandler = new ClientHandler(connection);
+        clientHandler->handleRequest();
        
         std::signal(SIGINT, clientSignalHandler);
 

@@ -4,6 +4,7 @@
 #include "menuItemType.h"
 #include "userRoleType.h"
 #include "utility.h"
+#include "dataSerializer.h"
 
 class IUser{
 public:

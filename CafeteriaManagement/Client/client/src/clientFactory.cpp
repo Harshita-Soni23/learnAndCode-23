@@ -1,6 +1,12 @@
 #include "clientFactory.h"
 #include "iostream"
 #include "admin.h"
+#include "chef.h"
+#include "employee.h"
+
+class Admin;    // Forward declaration
+class Chef;     // Forward declaration
+class Employee; // Forward declaration
 
 IUser* ClientFactory::initializeClient(Role userRole, RequestHandler* requestHandler)
 {

@@ -71,7 +71,7 @@ void Employee::showChefRollOutMenu() {
     std::cout << "***************Chef's Recommended Menu for Tomorrow*************** \n";
 
     for (const auto& item : MenuList) {
-        auto menuItem = DataSerializer::deserialize<NextDayMenuRollOut>(item);
+        auto menuItem = DataSerializer::deserialize<RollOutMenu>(item);
         recommendedMenuItemIdsFromChef.push_back(menuItem.menuItemId);
         std::cout << "Menu Item ID: " << menuItem.menuItemId << "\t"
                   << "Menu Item Name: " << menuItem.menuItemName << "\t"
@@ -210,9 +210,9 @@ void Employee::updateProfile(){
     userProfile.spiceLevelOption = static_cast<SpiceLevelOption>(spiceLevelOptionInt);
 
     std::cout << "Enter Cuisine Preference (1 for North Indian, 2 for South Indian, 3 for Other): " << std::endl;
-    int cuisinePreferenceInt;
-    std::cin >> cuisinePreferenceInt;
-    userProfile.cuisinePreference = static_cast<CuisinePreference>(cuisinePreferenceInt);
+    int foodPreferenceInt;
+    std::cin >> foodPreferenceInt;
+    userProfile.foodPreference = static_cast<FoodPreference>(foodPreferenceInt);
 
     std::cout << "Enter sweet tooth preference (1 for Yes, 0 for No): " << std::endl;
     int sweetToothPreferenceInt;

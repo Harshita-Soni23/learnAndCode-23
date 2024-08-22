@@ -10,11 +10,11 @@ int UserProfileDAO::addUserProfile(const UserProfile& userProfile) {
     try {
         std::unique_ptr<sql::PreparedStatement> pstmt(
             databaseConnection->getConnection()->prepareStatement(
-                "INSERT INTO UserProfile (userId, vegetarianPreference, spiceLevelOption, CuisinePreference, sweetToothPreference) VALUES (?, ?, ?, ?, ?)"));
+                "INSERT INTO UserProfile (userId, vegetarianPreference, spiceLevelOption, FoodPreference, sweetToothPreference) VALUES (?, ?, ?, ?, ?)"));
         pstmt->setInt(1, userProfile.userId);
         pstmt->setInt(2, static_cast<int>(userProfile.vegetarianPreference));
         pstmt->setInt(3, static_cast<int>(userProfile.spiceLevelOption));
-        pstmt->setInt(4, static_cast<int>(userProfile.CuisinePreference));
+        pstmt->setInt(4, static_cast<int>(userProfile.FoodPreference));
         pstmt->setInt(5, static_cast<int>(userProfile.sweetToothPreference));
         int updateCount = pstmt->executeUpdate();
 
@@ -43,7 +43,7 @@ UserProfile UserProfileDAO::getUserProfileByID(const int& userId) {
                 res->getInt("userId"),
                 static_cast<VegetarianPreference>(res->getInt("vegetarianPreference")),
                 static_cast<SpiceLevelOption>(res->getInt("spiceLevelOption")),
-                static_cast<CuisinePreference>(res->getInt("CuisinePreference")),
+                static_cast<FoodPreference>(res->getInt("FoodPreference")),
                 static_cast<SweetToothPreference>(res->getInt("sweetToothPreference"))
             );
         }
@@ -66,7 +66,7 @@ std::vector<UserProfile> UserProfileDAO::getAllUserProfiles() {
                 res->getInt("userId"),
                 static_cast<VegetarianPreference>(res->getInt("vegetarianPreference")),
                 static_cast<SpiceLevelOption>(res->getInt("spiceLevelOption")),
-                static_cast<CuisinePreference>(res->getInt("CuisinePreference")),
+                static_cast<FoodPreference>(res->getInt("FoodPreference")),
                 static_cast<SweetToothPreference>(res->getInt("sweetToothPreference"))
             ));
         }

@@ -13,12 +13,15 @@ enum Operation : int
    ViewNotification = 8,
    ProvideFeedback = 9,
    VoteItemFromTomorrowMenu = 10,
-   Login = 11,
+   LoginUser = 11,
    GetRecommandationFromEngine = 12,
    GetTodaysMenu = 13,
    GetChefRollOutMenuForTomorrow = 14,
    GetDiscardMenuList = 15,
    RemoveMenuItemFromList = 16,
    ProvideDiscardMenuItemDetailedFeedback = 17,
-   GetMenuItemIdForDetailFeedbackFromChef = 18
+   GetMenuItemIdForDetailFeedbackFromChef = 18,
+   GetMenuItemById = 19,
+   GetNextDayMenuVoting = 20,
+   UpdateProfile = 21
 };
