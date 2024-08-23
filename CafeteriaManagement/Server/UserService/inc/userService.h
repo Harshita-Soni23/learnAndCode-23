@@ -1,20 +1,18 @@
 #pragma once
 
-#include"UserDAO.h"
+#include"userDAO.h"
+#include<memory>
 
 class UserService
 {
 public:
-    UserService(IUserDAO* userDAO);
-    bool addUser(std::vector<std::string> userData);
-    bool deleteUserByID(int userId);
+    UserService(std::unique_ptr<UserDAO> userDAO);
+    bool addUser(const User& user);
     User getUserById(int userId);
 
     std::vector<User> getAllUsers();
-    int authenticateUser(const int& userId, const std::string& password);
 
     ~UserService() = default;
 private:    
-    IUserDAO* userDAO;
-    int userIdcounter = 10;
+    std::unique_ptr<UserDAO> userDAO;
 };

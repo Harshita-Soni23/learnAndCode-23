@@ -57,7 +57,7 @@ public:
         return serializedString;
     }
 
-    std::vector<std::string> static deserializeStringToVector(const std::string& serialized) {
+    std::vector<std::string> static deserializeStringToVector(const std::string& serialized, char delimeter = '$') {
         std::vector<std::string> result;
     std::string token;
     std::istringstream tokenStream(serialized);

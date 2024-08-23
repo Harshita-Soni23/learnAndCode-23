@@ -2,7 +2,7 @@
 
 enum Role : int
 {
-   Admin = 1,
-   Employee = 2,
-   Chef = 3
+   Admin_ = 1,
+   Employee_ = 2,
+   Chef_ = 3
 };

@@ -1,4 +1,4 @@
-#include "../../inc/DAO/todayMenuDAO.h"
+#include "todayMenuDAO.h"
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>
 #include <cppconn/exception.h>

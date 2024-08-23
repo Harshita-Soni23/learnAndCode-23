@@ -5,7 +5,8 @@
 RequestProcessor::RequestProcessor() {
     DatabaseConnection::initDbConnection(DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME);
     auto userService = std::make_unique<UserService>(std::make_unique<UserDAO>());
-    authenticationHandler = std::make_unique<AuthenticationController>(std::move(userService));
+    auto authenticationService = std::make_unique<AuthenticationService>(std::move(userService));
+    authenticationHandler = std::make_unique<AuthenticationHandler>(std::move(userService), std::move(authenticationService));
 }
 
 std::string RequestProcessor::processRequest(const std::string& request) {
@@ -30,13 +31,13 @@ std::string RequestProcessor::handleLoginRequest(const std::string& requestData)
 
     if (userAuthenticated == 1) {
         std::cout << "Admin LoggedIn" << std::endl;
-        userController = initializeAdminController();
+        userHandler = serverFactory.initializeAdminHandler();
     } else if (userAuthenticated == 2) {
         std::cout << "Employee LoggedIn" << std::endl;
-        userController = initializeEmployeeController();
+        userHandler = serverFactory.initializeEmployeeHandler();
     } else if (userAuthenticated == 3) {
         std::cout << "Chef LoggedIn" << std::endl;
-        userController = initializeChefController();
+        userHandler = serverFactory.initializeChefHandler();
     } else {
         std::cout << "Invalid Username Password" << std::endl;
     }
@@ -66,8 +67,8 @@ std::string RequestProcessor::handleUserRequest(Operation operation, const std::
         case Operation::ProvideDiscardMenuItemDetailedFeedback:
         case Operation::GetMenuItemIdForDetailFeedbackFromChef:
             std::cout << "Handle Request called" << std::endl;
-            if (userController) {
-                response =  userController->handleRequest(operation, requestData);
+            if (userHandler) {
+                response =  userHandler->handleRequest(operation, requestData);
             } else {
                 response =  "User not authenticated.";
             }

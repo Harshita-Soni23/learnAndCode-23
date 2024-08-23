@@ -1,4 +1,4 @@
-#include "../../inc/DAO/feedbackDAO.h"
+#include "feedbackDAO.h"
 #include <cppconn/connection.h>
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>

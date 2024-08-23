@@ -6,11 +6,11 @@
 class AuthenticationService
 {
 public:
-    AuthenticationService(UserService* userService);
+    AuthenticationService(std::unique_ptr<UserService> userService);
     int authenticateUser(Login loginCredentials);
     ~AuthenticationService() = default;
 private:
-    UserService* userService;
-    bool isValidLogin(const Login& loginCredentials, const User& user)const
+    std::unique_ptr<UserService> userService;
+    bool isValidLogin(const Login& loginCredentials, const User& user)const;
     
 };

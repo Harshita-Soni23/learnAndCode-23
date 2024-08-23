@@ -3,6 +3,7 @@
 #include <iostream>
 #include "clientOperationType.h"
 
+
 ClientHandler::ClientHandler(Connection &connection)
     : connection(connection), requestHandler(nullptr) {}
 
@@ -32,8 +33,8 @@ void ClientHandler::handleUserLogin() {
         try {
             userRole = static_cast<Role>(std::stoi(response));
 
-            if (userRole == Role::Admin || userRole == Role::Chef || userRole == Role::Employee) {
-                user = clientFactory.initializeClient(userRole, requestHandler);
+            if (userRole == Role::Admin_ || userRole == Role::Chef_ || userRole == Role::Employee_) {
+                user = clientFactory.initializeClient(userRole, requestHandler, this->userIdLoggedIn);
                 user->handleUserOperations();
                 return; 
             } else {
@@ -70,3 +71,5 @@ void ClientHandler::sendLoginCredentials() {
 
     requestHandler->sendRequest(loginSerializedRequest);
 }
+
+// g++ -I ../Common/exception/inc/ -I ./client/inc/ -I ../Common/utility/inc/ -I ../Common/DTO -I ../Common/constants/ -I ../Common/DTO/ClientDataEnums/ -I ./UserManager/inc/ ../Common/exception/src/* ./client/src/* ../Common/utility/src/* ./UserManager/src/* main.cpp -o myclient

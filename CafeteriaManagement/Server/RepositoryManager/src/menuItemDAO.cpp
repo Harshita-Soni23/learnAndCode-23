@@ -1,4 +1,4 @@
-#include "../../inc/DAO/menuItemDAO.h"
+#include "menuItemDAO.h"
 #include <cppconn/exception.h>
 
 MenuItemDAO::MenuItemDAO() : databaseConnection{DatabaseConnection::getInstance()} {}
@@ -125,6 +125,6 @@ void MenuItemDAO::bindMenuItemToStatement(std::unique_ptr<sql::PreparedStatement
     pstmt->setInt(4, menuItem.price);
     pstmt->setInt(5, static_cast<int>(menuItem.vegetarianPreference));
     pstmt->setInt(6, static_cast<int>(menuItem.spiceLevelOption));
-    pstmt->setInt(7, static_cast<int>(menuItem.FoodPreference));
+    pstmt->setInt(7, static_cast<int>(menuItem.foodPreference));
     pstmt->setInt(8, static_cast<int>(menuItem.sweetToothPreference));
 }

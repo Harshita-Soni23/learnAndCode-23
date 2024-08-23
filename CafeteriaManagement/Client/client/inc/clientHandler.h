@@ -6,6 +6,9 @@
 #include "clientFactory.h"
 #include "login.h"
 #include "socketException.h"
+#include "admin.h"
+#include "chef.h"
+#include "employee.h"
 
 class ClientHandler {
 public:

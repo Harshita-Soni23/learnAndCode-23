@@ -7,6 +7,8 @@ struct Login : public ISerializer {
     int userId;
     std::string password;
 
+    Login() : userId(0), password("") {}
+
     Login(int userId, std::string password)
        : userId(userId), password(password){}
 

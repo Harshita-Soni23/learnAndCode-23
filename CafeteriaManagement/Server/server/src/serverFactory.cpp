@@ -27,7 +27,7 @@ std::unique_ptr<IUserHandler> ServerFactory::initializeEmployeeHandler() {
     auto notificationService = std::make_unique<NotificationService>(std::make_unique<NotificationDAO>());
     auto discardMenuItemDetailedFeedbackService = std::make_unique<DiscardMenuItemDetailedFeedbackService>(std::make_unique<DiscardMenuItemDetailedFeedbackDAO>());
     auto userProfileService = std::make_unique<UserProfileService>(std::make_unique<UserProfileDAO>());
-    auto recommendationEngine = std::make_unique<RecommendationEngine>();
+    auto recommendationEngine = std::make_unique<RecommendationEngineService>();
     return std::make_unique<EmployeeHandler>(
         std::move(menuItemService),
         std::move(nextDayMenuVotingService),
@@ -44,7 +44,7 @@ std::unique_ptr<IUserHandler> ServerFactory::initializeChefHandler() {
     auto menuItemService = std::make_unique<MenuItemService>(std::make_unique<MenuItemDAO>());
     auto nextDayMenuVotingService = std::make_unique<NextDayMenuVotingService>(std::make_unique<NextDayMenuVotingDAO>());
     auto feedbackService = std::make_unique<FeedbackService>(std::make_unique<FeedbackDAO>());
-    auto recommendationEngine = std::make_unique<RecommendationEngine>();
+    auto recommendationEngine = std::make_unique<RecommendationEngineService>();
     auto todayMenuService = std::make_unique<TodayMenuService>(std::make_unique<TodayMenuDAO>());
     auto notificationService = std::make_unique<NotificationService>(std::make_unique<NotificationDAO>());
     return std::make_unique<ChefHandler>(

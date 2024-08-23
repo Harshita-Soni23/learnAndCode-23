@@ -1,12 +1,11 @@
-#ifndef NOTIFICATION_DAO_H
-#define NOTIFICATION_DAO_H
+#pragma once
 
-#include "INotificationDAO.h"
+#include "notification.h"
 #include "databaseConnection.h"
 #include <memory>
 #include <vector>
 
-class NotificationDAO : public INotificationDAO {
+class NotificationDAO{
 public:
     NotificationDAO();
     std::vector<Notification> getAllNotifications();
@@ -18,5 +17,3 @@ public:
 private:
     std::shared_ptr<DatabaseConnection> databaseConnection;
 };
-
-#endif

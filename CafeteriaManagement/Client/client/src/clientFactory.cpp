@@ -4,24 +4,20 @@
 #include "chef.h"
 #include "employee.h"
 
-class Admin;    // Forward declaration
-class Chef;     // Forward declaration
-class Employee; // Forward declaration
-
-IUser* ClientFactory::initializeClient(Role userRole, RequestHandler* requestHandler)
+IUser* ClientFactory::initializeClient(Role userRole, RequestHandler* requestHandler, int userIdLoggedIn)
 {
     std::cout<<"User Role : "<<userRole<<"\n";
 
     IUser* user = nullptr;
-    if (userRole == Role::Admin)
+    if (userRole == Role::Admin_)
     {
         user = new Admin(requestHandler);
     }
-    else if(userRole == Role::Employee)
+    else if(userRole == Role::Employee_)
     {
-        user = new Employee(requestHandler, this->userIdLoggedIn);
+        user = new Employee(requestHandler, userIdLoggedIn);
     }
-    else if(userRole == Role::Chef)
+    else if(userRole == Role::Chef_)
     {
         user = new Chef(requestHandler);
     }

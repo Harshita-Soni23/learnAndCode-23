@@ -1,21 +1,17 @@
-#ifndef TODAYMENUDAO_H
-#define TODAYMENUDAO_H
+#pragma once
 
-#include "ITodayMenuDAO.h"
 #include "databaseConnection.h"
 #include <vector>
-#include "../DTO/menuItem.h"
+#include "menuItem.h"
 
-class TodayMenuDAO : public ITodayMenuDAO {
+class TodayMenuDAO {
 public:
     TodayMenuDAO();
 
-    bool addTodayMenu(const std::vector<int>& todayDayMenuItemId) override;
-    std::vector<MenuItem> getAllTodayMenuItem() override;
-    bool deleteTodayMenu() override;
+    bool addTodayMenu(const std::vector<int>& todayDayMenuItemId) ;
+    std::vector<MenuItem> getAllTodayMenuItem() ;
+    bool deleteTodayMenu() ;
 
 private:
     std::shared_ptr<DatabaseConnection> databaseConnection;
 };
-
-#endif

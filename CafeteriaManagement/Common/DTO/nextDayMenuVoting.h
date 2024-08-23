@@ -36,5 +36,3 @@ struct NextDayMenuVoting : public ISerializer {
     std::getline(iss, sentiments, ';');
   }
 };
-
-#endif

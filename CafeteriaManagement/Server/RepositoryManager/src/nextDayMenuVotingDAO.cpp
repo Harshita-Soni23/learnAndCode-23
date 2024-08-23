@@ -1,4 +1,4 @@
-#include "../../inc/DAO/nextDayMenuVotingDAO.h"
+#include "nextDayMenuVotingDAO.h"
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>
 #include <cppconn/exception.h>

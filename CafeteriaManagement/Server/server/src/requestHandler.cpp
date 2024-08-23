@@ -1,7 +1,7 @@
 
-#pragma once
-
 #include "requestHandler.h"
+#include "socketException.h"
+#include "databaseException.h"
 
 #define BUFFER_SIZE 4096
 

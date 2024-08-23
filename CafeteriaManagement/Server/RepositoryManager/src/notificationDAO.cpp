@@ -1,4 +1,4 @@
-#include "../../inc/DAO/notificationDAO.h"
+#include "notificationDAO.h"
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>
 #include <cppconn/exception.h>

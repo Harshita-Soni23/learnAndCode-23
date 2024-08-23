@@ -1,4 +1,4 @@
-#include "../../inc/DAO/userProfileDAO.h"
+#include "userProfileDAO.h"
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>
 #include <cppconn/exception.h>
@@ -14,7 +14,7 @@ int UserProfileDAO::addUserProfile(const UserProfile& userProfile) {
         pstmt->setInt(1, userProfile.userId);
         pstmt->setInt(2, static_cast<int>(userProfile.vegetarianPreference));
         pstmt->setInt(3, static_cast<int>(userProfile.spiceLevelOption));
-        pstmt->setInt(4, static_cast<int>(userProfile.FoodPreference));
+        pstmt->setInt(4, static_cast<int>(userProfile.foodPreference));
         pstmt->setInt(5, static_cast<int>(userProfile.sweetToothPreference));
         int updateCount = pstmt->executeUpdate();
 
@@ -75,4 +75,28 @@ std::vector<UserProfile> UserProfileDAO::getAllUserProfiles() {
     }
 
     return userProfiles;
+}
+
+
+bool UserProfileDAO::updateUserProfile(const UserProfile& userProfile) {
+    try {
+        std::unique_ptr<sql::PreparedStatement> pstmt(
+            databaseConnection->getConnection()->prepareStatement(
+                "UPDATE UserProfile SET vegetarianPreference = ?, spiceLevelOption = ?, foodPreference = ?, sweetToothPreference = ? WHERE userId = ?"));
+        pstmt->setInt(1, static_cast<int>(userProfile.vegetarianPreference));
+        pstmt->setInt(2, static_cast<int>(userProfile.spiceLevelOption));
+        pstmt->setInt(3, static_cast<int>(userProfile.foodPreference));
+        pstmt->setInt(4, static_cast<int>(userProfile.sweetToothPreference));
+        pstmt->setInt(5, userProfile.userId);
+        int updateCount = pstmt->executeUpdate();
+
+        if (updateCount == 0) {
+            return addUserProfile(userProfile);
+        }
+
+        return true;
+    } catch (sql::SQLException &e) {
+        std::cerr << "SQL error: " << e.what() << std::endl;
+        return false;
+    }
 }

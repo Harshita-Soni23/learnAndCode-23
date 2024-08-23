@@ -1,5 +1,4 @@
-#ifndef AUTHENTICATION_CONTROLLER_H
-#define AUTHENTICATION_CONTROLLER_H
+#pragma once
 
 #include "userService.h"
 #include "authenticationService.h"
@@ -7,10 +6,11 @@
 #include "login.h"
 #include <memory>
 
-class AuthenticationtHandler {
+class AuthenticationHandler {
 public:
     explicit AuthenticationHandler(std::unique_ptr<UserService> userService, std::unique_ptr<AuthenticationService> authenticationService);
-    ~AuthenticationtHandler() = default;
+    int authenticateUser(const std::string& requestData);
+    ~AuthenticationHandler() = default;
 
 private:
     std::unique_ptr<UserService> userService;

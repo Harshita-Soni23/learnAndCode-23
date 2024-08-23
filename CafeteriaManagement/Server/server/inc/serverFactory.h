@@ -3,19 +3,17 @@
 #include <string>
 #include <memory>
 #include <iostream>
-#include "authenticationController.h"
-#include "IUserController.h"
+#include "authenticationHandler.h"
+#include "IUserHandler.h"
 
 class ServerFactory {
 public:
-    std::unique_ptr<IUserController> initializeAdminController();
-    std::unique_ptr<IUserController> initializeEmployeeController();
-    std::unique_ptr<IUserController> initializeChefController();
+    std::unique_ptr<IUserHandler> initializeAdminHandler();
+    std::unique_ptr<IUserHandler> initializeEmployeeHandler();
+    std::unique_ptr<IUserHandler> initializeChefHandler();
     ServerFactory();
 
-    std::unique_ptr<AuthenticationController> authenticationController;
-    std::unique_ptr<IUserController> userController;
+    std::unique_ptr<AuthenticationHandler> authenticationHandler;
+    std::unique_ptr<IUserHandler> userHandler;
 
 };
-
-#endif

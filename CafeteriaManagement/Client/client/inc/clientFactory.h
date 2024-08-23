@@ -7,5 +7,5 @@
 
 class ClientFactory {
 public:
-    IUser* initializeClient(Role userRole, RequestHandler* requestHandler);
+    IUser* initializeClient(Role userRole, RequestHandler* requestHandler, int userIdLoggedIn);
 };
