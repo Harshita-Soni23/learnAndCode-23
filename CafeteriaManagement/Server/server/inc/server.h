@@ -19,11 +19,11 @@ public:
 private:
     int port;
     int server_fd;
-    struct sockaddr_in address;
+    struct sockaddr_in ipAddress;
     std::vector<int> clientSockets;
     std::vector<std::thread> clientThreads;
     std::mutex clientsMutex;
-    std::atomic<bool> running;
+    std::atomic<bool> isRunning;
 
     void acceptClients();
 };

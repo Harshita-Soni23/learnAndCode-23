@@ -1,7 +1,7 @@
 #include "server.h"
 
-Server::Server(int port) : port(port), server_fd(-1), running(false) {
-    memset(&address, 0, sizeof(address));
+Server::Server(int port) : port(port), server_fd(-1), isRunning(false) {
+    memset(&ipAddress, 0, sizeof(ipAddress));
 }
 
 Server::~Server() {
@@ -15,11 +15,11 @@ void Server::start() {
             throw ConnectionException("Failed to create socket");
         }
 
-        address.sin_family = AF_INET;
-        address.sin_addr.s_addr = INADDR_ANY;
-        address.sin_port = htons(port);
+        ipAddress.sin_family = AF_INET;
+        ipAddress.sin_addr.s_addr = INADDR_ANY;
+        ipAddress.sin_port = htons(port);
 
-        if (bind(server_fd, (struct sockaddr*)&address, sizeof(address)) == -1) {
+        if (bind(server_fd, (struct sockaddr*)&ipAddress, sizeof(ipAddress)) == -1) {
             throw ConnectionException("Failed to bind socket");
         }
 
@@ -27,7 +27,7 @@ void Server::start() {
             throw ConnectionException("Failed to listen on socket");
         }
 
-        running.store(true);
+        isRunning.store(true);
         std::thread acceptThread(&Server::acceptClients, this);
         acceptThread.detach();
 
@@ -40,7 +40,7 @@ void Server::start() {
 }
 
 void Server::stop() {
-    running.store(false);
+    isRunning.store(false);
     if (server_fd != -1) {
         close(server_fd);
     }
@@ -57,13 +57,13 @@ void Server::stop() {
 }
 
 void Server::acceptClients() {
-    while (running) {
+    while (isRunning) {
         int clientSocket;
-        int addrlen = sizeof(address);
-        clientSocket = accept(server_fd, (struct sockaddr*)&address, (socklen_t *)&addrlen);
+        int addrlen = sizeof(ipAddress);
+        clientSocket = accept(server_fd, (struct sockaddr*)&ipAddress, (socklen_t *)&addrlen);
 
         if (clientSocket < 0) {
-            if (running) {
+            if (isRunning) {
                 std::cerr << "Accept failed: " << strerror(errno) << std::endl;
             }
             continue;

@@ -1,5 +1,4 @@
-#ifndef CLIENT_H
-#define CLIENT_H
+#pragma once
 
 #include <string>
 #include <netinet/in.h>
@@ -21,5 +20,3 @@ private:
     void createSocket();
     void setupAddress();
 };
-
-#endif
