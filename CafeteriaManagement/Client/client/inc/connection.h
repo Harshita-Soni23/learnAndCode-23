@@ -1,12 +1,13 @@
-#pragma once
+#ifndef CLIENT_H
+#define CLIENT_H
 
 #include <string>
 #include <netinet/in.h>
-#include "databaseException.h"
+#include "socketException.h"
 
 class Connection {
 public:
-    Connection(const int& server_port);
+    explicit Connection(int server_port);
     ~Connection();
     void connectToServer();
     void disconnect();
@@ -17,4 +18,8 @@ private:
     int server_port;
     int clientSocket;
     struct sockaddr_in serv_addr;
+    void createSocket();
+    void setupAddress();
 };
+
+#endif

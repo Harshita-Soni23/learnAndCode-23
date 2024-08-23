@@ -7,10 +7,11 @@
 #include <mutex>
 #include <atomic>
 #include "requestHandler.h"
+#include "socketException.h"
 
 class Server {
 public:
-    Server(int port);
+    explicit Server(int port);
     ~Server();
     void start();
     void stop();
@@ -18,11 +19,11 @@ public:
 private:
     int port;
     int server_fd;
-    struct sockaddr_in ipAddress;
+    struct sockaddr_in address;
     std::vector<int> clientSockets;
     std::vector<std::thread> clientThreads;
     std::mutex clientsMutex;
-    std::atomic<bool> isRunning;
+    std::atomic<bool> running;
 
     void acceptClients();
 };
