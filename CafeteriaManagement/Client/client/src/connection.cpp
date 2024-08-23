@@ -28,9 +28,7 @@ Connection::~Connection() {
     disconnect();
 }
 
-bool Connection::connectToServer() {
-
-    bool connected;
+void Connection::connectToServer() {
     int retryCount = 3;
     while (retryCount--) {
         if (connect(clientSocket, reinterpret_cast<struct sockaddr*>(&serv_addr), sizeof(serv_addr)) < 0) {
@@ -38,13 +36,11 @@ bool Connection::connectToServer() {
                 throw ConnectionException("Connection to server failed");
             }
             std::cerr << "Retrying connection..." << std::endl;
-            sleep(1); // wait before retrying
+            sleep(1);
         } else {
             std::cout << "Connected to server" << std::endl;
-            connected = true;
         }
-    }  
-    return connected;
+    }
 }
 
 void Connection::disconnect() {

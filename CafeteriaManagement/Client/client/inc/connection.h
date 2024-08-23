@@ -8,7 +8,7 @@ class Connection {
 public:
     Connection(const int& server_port);
     ~Connection();
-    bool connectToServer();
+    void connectToServer();
     void disconnect();
     int getSocket() const;
     struct sockaddr_in getAddress() const;

@@ -8,9 +8,7 @@ ClientHandler::ClientHandler(Connection &connection)
     : connection(connection), requestHandler(nullptr) {}
 
 void ClientHandler::handleRequest() {
-    if (!connection.connectToServer()) {
-        std::cerr << "Failed to connect to server" << std::endl;
-    }
+    connection.connectToServer();
 
     requestHandler = new RequestHandler(connection.getSocket(), connection.getAddress());
     handleUserLogin();
@@ -71,5 +69,3 @@ void ClientHandler::sendLoginCredentials() {
 
     requestHandler->sendRequest(loginSerializedRequest);
 }
-
-// g++ -I ../Common/exception/inc/ -I ./client/inc/ -I ../Common/utility/inc/ -I ../Common/DTO -I ../Common/constants/ -I ../Common/DTO/ClientDataEnums/ -I ./UserManager/inc/ ../Common/exception/src/* ./client/src/* ../Common/utility/src/* ./UserManager/src/* main.cpp -o myclient

@@ -12,29 +12,23 @@ void clientSignalHandler(int signal) {
     exit(signal);
 }
 
-int main(int argc, char *argv[])
+int main()
 {
-    if (argc < 2)
-    {
-        std::cout << stderr << "Missing argument\n";
-    }
-    
-    int portNumber = atoi(argv[1]);
-
     try
     {
+        int portNumber = 8083;
         Connection connection(portNumber);
         connectionInstance = &connection;
-        ClientHandler* clientHandler = new ClientHandler(connection);
+        ClientHandler *clientHandler = new ClientHandler(connection);
         clientHandler->handleRequest();
-       
+
         std::signal(SIGINT, clientSignalHandler);
 
         delete clientHandler;
     }
-    catch(const SocketException &e)
+    catch (const SocketException &error)
     {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "Error: " << error.what() << std::endl;
         return 1;
     }
 
