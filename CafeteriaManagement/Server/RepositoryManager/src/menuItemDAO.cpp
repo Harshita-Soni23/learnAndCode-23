@@ -113,7 +113,7 @@ MenuItem MenuItemDAO::createMenuItemFromResultSet(std::unique_ptr<sql::ResultSet
         res->getInt("price"),
         static_cast<VegetarianPreference>(res->getInt("vegetarianPreference")),
         static_cast<SpiceLevelOption>(res->getInt("spiceLevelOption")),
-        static_cast<FoodPreference>(res->getInt("FoodPreference")),
+        static_cast<FoodPreference>(res->getInt("foodPreference")),
         static_cast<SweetToothPreference>(res->getInt("sweetToothPreference"))
     );
 }

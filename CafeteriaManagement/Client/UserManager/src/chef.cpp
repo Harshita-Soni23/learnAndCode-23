@@ -4,6 +4,8 @@
 #include <vector>
 #include <stdexcept>
 #include "dataSerializer.h"
+#include <iomanip>
+#include "dataBaseConstants.h"
 
 Chef::Chef(RequestHandler* requestHandler)
     : requestHandler(requestHandler) {}
@@ -54,19 +56,20 @@ void Chef::showMenuItemList() {
 
         std::vector<std::string>menuList = DataSerializer::deserializeStringToVector(serializedMenuList);
         std::cout << "***************Menu Item Details***************" << std::endl;
+        std::cout << std::left
+          << std::setw(idWidth) << "ID"
+          << std::setw(nameWidth) << "1. Name"
+          << std::setw(typeWidth) << "Type"
+          << std::setw(availabilityWidth) << "Availability"
+          << std::setw(priceWidth) << "Price"
+          << std::setw(vegetarianWidth) << "Vegetarian Pref."
+          << std::setw(spiceLevelWidth) << "Spice Level"
+          << std::setw(cuisineWidth) << "Cuisine Pref."
+          << std::setw(sweetToothWidth) << "Sweet Tooth Pref."
+          << std::endl;
         for (const auto& item : menuList) {
             auto menuItem = DataSerializer::deserialize<MenuItem>(item);
-
-            std::cout<<"**Menu Item ID: " << menuItem.menuItemId << std::endl
-              << "   1. Name: " << menuItem.menuItemName << std::endl
-              << "   2. Type: " << Utility::getMenuItemType(menuItem.menuItemType) << std::endl
-              << "   3. Availability: " << (menuItem.availability ? "Yes" : "No") << std::endl
-              << "   4. Price: " << menuItem.price << std::endl
-              << "   5. Vegetarian Preference: " << Utility::getVegetarianPreference(menuItem.vegetarianPreference) << std::endl
-              << "   6. Spice Level Option: " << Utility::getSpiceLevelOption(menuItem.spiceLevelOption) << std::endl
-              << "   7. Cuisine Preference: " << Utility::getFoodPreference(menuItem.foodPreference) << std::endl
-              << "   8. Sweet Tooth Preference: " << Utility::getSweetToothPreference(menuItem.sweetToothPreference) << std::endl;
-            std::cout<<std::endl;
+            displayMenuItemDetails(menuItem);
         }
     } catch (const std::exception& e) {
         std::cerr << "Error in showing menu item list: " << e.what() << std::endl;
@@ -253,13 +256,24 @@ void Chef::publishMenuForToday(){
         requestHandler->sendRequest(publishMenuSerializedRequest);
         std::string response = requestHandler->receiveResponse();
         std::vector<std::string> publishedMenuList = DataSerializer::deserializeStringToVector(response);
-        std::cout<< "********************Published Menu of Most Voted Menu Items For Today********************" << std::endl;
+        std::cout<< "********************Published Menu of Most Voted Menu Items For Today********************" <<"\n"<< std::endl;
+
+        std::cout << std::left
+          << std::setw(idWidth) << "ID"
+          << std::setw(nameWidth) << "Name"
+          << std::setw(typeWidth) << "ItemType"
+          << std::setw(priceWidth) << "Price"
+          << std::endl;
+
         for(const auto& item : publishedMenuList){
             auto menuItem = DataSerializer::deserialize<MenuItem>(item);
-            std::cout << "Menu Item ID: " << menuItem.menuItemId << "\n"
-              << "Menu Item Name: " << menuItem.menuItemName << "\n"
-              << "Menu Item Type: " << Utility::getMenuItemType(menuItem.menuItemType) << "\n"
-              << "Price: " << menuItem.price << "\n\n";
+            std::cout << std::left
+                      << std::setw(idWidth) << menuItem.menuItemId
+                      << std::setw(nameWidth) << menuItem.menuItemName
+                      << std::setw(typeWidth) << Utility::getMenuItemType(menuItem.menuItemType)
+                      << std::setw(priceWidth) << menuItem.price
+                      << "\n"
+                      << std::endl;
         }
     } catch (const std::exception& e) {
         std::cerr << "Error in publishing menu for today: " << e.what() << std::endl;
@@ -294,7 +308,6 @@ void Chef::showDiscardMenuList(){
         throw;
     }
 }
-
 
 void Chef::showDiscardMenuItemActionPrompt(const std::vector<int>& discardMenuItemIdList){
     bool flag = true;
@@ -363,5 +376,21 @@ void Chef::getMenuItemIdForDetailedFeedback(const std::vector<int>& discardMenuI
     } catch (const std::exception& e) {
         std::cerr << "Error in getting menu item ID for detailed feedback: " << e.what() << std::endl;
     }
+
+}
+
+void Chef::displayMenuItemDetails(const MenuItem& menuItem) {
+std::cout << std::left
+          << std::setw(idWidth) << menuItem.menuItemId
+          << std::setw(nameWidth) << menuItem.menuItemName
+          << std::setw(typeWidth) << Utility::getMenuItemType(menuItem.menuItemType)
+          << std::setw(availabilityWidth) << (menuItem.availability ? "Yes" : "No")
+          << std::setw(priceWidth) << menuItem.price
+          << std::setw(vegetarianWidth) << Utility::getVegetarianPreference(menuItem.vegetarianPreference)
+          << std::setw(spiceLevelWidth) << Utility::getSpiceLevelOption(menuItem.spiceLevelOption)
+          << std::setw(cuisineWidth) << Utility::getFoodPreference(menuItem.foodPreference)
+          << std::setw(sweetToothWidth) << Utility::getSweetToothPreference(menuItem.sweetToothPreference)
+          << "\n"
+          << std::endl;
 
 }

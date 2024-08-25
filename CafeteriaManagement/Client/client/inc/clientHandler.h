@@ -10,19 +10,19 @@
 #include "chef.h"
 #include "employee.h"
 
-class ClientHandler {
+class ClientHandler
+{
 public:
     ClientHandler(Connection &connection);
     void handleRequest();
 
 private:
-    Connection& connection;
-    RequestHandler* requestHandler;
+    Connection &connection;
+    RequestHandler *requestHandler;
     int userIdLoggedIn;
-    IUser* user;
+    IUser *user;
     ClientFactory clientFactory;
 
     void handleUserLogin();
     void sendLoginCredentials();
-
 };

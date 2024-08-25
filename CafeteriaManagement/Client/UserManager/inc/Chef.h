@@ -20,6 +20,7 @@ private:
     std::string validateMenuItemsAgainstRecommendedItems(const std::vector<std::pair<MenuItemType, int>>& recommendedMenuItem,
                             const std::string& menuItemString,
                             MenuItemType menuItemType);
+    void displayMenuItemDetails(const MenuItem& menuItem);
 
 public:
     Chef(RequestHandler* requestHandler);

@@ -102,7 +102,7 @@ std::string AdminHandler::handleDeleteMenuItem(const std::string& requestData) {
     std::cout << "[AdminHandler] Delete Menu Item called\n";
     MenuItem menuItem = menuItemService->deleteMenuItemById(menuItemId);
     std::cout << "[AdminHandler] Delete Menu Item operation completed\n";
-    if (menuItem.menuItemId != 0) {
+    if (menuItem.menuItemId == 0) {
         pushNotification(menuItem, Operation::DeleteMenuItem);
         response = "Menu Item Deleted Successfully";
     } else {

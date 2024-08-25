@@ -8,12 +8,15 @@ int AuthenticationService::authenticateUser(Login loginCredentials) {
     int userRole = -1;
     User user = userService->getUserById(loginCredentials.userId);
 
-    if (isValidLogin(loginCredentials, user)) {
+    if (isValidLogin(loginCredentials, user))
+    {
         std::cout << "[AuthenticationService] User authenticated successfully. UserID: " << loginCredentials.userId << "\n";
         userRole = user.role;
     }
-
-    std::cout << "[AuthenticationService] Authentication failed for UserID: " << loginCredentials.userId << "\n";
+    else
+    {
+        std::cout << "[AuthenticationService] Authentication failed for UserID: " << loginCredentials.userId << "\n";
+    }
     return userRole;
 }
 

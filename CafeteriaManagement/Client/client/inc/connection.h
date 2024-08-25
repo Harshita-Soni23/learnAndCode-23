@@ -17,6 +17,7 @@ private:
     int server_port;
     int clientSocket;
     struct sockaddr_in serv_addr;
+    
     void createSocket();
     void setupAddress();
 };

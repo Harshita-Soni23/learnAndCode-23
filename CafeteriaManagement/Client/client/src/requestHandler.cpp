@@ -25,8 +25,5 @@ std::string RequestHandler::receiveResponse() {
     if (bytesRead <= 0) {
         throw ResponseException("Read failed with error code: " + std::to_string(bytesRead));
     }
-    // std::cout<<"Response received"<<std::endl;
-    // std::vector<unsigned char> request(buffer, buffer + bytesRead);
-    // std::string requestData(request.begin(), request.end());
     return std::string(buffer, bytesRead);
 }

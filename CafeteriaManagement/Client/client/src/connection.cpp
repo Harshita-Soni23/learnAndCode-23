@@ -44,7 +44,7 @@ void Connection::connectToServer() {
                 throw ConnectionException("Connection to server failed");
             }
             std::cerr << "Retrying connection..." << std::endl;
-            sleep(1); // wait before retrying
+            sleep(1);
         } else {
             std::cout << "Connected to server" << std::endl;
             return;

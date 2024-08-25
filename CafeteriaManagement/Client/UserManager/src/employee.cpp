@@ -3,7 +3,7 @@
 #include <limits> 
 #include <vector>
 
-Employee::Employee(RequestHandler*, int userIdLoggedIn)
+Employee::Employee(RequestHandler* requestHandler, int userIdLoggedIn)
     : requestHandler(requestHandler), userIdLoggedIn(userIdLoggedIn) {}
 
 void Employee::handleUserOperations(){
