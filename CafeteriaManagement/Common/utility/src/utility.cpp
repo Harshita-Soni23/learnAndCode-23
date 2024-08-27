@@ -1,6 +1,10 @@
 #include "utility.h"
 #include <limits>
 #include <iostream>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
 
 namespace Utility {
     std::string getMenuItemType(MenuItemType menuItemType) {
@@ -67,6 +71,17 @@ std::vector<std::string> splitWords(const std::string &str) {
         words.push_back(word);
     }
     return words;
+}
+
+
+std::string getCurrentTimestamp() {
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time_t = std::chrono::system_clock::to_time_t(now);
+
+    std::tm now_tm = *std::localtime(&now_time_t);
+    std::stringstream ss;
+    ss << std::put_time(&now_tm, "%Y-%m-%d"); // Format as YYYY-MM-DD 
+    return ss.str();
 }
 
 }

@@ -48,9 +48,13 @@ std::string AdminHandler::handleGetMenuItemById(const std::string& requestData) 
 
 std::string AdminHandler::handleUpdateMenuItem(const std::string& requestData) {
     std::string response;
+    std::cout<<"a"<<std::endl;
     std::cout << "[AdminHandler] Update Menu Item called\n";
+    std::cout<<"b"<<std::endl;
     MenuItem menuItem = DataSerializer::deserialize<MenuItem>(requestData);
+    std::cout<<"c"<<std::endl;
     bool operationDone = menuItemService->updateMenuItem(menuItem);
+    std::cout<<"d"<<std::endl;
     std::cout << "[AdminHandler] Update Menu Item operation completed with result: " << operationDone << "\n";
     if (operationDone) {
         pushNotification(menuItem, Operation::UpdateMenuItem);

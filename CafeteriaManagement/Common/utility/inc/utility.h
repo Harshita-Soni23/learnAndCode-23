@@ -17,4 +17,5 @@ namespace Utility {
     int getValidatedChoice(int min, int max);
     std::string toLower(const std::string &str);
     std::vector<std::string> splitWords(const std::string &str);
+    std::string getCurrentTimestamp();
 }

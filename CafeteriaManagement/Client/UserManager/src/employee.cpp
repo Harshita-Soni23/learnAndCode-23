@@ -1,4 +1,5 @@
 #include "employee.h"
+#include "utility.h"
 #include <iostream>
 #include <limits> 
 #include <vector>
@@ -167,7 +168,8 @@ void Employee::provideFeedbackForTodayMenu(std::vector<int>& menuItemIdsFromToda
     std::cin.ignore();
     std::getline(std::cin, feedback.comment);
 
-    feedback.date = "";
+    feedback.date = Utility::getCurrentTimestamp();
+    std::cout << "Current Timestamp: " << feedback.date << std::endl;
 
     std::string serializedData = DataSerializer::serialize(feedback);
     std::string serializedDataForRequest = DataSerializer::serializeOperation(Operation::ProvideFeedback, serializedData);
