@@ -30,6 +30,7 @@ void Employee::handleUserOperations(){
         } else if (employeeChoice == 4) {
             getDetailedFeedbackForDiscardedMenuItem();
         } else if (employeeChoice == 5) {
+            std::cout<<"Update Profile"<<std::endl;
             updateProfile();
         } else if (employeeChoice == 6) {
             isActive = false;
@@ -198,8 +199,11 @@ void Employee::getDetailedFeedbackForDiscardedMenuItem() {
 }
 
 void Employee::updateProfile(){
+    std::cout<<"Update Profile entery"<<std::endl;
+
     UserProfile userProfile;
     userProfile.userId = this->userIdLoggedIn;
+    std::cout<<"Update user Id "<<userProfile.userId<<std::endl;
 
     std::cout << "Enter vegetarian preference (1 for Vegetarian, 2 for Non Vegetarian, 3 for Eggetarian): " << std::endl;
     int vegetarianPreferenceInt;

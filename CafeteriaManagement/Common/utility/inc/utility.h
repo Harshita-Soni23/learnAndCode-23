@@ -18,4 +18,5 @@ namespace Utility {
     std::string toLower(const std::string &str);
     std::vector<std::string> splitWords(const std::string &str);
     std::string getCurrentTimestamp();
+    void diplayMenuDetailsColumnNames();
 }

@@ -3,6 +3,7 @@
 #include <limits>
 #include <vector>
 #include <iomanip>
+#include "utility.h"
 #include "databaseConstants.h"
 
 Admin::Admin(RequestHandler* requestHandler) : requestHandler(requestHandler) {}
@@ -115,6 +116,7 @@ void Admin::showUpdateMenuItemPrompt(){
     
     std::string menuItemData = requestHandler->receiveResponse();
     MenuItem menuItem = DataSerializer::deserialize<MenuItem>(menuItemData);
+    Utility::diplayMenuDetailsColumnNames();
     displayMenuItemDetails(menuItem);
 
     MenuItem updatedMenuItem = updateMenuItemFromUserInput(menuItem);
@@ -133,56 +135,56 @@ MenuItem Admin::updateMenuItemFromUserInput(MenuItem menuItem)
     std::string userInput;
     while (flag)
     {
-        std::cout<<"Enter the Index No. of the field you want to update or 0 to exit:-"<<std::endl;
+        std::cout<<"Enter the the field you want to update or q to exit:-"<<std::endl;
         std::cin >> userInput;
-        if(userInput == "0")
+        if(userInput == "q")
         {
             flag = false;
         }
-        else if(userInput == "1")
+        else if(userInput == "menuItemName")
         {
             std::cout << "Enter updated name:-" << std::endl;
             std::getline(std::cin >> std::ws, menuItem.menuItemName);
         }
-        else if(userInput == "2")
+        else if(userInput == "menuItemType")
         {
             int menuItemTypeInt;
             std::cout << "Enter updated meal type (1 for Breakfast, 2 for Lunch, 3 for Dinner): " << std::endl;
             std::cin >> menuItemTypeInt;
             menuItem.menuItemType = static_cast<MenuItemType>(menuItemTypeInt);
         }
-        else if(userInput == "3")
+        else if(userInput == "availability")
         {
             std::cout << "Enter updated availability: (0 for not available and 1 for available )" << std::endl;
             std::cin >> menuItem.availability;
         }
-        else if(userInput == "4")
+        else if(userInput == "price")
         {
             std::cout << "Enter updated price:" << std::endl;
             std::cin >> menuItem.price;
         }
-        else if(userInput == "5")
+        else if(userInput == "vegetarianPreference")
         {
             int vegetarianPreferenceInt;
             std::cout << "Enter updated vegetarian preference (1 for Vegetarian, 2 for Non Vegetarian, 3 for Eggetarian): " << std::endl;
             std::cin >> vegetarianPreferenceInt;
             menuItem.vegetarianPreference = static_cast<VegetarianPreference>(vegetarianPreferenceInt);
         }
-        else if(userInput == "6")
+        else if(userInput == "spiceLevelOption")
         {
             int spiceLevelOptionInt;
             std::cout << "Enter updated spice level option (1 for High, 2 for Medium, 3 for Low): " << std::endl;
             std::cin >> spiceLevelOptionInt;
             menuItem.spiceLevelOption = static_cast<SpiceLevelOption>(spiceLevelOptionInt);
         }
-        else if(userInput == "7")
+        else if(userInput == "foodPreference")
         {
             int foodPreferenceInt;
             std::cout << "Enter updated Cuisine Preference (1 for North Indian, 2 for South Indian, 3 for Other): " << std::endl;
             std::cin >> foodPreferenceInt;
             menuItem.foodPreference = static_cast<FoodPreference>(foodPreferenceInt);
         }
-        else if(userInput == "8")
+        else if(userInput == "sweetToothPreference")
         {
             int sweetToothPreferenceInt;
             std::cout << "Enter updated sweet tooth preference (1 for Yes, 2 for No): " << std::endl;
@@ -201,18 +203,8 @@ void Admin::showMenuItemList() {
     std::string serializedMenuList = requestHandler->receiveResponse();
 
     std::vector<std::string>menuList = DataSerializer::deserializeStringToVector(serializedMenuList);
-    std::cout << "***************Menu Item Details***************" << "\n" << std::endl;
-    std::cout << std::left
-          << std::setw(idWidth) << "ID"
-          << std::setw(nameWidth) << "Name"
-          << std::setw(typeWidth) << "Type"
-          << std::setw(availabilityWidth) << "Availability"
-          << std::setw(priceWidth) << "Price"
-          << std::setw(vegetarianWidth) << "Vegetarian Pref."
-          << std::setw(spiceLevelWidth) << "Spice Level"
-          << std::setw(cuisineWidth) << "Cuisine Pref."
-          << std::setw(sweetToothWidth) << "Sweet Tooth Pref."
-          << std::endl;
+    Utility::diplayMenuDetailsColumnNames();
+    
     for (const auto& item : menuList) {
         auto menuItem = DataSerializer::deserialize<MenuItem>(item);
         displayMenuItemDetails(menuItem);

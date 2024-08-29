@@ -66,6 +66,10 @@ std::string RequestProcessor::handleUserRequest(Operation operation, const std::
         case Operation::RemoveMenuItemFromList:
         case Operation::ProvideDiscardMenuItemDetailedFeedback:
         case Operation::GetMenuItemIdForDetailFeedbackFromChef:
+        case Operation::GetMenuItemById:
+        case Operation::GetNextDayMenuVoting:
+        case Operation::UpdateProfile:
+        {
             std::cout << "Handle Request called" << std::endl;
             if (userHandler) {
                 response =  userHandler->handleRequest(operation, requestData);
@@ -73,9 +77,13 @@ std::string RequestProcessor::handleUserRequest(Operation operation, const std::
                 response =  "User not authenticated.";
             }
             break;
+        }
         default:
+        {
+            std::cout << "Handle Request called Invalid operation" << std::endl;
             response =  "Invalid Operation";
             break;
+        }
     }
     return response;
 }

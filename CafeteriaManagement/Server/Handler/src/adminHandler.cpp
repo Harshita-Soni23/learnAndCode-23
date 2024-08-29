@@ -48,13 +48,9 @@ std::string AdminHandler::handleGetMenuItemById(const std::string& requestData) 
 
 std::string AdminHandler::handleUpdateMenuItem(const std::string& requestData) {
     std::string response;
-    std::cout<<"a"<<std::endl;
     std::cout << "[AdminHandler] Update Menu Item called\n";
-    std::cout<<"b"<<std::endl;
     MenuItem menuItem = DataSerializer::deserialize<MenuItem>(requestData);
-    std::cout<<"c"<<std::endl;
     bool operationDone = menuItemService->updateMenuItem(menuItem);
-    std::cout<<"d"<<std::endl;
     std::cout << "[AdminHandler] Update Menu Item operation completed with result: " << operationDone << "\n";
     if (operationDone) {
         pushNotification(menuItem, Operation::UpdateMenuItem);
@@ -134,7 +130,12 @@ bool AdminHandler::pushNotification(const MenuItem& menuItem, Operation operatio
     if (Operation::AddMenuItem == operation) {
         notification.notificationTitle = "New Menu Item Added";
         notification.message = "Menu Item: " + menuItem.menuItemName + " (ID: " + std::to_string(menuItem.menuItemId) + ") has been added to the menu. Price: " + std::to_string(menuItem.price) + ", Type: " + menuType;
-    } else {
+    }
+    else if (Operation::UpdateMenuItem == operation) {
+        notification.notificationTitle = "Menu Item Updated";
+        notification.message = "Menu Item: " + menuItem.menuItemName + " (ID: " + std::to_string(menuItem.menuItemId) + ") has been updated in the menu. Price: " + std::to_string(menuItem.price) + ", Type: " + menuType;
+    }
+    else if (Operation::DeleteMenuItem == operation) {
         notification.notificationTitle = "Menu Item Deleted";
         notification.message = "Menu Item: " + menuItem.menuItemName + " (ID: " + std::to_string(menuItem.menuItemId) + ") has been deleted from the menu.";
     }
